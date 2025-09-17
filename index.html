@@ -200,25 +200,31 @@
                 { name: "El Mundo", meaning: "El fin de un ciclo y la culminación de un gran proyecto. Simboliza el éxito, la plenitud y la integración.", image: "https://i.ibb.co/d6x48Y9/world.png" }
             ];
 
-            const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            const cardIndex = dayOfYear % tarotCards.length;
-            const cardOfTheDay = tarotCards[cardIndex];
+            const cardContainer = document.getElementById('card-of-the-day-content');
+            const revealButton = document.getElementById('reveal-card-button');
+            const initialText = document.getElementById('initial-card-text');
 
-            const cardContainer = document.getElementById('card-of-the-day');
-            if(cardContainer) {
-                cardContainer.innerHTML = `
-                    <div class="bg-purple-950/70 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-purple-800 flex flex-col md:flex-row items-center gap-8">
-                        <div class="md:w-1/3 text-center">
-                            <img src="${cardOfTheDay.image}" alt="Carta del día: ${cardOfTheDay.name}" class="w-48 h-auto mx-auto rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="md:w-2/3 text-center md:text-left">
-                            <h4 class="text-4xl playfair font-bold text-purple-400 mb-4">${cardOfTheDay.name}</h4>
-                            <p class="text-lg text-white italic">"${cardOfTheDay.meaning}"</p>
-                            <p class="mt-4 text-white/60 text-sm">Esta es la energía que te acompaña hoy. Reflexiona sobre su mensaje.</p>
-                        </div>
-                    </div>
-                `;
+            if (revealButton) {
+                revealButton.addEventListener('click', () => {
+                    const randomIndex = Math.floor(Math.random() * tarotCards.length);
+                    const cardOfTheDay = tarotCards[randomIndex];
+
+                    if(initialText) initialText.classList.add('hidden');
+                    if(cardContainer) {
+                        cardContainer.innerHTML = `
+                            <div class="bg-purple-950/70 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-purple-800 flex flex-col md:flex-row items-center gap-8">
+                                <div class="md:w-1/3 text-center">
+                                    <img src="${cardOfTheDay.image}" alt="Carta del día: ${cardOfTheDay.name}" class="w-48 h-auto mx-auto rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                                </div>
+                                <div class="md:w-2/3 text-center md:text-left">
+                                    <h4 class="text-4xl playfair font-bold text-purple-400 mb-4">${cardOfTheDay.name}</h4>
+                                    <p class="text-lg text-white italic">"${cardOfTheDay.meaning}"</p>
+                                    <p class="mt-4 text-white/60 text-sm">Esta es la energía que te acompaña hoy. Reflexiona sobre su mensaje.</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
             }
         });
     </script>
@@ -306,7 +312,7 @@
             </h1>
             <ul class="flex space-x-2 md:space-x-4 text-xs md:text-base">
                 <li><a href="#about" class="hover:text-purple-400 transition duration-300">Sobre Mí</a></li>
-                <li><a href="#card-of-the-day-section" class="hover:text-purple-400 transition duration-300">Carta del Día</a></li>
+                <li><a href="#card-of-the-day-section" class="hover:text-purple-400 transition duration-300">Tu Carta</a></li>
                 <li><a href="#services" class="hover:text-purple-400 transition duration-300">Servicios</a></li>
                 <li><a href="#tarot-types" class="hover:text-purple-400 transition duration-300">Tipos de Tarot</a></li>
                 <li><a href="#contact" class="hover:text-purple-400 transition duration-300">Contacto</a></li>
@@ -341,10 +347,18 @@
             </div>
         </section>
 
-        <section id="card-of-the-day-section" class="py-20 px-6 bg-purple-900">
-            <div class="container mx-auto text-center">
-                <h3 class="text-4xl playfair font-bold text-purple-400 mb-12">Tu Carta del Día</h3>
-                <div id="card-of-the-day" class="max-w-4xl mx-auto animate-fade-in-up">
+        <section id="card-of-the-day-section" class="py-20 px-6 bg-purple-900 text-center">
+            <div class="container mx-auto">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Tu Carta del Momento</h3>
+                <div id="initial-card-text" class="mb-8">
+                    <p class="text-lg text-white mb-6">
+                        Concéntrate en tu pregunta o en una situación que te interese. Cuando estés listo, presiona el botón para revelar la energía que te acompaña.
+                    </p>
+                    <button id="reveal-card-button" class="px-8 py-4 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">
+                        Revelar mi Carta
+                    </button>
+                </div>
+                <div id="card-of-the-day-content" class="max-w-4xl mx-auto animate-fade-in-up">
                     </div>
             </div>
         </section>
