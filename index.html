@@ -188,6 +188,40 @@
         }
         
     </script>
+    <script>
+        // Lógica para la "Carta del Día"
+        document.addEventListener('DOMContentLoaded', () => {
+            const tarotCards = [
+                { name: "El Sol", meaning: "Representa el éxito, la felicidad y la vitalidad. Anuncia un período de gran claridad y optimismo.", image: "https://i.ibb.co/6P2T8Yx/sun.png" },
+                { name: "La Estrella", meaning: "Simboliza la esperanza, la inspiración y la guía divina. Indica un camino de sanación y nuevos comienzos.", image: "https://i.ibb.co/n7x32qf/star.png" },
+                { name: "El Mago", meaning: "Anuncia el inicio de un proyecto o una nueva etapa. Tienes todas las herramientas para manifestar tus deseos.", image: "https://i.ibb.co/3s6H9z8/magician.png" },
+                { name: "La Fuerza", meaning: "Simboliza la fuerza interior, el coraje y la compasión. Te anima a dominar tus instintos con amabilidad y autocontrol.", image: "https://i.ibb.co/k2V40P4/strength.png" },
+                { name: "La Justicia", meaning: "Representa el equilibrio, la verdad y la equidad. Te insta a actuar con integridad y a tomar decisiones justas y racionales.", image: "https://i.ibb.co/D7cT0jP/justice.png" },
+                { name: "El Mundo", meaning: "El fin de un ciclo y la culminación de un gran proyecto. Simboliza el éxito, la plenitud y la integración.", image: "https://i.ibb.co/d6x48Y9/world.png" }
+            ];
+
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const cardIndex = dayOfYear % tarotCards.length;
+            const cardOfTheDay = tarotCards[cardIndex];
+
+            const cardContainer = document.getElementById('card-of-the-day');
+            if(cardContainer) {
+                cardContainer.innerHTML = `
+                    <div class="bg-purple-950/70 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-purple-800 flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/3 text-center">
+                            <img src="${cardOfTheDay.image}" alt="Carta del día: ${cardOfTheDay.name}" class="w-48 h-auto mx-auto rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="md:w-2/3 text-center md:text-left">
+                            <h4 class="text-4xl playfair font-bold text-purple-400 mb-4">${cardOfTheDay.name}</h4>
+                            <p class="text-lg text-white italic">"${cardOfTheDay.meaning}"</p>
+                            <p class="mt-4 text-white/60 text-sm">Esta es la energía que te acompaña hoy. Reflexiona sobre su mensaje.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
@@ -246,7 +280,6 @@
             color: #FBBF24;
         }
         .hero-background {
-            /* URL de la nueva imagen, más fiable y con mejor calidad */
             background-image: url('https://cdn.pixabay.com/photo/2023/12/12/10/44/ai-generated-8445101_1280.png'); 
             background-size: cover;
             background-position: center;
@@ -273,6 +306,7 @@
             </h1>
             <ul class="flex space-x-2 md:space-x-4 text-xs md:text-base">
                 <li><a href="#about" class="hover:text-purple-400 transition duration-300">Sobre Mí</a></li>
+                <li><a href="#card-of-the-day-section" class="hover:text-purple-400 transition duration-300">Carta del Día</a></li>
                 <li><a href="#services" class="hover:text-purple-400 transition duration-300">Servicios</a></li>
                 <li><a href="#tarot-types" class="hover:text-purple-400 transition duration-300">Tipos de Tarot</a></li>
                 <li><a href="#contact" class="hover:text-purple-400 transition duration-300">Contacto</a></li>
@@ -304,6 +338,14 @@
                         <a href="https://ejemplo.com/pagina-extra" class="inline-block px-6 py-3 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">Conoce más</a>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="card-of-the-day-section" class="py-20 px-6 bg-purple-900">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-12">Tu Carta del Día</h3>
+                <div id="card-of-the-day" class="max-w-4xl mx-auto animate-fade-in-up">
+                    </div>
             </div>
         </section>
 
