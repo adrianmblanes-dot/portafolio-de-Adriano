@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Oráculo de Adriano</title>
+    <!-- Incluyendo el CDN de Tailwind CSS para un diseño rápido y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para los íconos de redes sociales y estrellas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, addDoc, onSnapshot, collection, query, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+        // Global variables provided by the Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        setLogLevel('debug');
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+        
+        let userId = null;
+        let reviewsData = [];
+
+        // Message box UI
+        const showMessage = (text, isError = false) => {
+            const msgBox = document.getElementById('message-box');
+            if(msgBox){
+              msgBox.textContent = text;
+              msgBox.classList.remove('hidden');
+              msgBox.classList.remove('bg-red-500', 'bg-green-500');
+              msgBox.classList.add(isError ? 'bg-red-500' : 'bg-green-500');
+              setTimeout(() => {
+                  msgBox.classList.add('hidden');
+              }, 3000);
+            }
+        };
+
+        // Helper function to convert Base64 to ArrayBuffer
+        const base64ToArrayBuffer = (base64) => {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        };
+
+        // Helper function to convert PCM to WAV format
+        const pcmToWav = (pcmData, sampleRate) => {
+            const pcm16 = new Int16Array(pcmData);
+            const buffer = new ArrayBuffer(44 + pcm16.length * 2);
+            const view = new DataView(buffer);
+            
+            // RIFF identifier
+            view.setUint32(0, 0x46464952, true);
+            // file size
+            view.setUint32(4, 36 + pcm16.length * 2, true);
+            // WAV identifier
+            view.setUint32(8, 0x45564157, true);
+            // fmt chunk
+            view.setUint32(12, 0x20746d66, true);
+            // fmt chunk size
+            view.setUint32(16, 16, true);
+            // format (PCM)
+            view.setUint16(20, 1, true);
+            // channels
+            view.setUint16(22, 1, true);
+            // sample rate
+            view.setUint32(24, sampleRate, true);
+            // byte rate
+            view.setUint32(28, sampleRate * 2, true);
+            // block align
+            view.setUint16(32, 2, true);
+            // bits per sample
+            view.setUint16(34, 16, true);
+            // data chunk
+            view.setUint32(36, 0x61746164, true);
+            // data chunk size
+            view.setUint32(40, pcm16.length * 2, true);
+
+            // PCM data
+            let offset = 44;
+            for (let i = 0; i < pcm16.length; i++) {
+                view.setInt16(offset, pcm16[i], true);
+                offset += 2;
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        };
+
+        const renderReviews = (filterId = '') => {
+            const reviewsContainer = document.getElementById('reviews-container');
+            const filteredReviews = filterId
+                ? reviewsData.filter(review => review.userId.toLowerCase().includes(filterId.toLowerCase()))
+                : reviewsData;
+
+            if (filteredReviews.length === 0) {
+                reviewsContainer.innerHTML = `<p class="text-center text-white/70">
+                    ${filterId ? 'No se encontraron reseñas con ese ID.' : 'Aún no hay reseñas. ¡Sé el primero en compartir tu experiencia!'}
+                </p>`;
+            } else {
+                let reviewsHtml = '';
+                filteredReviews.forEach(review => {
+                    const stars = '<i class="fas fa-star text-yellow-400"></i>'.repeat(review.rating) +
+                                  '<i class="far fa-star text-gray-400"></i>'.repeat(5 - review.rating);
+                    
+                    const date = review.createdAt ? new Date(review.createdAt.toMillis()).toLocaleDateString() : 'Fecha desconocida';
+                    
+                    reviewsHtml += `
+                        <div class="bg-purple-900 p-6 rounded-lg shadow-md animate-fade-in-up">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-white font-semibold flex items-center gap-2">
+                                    <i class="fas fa-user-circle text-2xl text-purple-400"></i>
+                                    Cliente
+                                </div>
+                                <div class="text-xs text-white/50">${date}</div>
+                            </div>
+                            <div class="flex justify-center text-yellow-400 mb-4 text-xl">
+                                ${stars}
+                            </div>
+                            <p class="text-lg italic text-white mb-4">"${review.comment}"</p>
+                            <p class="text-sm text-purple-400 font-semibold text-right">ID de usuario: ${review.userId}</p>
+                        </div>
+                    `;
+                });
+                reviewsContainer.innerHTML = reviewsHtml;
+            }
+        };
+
+        // Handle user authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                const userIdDisplay = document.getElementById('user-id-display');
+                if(userIdDisplay) {
+                    userIdDisplay.innerHTML = `Tu ID de usuario: <span class="text-white font-bold">${userId}</span>`;
+                }
+
+                const loadingMessage = document.getElementById('loading-message');
+                if(loadingMessage) {
+                    loadingMessage.classList.add('hidden');
+                }
+                const reviewFormContainer = document.getElementById('review-form-container');
+                if(reviewFormContainer) {
+                    reviewFormContainer.classList.remove('hidden');
+                }
+                
+                // Listen for real-time reviews from Firestore after user is authenticated
+                const reviewsContainer = document.getElementById('reviews-container');
+                if(reviewsContainer) {
+                  const q = query(collection(db, `artifacts/${appId}/public/data/reviews`));
+                  
+                  onSnapshot(q, (snapshot) => {
+                      reviewsData = [];
+                      if (snapshot.empty) {
+                          reviewsContainer.innerHTML = '<p class="text-center text-white/70">Aún no hay reseñas. ¡Sé el primero en compartir tu experiencia!</p>';
+                      } else {
+                          snapshot.forEach((doc) => {
+                              reviewsData.push({ id: doc.id, ...doc.data() });
+                          });
+                          // Sort reviews by creation time, latest first
+                          reviewsData.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+                          renderReviews();
+                      }
+                  }, (error) => {
+                      console.error("Error al escuchar los comentarios:", error);
+                      if(reviewsContainer) {
+                        reviewsContainer.innerHTML = '<p class="text-center text-red-400">No se pudieron cargar los comentarios.</p>';
+                      }
+                  });
+                }
+
+
+            } else {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Error during authentication:", error);
+                    showMessage("Error de autenticación. Intenta recargar la página.", true);
+                    const loadingMessage = document.getElementById('loading-message');
+                    if(loadingMessage) {
+                      loadingMessage.textContent = 'Error al cargar. Por favor, recarga la página.';
+                    }
+                }
+            }
+        });
+
+        // Handle review form submission
+        const form = document.getElementById('review-form');
+        if(form){
+          form.addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const commentInput = document.getElementById('comment-input');
+              const comment = commentInput ? commentInput.value : '';
+              const rating = document.querySelector('input[name="rating"]:checked');
+
+              if (!comment || !rating) {
+                  showMessage('Por favor, escribe un comentario y selecciona una calificación.');
+                  return;
+              }
+
+              try {
+                  await addDoc(collection(db, `artifacts/${appId}/public/data/reviews`), {
+                      userId: userId,
+                      comment: comment,
+                      rating: parseInt(rating.value),
+                      createdAt: serverTimestamp()
+                  });
+
+                  showMessage('¡Gracias! Tu reseña ha sido enviada.');
+                  form.reset();
+              } catch (error) {
+                  console.error("Error al guardar el comentario:", error);
+                  showMessage('Ocurrió un error al enviar tu reseña.', true);
+              }
+          });
+        }
+
+        // Add event listener for review search
+        const reviewSearchInput = document.getElementById('review-search-input');
+        if (reviewSearchInput) {
+            reviewSearchInput.addEventListener('input', (e) => {
+                renderReviews(e.target.value);
+            });
+        }
+
+        const clearSearchBtn = document.getElementById('clear-search-btn');
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', () => {
+                if (reviewSearchInput) {
+                    reviewSearchInput.value = '';
+                    renderReviews();
+                }
+            });
+        }
+
+        // Gemini API integration for Daily Tarot Card
+        const dailyCardBtn = document.getElementById('daily-card-btn');
+        const dailyCardResult = document.getElementById('daily-card-result');
+        const dailyCardLoading = document.getElementById('daily-card-loading');
+
+        // A list of Major Arcana cards for a meaningful reading
+        const majorArcanaCards = [
+            "El Loco", "El Mago", "La Sacerdotisa", "La Emperatriz", "El Emperador", "El Sumo Sacerdote",
+            "Los Enamorados", "El Carro", "La Fuerza", "El Ermitaño", "La Rueda de la Fortuna",
+            "La Justicia", "El Colgado", "La Muerte", "La Templanza", "El Diablo", "La Torre",
+            "La Estrella", "La Luna", "El Sol", "El Juicio", "El Mundo"
+        ];
+        
+        if (dailyCardBtn) {
+            dailyCardBtn.addEventListener('click', async () => {
+                // Disable button and show loading state
+                dailyCardBtn.disabled = true;
+                if(dailyCardLoading) dailyCardLoading.classList.remove('hidden');
+                if(dailyCardResult) dailyCardResult.innerHTML = '';
+                
+                // Randomly select a card from the list
+                const randomCard = majorArcanaCards[Math.floor(Math.random() * majorArcanaCards.length)];
+                
+                // Define the prompt for the LLM
+                const userPrompt = `Como un tarotista profesional y experto en coaching ontológico, proporciona una lectura de una sola carta para el día de hoy, basándote en la carta de "${randomCard}". La respuesta debe ser concisa, inspiradora y centrada en el crecimiento personal.`;
+                
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                let retryCount = 0;
+                const maxRetries = 3;
+
+                const makeApiCall = async () => {
+                    try {
+                        const payload = {
+                            contents: [{ parts: [{ text: userPrompt }] }],
+                            systemInstruction: {
+                                parts: [{ text: "Actúa como un tarotista experimentado que ofrece orientación y consejos para el crecimiento personal. Responde en un tono cálido y sabio." }]
+                            },
+                        };
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        
+                        if (!response.ok) {
+                            if (response.status === 429 && retryCount < maxRetries) {
+                                // Exponential backoff
+                                const delay = Math.pow(2, retryCount) * 1000 + Math.random() * 1000;
+                                retryCount++;
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                                return makeApiCall(); // Retry the call
+                            }
+                            throw new Error(`Error en la API: ${response.statusText}`);
+                        }
+                        
+                        const result = await response.json();
+                        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "No se pudo generar la lectura. Inténtalo de nuevo más tarde.";
+                        
+                        // Display the reading and card name
+                        if(dailyCardResult) {
+                            dailyCardResult.innerHTML = `
+                                <h4 class="text-xl font-bold mb-2 text-purple-400">${randomCard}</h4>
+                                <p class="text-white">${text}</p>
+                            `;
+                        }
+                    } catch (error) {
+                        console.error("Error al llamar a la API de Gemini:", error);
+                        if(dailyCardResult) {
+                            dailyCardResult.innerHTML = '<p class="text-red-400">Ocurrió un error. Por favor, inténtalo de nuevo.</p>';
+                        }
+                    } finally {
+                        // Re-enable button and hide loading state
+                        dailyCardBtn.disabled = false;
+                        if(dailyCardLoading) dailyCardLoading.classList.add('hidden');
+                    }
+                };
+                
+                makeApiCall();
+            });
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .text-glow {
+            text-shadow: 0 0 10px #D8B4FE, 0 0 20px #D8B4FE, 0 0 30px #D8B4FE;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-in-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .icon-svg {
+            width: 3rem;
+            height: 3rem;
+            fill: #D8B4FE;
+            transition: fill 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .group:hover .icon-svg {
+            fill: #FBCFEA;
+            transform: scale(1.1);
+        }
+        .rating input {
+            display: none;
+        }
+        .rating label {
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            font-size: 2rem;
+            color: #4B5563; /* Gray */
+            transition: color 0.2s;
+        }
+        .rating input:checked ~ label {
+            color: #FBBF24; /* Yellow */
+        }
+        .rating input:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #FBBF24;
+        }
+    </style>
+</head>
+<body class="bg-purple-950 text-white">
+
+    <!-- Encabezado de la página -->
+    <header class="bg-purple-900/50 backdrop-blur-md shadow-lg py-2 px-6 fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <nav class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold playfair text-purple-400 flex items-center gap-2">
+                <i class="fas fa-magic text-xl"></i>El Oráculo de Adriano
+            </h1>
+            <ul class="flex space-x-2 md:space-x-4 text-xs md:text-base">
+                <li><a href="#about" class="hover:text-purple-400 transition duration-300">Sobre Mí</a></li>
+                <li><a href="#services" class="hover:text-purple-400 transition duration-300">Servicios</a></li>
+                <li><a href="#tarot-types" class="hover:text-purple-400 transition duration-300">Tipos de Tarot</a></li>
+                <li><a href="#daily-card" class="hover:text-purple-400 transition duration-300">Carta Diaria ✨</a></li>
+                <li><a href="#contact" class="hover:text-purple-400 transition duration-300">Contacto</a></li>
+                <li><a href="#testimonials" class="hover:text-purple-400 transition duration-300">Testimonios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="pt-20">
+        <!-- Sección de Héroe -->
+        <section class="relative h-[80vh] flex items-center justify-center text-center bg-cover bg-center bg-purple-900">
+            <div class="relative z-10 p-8 rounded-lg animate-fade-in-up">
+                <h2 class="text-5xl md:text-7xl font-bold playfair text-white drop-shadow-lg text-glow">El Tarot de Adriano</h2>
+                <p class="mt-4 text-xl md:text-2xl text-white max-w-2xl mx-auto drop-shadow-lg">
+                    ¿Estás en un momento de incertidumbre? ¿Sientes que necesitas una guía para avanzar? El tarot no solo predice el futuro, sino que te ofrece un espejo para tu alma, revelando perspectivas y fortalezas que ya posees. Permite que sus símbolos te hablen y encuentren la claridad que buscas. Reserva tu sesión y empieza a transformar tu camino.
+                </p>
+                <a href="#contact" class="mt-8 inline-block px-8 py-4 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">Agenda tu Lectura</a>
+            </div>
+        </section>
+
+        <!-- Sobre Mí -->
+        <section id="about" class="py-20 px-6 bg-purple-950">
+            <div class="container mx-auto flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 flex justify-center animate-fade-in-left">
+                    <!-- Imagen de Adrián eliminada -->
+                </div>
+                <div class="md:w-1/2 text-center md:text-left animate-fade-in-right">
+                    <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Un Viaje de Conexión y Sabiduría</h3>
+                    <p class="text-lg text-white mb-4">Con años de experiencia y una conexión profunda con el tarot, mi misión es ofrecerte un espacio seguro y lleno de luz para que encuentres las respuestas que buscas. Soy un **tarotista profesional con amplia trayectoria en la cartomancia**, y mi enfoque no es solo predecir el futuro, sino empoderarte para que tomes las riendas de tu vida.</p>
+                    <p class="text-lg text-white mb-4">Gracias a mi formación en **coaching ontológico**, cada lectura es más que una simple tirada de cartas; es una conversación con tu yo interior, una herramienta para la autocomprensión y el crecimiento personal. Confía en la sabiduría de las cartas y en la intuición que te guiará hacia tu máximo potencial.</p>
+                    <div class="mt-8 text-center md:text-left">
+                        <!-- Imagen adicional eliminada -->
+                        <p class="text-white mb-4">Descubre más sobre mi historia en el mundo del tarot.</p>
+                        <a href="https://ejemplo.com/pagina-extra" class="inline-block px-6 py-3 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">Conoce más</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servicios -->
+        <section id="services" class="py-20 px-6 bg-purple-900">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-12">Mis Servicios de Oráculos y Tarot</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 hover:border-purple-400 transition duration-300 transform hover:scale-105 animate-fade-in-up group">
+                        <!-- Ícono de Lectura de Amor -->
+                        <svg class="icon-svg mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.4 5.4 0 0 1 7.5 3c2.45 0 4.24 1.22 5.5 2.52C14.26 4.22 16.05 3 18.5 3a5.4 5.4 0 0 1 5.5 5.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <h4 class="text-2xl font-semibold mb-4 text-white">Lectura de Amor</h4>
+                        <p class="text-white">Explora las dinámicas de tus relaciones, encuentra la compatibilidad y abre tu corazón a nuevas posibilidades.</p>
+                    </div>
+                    <div class="bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 hover:border-purple-400 transition duration-300 transform hover:scale-105 animate-fade-in-up delay-100 group">
+                        <!-- Ícono de Lectura de Carrera -->
+                        <svg class="icon-svg mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6h-3V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 4h6v2H9V4zM20 18H4V8h16v10zM14 12H10v4h4v-4z"/>
+                        </svg>
+                        <h4 class="text-2xl font-semibold mb-4 text-white">Lectura de Carrera</h4>
+                        <p class="text-white">Obtén claridad en tu camino profesional, toma decisiones importantes y desbloquea tu potencial para el éxito.</p>
+                    </div>
+                    <div class="bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 hover:border-purple-400 transition duration-300 transform hover:scale-105 animate-fade-in-up delay-200 group">
+                        <!-- Ícono de Lectura General -->
+                        <svg class="icon-svg mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2.25a.75.75 0 0 0-.75.75v12.5a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75zM12 18.25a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-.75-.75zM8.75 14a.75.75 0 0 0-.75.75v7.25a.75.75 0 0 0 1.5 0v-7.25a.75.75 0 0 0-.75-.75zM8.75 2.25a.75.75 0 0 0-.75.75v10.25a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75zM15.25 10a.75.75 0 0 0-.75.75v11.25a.75.75 0 0 0 1.5 0V10.75a.75.75 0 0 0-.75-.75zM15.25 2.25a.75.75 0 0 0-.75.75v6a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75z"/>
+                        </svg>
+                        <h4 class="text-2xl font-semibold mb-4 text-white">Lectura General</h4>
+                        <p class="text-white">Una visión completa de tu vida, abordando preguntas sobre finanzas, familia, espiritualidad y, especialmente, tu **bienestar integral**. Exploraremos el **estado energético y emocional** de tu cuerpo, identificando bloqueos y patrones que te impiden sentirte en plenitud.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Tipos de Tarot y Oráculos -->
+        <section id="tarot-types" class="py-20 px-6 bg-purple-950">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-12">Tipos de Oráculos y Tarot que utilizo</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Rider-Waite-Smith -->
+                    <div class="bg-purple-900 p-8 rounded-lg shadow-xl border border-purple-800 animate-fade-in-up">
+                        <h4 class="text-2xl font-bold playfair text-purple-400 mb-4">Tarot Rider-Waite-Smith</h4>
+                        <p class="text-white">El mazo más popular y accesible, ideal para la interpretación intuitiva gracias a sus ilustraciones detalladas en cada carta.</p>
+                    </div>
+                    <!-- Tarot de Marsella -->
+                    <div class="bg-purple-900 p-8 rounded-lg shadow-xl border border-purple-800 animate-fade-in-up delay-100">
+                        <h4 class="text-2xl font-bold playfair text-purple-400 mb-4">Tarot de Marsella</h4>
+                        <p class="text-white">Una baraja tradicional con un simbolismo que requiere un mayor conocimiento de la numerología, ideal para lecturas estructuradas y profundas.</p>
+                    </div>
+                    <!-- Visconti-Sforza -->
+                    <div class="bg-purple-900 p-8 rounded-lg shadow-xl border border-purple-800 animate-fade-in-up delay-200">
+                        <h4 class="text-2xl font-bold playfair text-purple-400 mb-4">Tarot Visconti-Sforza</h4>
+                        <p class="text-white">Una baraja histórica y artística del siglo XV. Sus cartas sin numeración y sus elaborados diseños ofrecen una conexión única con la raíz del tarot.</p>
+                    </div>
+                    <!-- Tarot Egipcio -->
+                    <div class="bg-purple-900 p-8 rounded-lg shadow-xl border border-purple-800 animate-fade-in-up delay-300">
+                        <h4 class="text-2xl font-bold playfair text-purple-400 mb-4">Tarot Egipcio</h4>
+                        <p class="text-white">Un mazo con una iconografía rica en jeroglíficos y deidades, ideal para explorar la conexión entre lo místico y las leyes cósmicas.</p>
+                    </div>
+                    <!-- Oráculo Lenormand -->
+                    <div class="bg-purple-900 p-8 rounded-lg shadow-xl border border-purple-800 animate-fade-in-up delay-400">
+                        <h4 class="text-2xl font-bold playfair text-purple-400 mb-4">Oráculo Lenormand</h4>
+                        <p class="text-white">Un sistema de adivinación directo y literal que utiliza 36 cartas. Es excelente para obtener respuestas precisas sobre situaciones cotidianas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Sección de Lectura Diaria con Gemini -->
+        <section id="daily-card" class="py-20 px-6 bg-purple-900">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Tu Carta Diaria ✨</h3>
+                <p class="text-lg text-white mb-8">Obtén una guía inspiradora para tu día. Haz clic en el botón para revelar tu carta y su mensaje.</p>
+                <div class="max-w-md mx-auto p-8 rounded-lg shadow-xl border border-purple-800 bg-purple-950">
+                    <button id="daily-card-btn" class="w-full px-8 py-4 bg-purple-400 text-purple-950 font-bold rounded-lg hover:bg-purple-500 transition duration-300 transform hover:scale-105">
+                        Revelar mi Carta del Día ✨
+                    </button>
+                    <div id="daily-card-loading" class="hidden mt-4 text-white">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>Generando tu lectura...
+                    </div>
+                    <div id="daily-card-result" class="mt-8 text-left">
+                        <!-- El resultado de la lectura se mostrará aquí -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contacto -->
+        <section id="contact" class="py-20 px-6 bg-purple-900">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Agenda tu Lectura</h3>
+                <p class="text-lg text-white mb-8">Estoy aquí para guiarte. Contáctame por WhatsApp o correo electrónico.</p>
+                
+                <div class="max-w-xl mx-auto flex flex-col md:flex-row gap-4">
+                    <a href="https://wa.me/5492617116896?text=Hola,%20me%20gustaría%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="flex-1 w-full inline-block px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                        <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
+                    </a>
+                    <a href="mailto:adrianmblanes@gmail.com" class="flex-1 w-full inline-block px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios -->
+        <section id="testimonials" class="py-20 px-6 bg-purple-950">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-12">Lo que mis clientes dicen</h3>
+                <div class="flex justify-center mb-8">
+                    <input type="text" id="review-search-input" placeholder="Buscar reseña por ID de usuario..." class="w-full max-w-md p-3 rounded-l-lg bg-purple-800 text-white border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    <button id="clear-search-btn" class="p-3 bg-purple-400 text-purple-950 rounded-r-lg hover:bg-purple-500 transition duration-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Los testimonios se cargarán aquí desde Firestore -->
+                    <div class="bg-purple-900 p-6 rounded-lg shadow-md animate-fade-in-right">
+                        <p class="text-lg italic text-white mb-4">"La lectura de Adriano fue increíblemente precisa y me dio la claridad que necesitaba para seguir adelante. Su energía es muy calmada y tranquilizadora."</p>
+                        <!-- Estrellas de experiencia -->
+                        <div class="flex justify-center text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="font-semibold text-purple-400">- Valeria G.</p>
+                    </div>
+                    <div class="bg-purple-900 p-6 rounded-lg shadow-md animate-fade-in-left delay-100">
+                        <p class="text-lg italic text-white mb-4">"Me ayudó a ver mi situación profesional desde una perspectiva totalmente nueva. Sus consejos han sido invaluables."</p>
+                        <!-- Estrellas de experiencia -->
+                        <div class="flex justify-center text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="font-semibold text-purple-400">- Jorge R.</p>
+                    </div>
+                    <div class="bg-purple-900 p-6 rounded-lg shadow-md animate-fade-in-right delay-200">
+                        <p class="text-lg italic text-white mb-4">"Adriano tiene un don. La lectura que me hizo sobre mi vida personal fue tan acertada que me dejó sin palabras. Lo recomiendo a todo el mundo."</p>
+                        <div class="flex justify-center text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="font-semibold text-purple-400">- Sofía M.</p>
+                    </div>
+                    <div class="bg-purple-900 p-6 rounded-lg shadow-md animate-fade-in-left delay-300">
+                        <p class="text-lg italic text-white mb-4">"Fue mi primera vez con una lectura de tarot y no sabía qué esperar. La experiencia con Adriano fue muy reconfortante y me sentí en un ambiente de total confianza."</p>
+                        <div class="flex justify-center text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="font-semibold text-purple-400">- Carlos F.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección para agregar comentarios -->
+        <section id="review-form-section" class="py-20 px-6 bg-purple-900">
+            <div class="container mx-auto text-center">
+                <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Comparte tu Experiencia</h3>
+                <p class="text-lg text-white mb-8">Tu opinión es importante. Ayuda a otros a tomar su decisión.</p>
+                <div id="loading-message" class="text-white">Cargando...</div>
+                <div id="review-form-container" class="max-w-xl mx-auto bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 animate-fade-in-up hidden">
+                    <form id="review-form">
+                        <div class="mb-6">
+                            <label for="comment-input" class="block text-left text-white mb-2">Tu Comentario:</label>
+                            <textarea id="comment-input" rows="4" class="w-full p-3 bg-purple-800 text-white rounded-lg border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400" required></textarea>
+                        </div>
+                        <div class="mb-6 text-left">
+                            <label class="block text-white mb-2">Tu Calificación:</label>
+                            <div class="rating flex flex-row-reverse justify-start">
+                                <input type="radio" id="star5" name="rating" value="5" class="hidden" required /><label for="star5" class="text-yellow-400"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4" class="hidden" /><label for="star4" class="text-yellow-400"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3" class="hidden" /><label for="star3" class="text-yellow-400"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2" class="hidden" /><label for="star2" class="text-yellow-400"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1" class="hidden" /><label for="star1" class="text-yellow-400"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full px-4 py-3 bg-purple-400 text-purple-950 font-bold rounded-lg hover:bg-purple-500 transition duration-300 transform hover:scale-105">
+                            Enviar Reseña
+                        </button>
+                    </form>
+                    <div id="message-box" class="mt-4 px-4 py-2 rounded-lg text-white font-bold text-sm hidden"></div>
+                    <div id="user-id-display" class="mt-4 text-xs text-white/50 text-center"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="bg-purple-900 py-8 px-6 text-center text-purple-500">
+        <div class="container mx-auto">
+            <p>&copy; 2024 El Oráculo de Adriano. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-8 text-3xl mt-4">
+                <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="hover:text-purple-400 transition duration-300" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfaTjVfLxV&_r=1" class="hover:text-purple-400 transition duration-300" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="hover:text-purple-400 transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-purple-400 transition duration-300"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
