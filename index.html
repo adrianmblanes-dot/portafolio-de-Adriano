@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sesiones de Tarot</title>
+    <title>El Oráculo de Adriano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -401,7 +401,7 @@
             {
                 name: "El Mundo",
                 positive: "El Mundo te trae un mensaje de realización, de culminación y de plenitud. Esta carta te invita a celebrar tus logros y a que te sientas orgulloso de lo que has logrado. Es un recordatorio de que eres un ser de luz y de que tienes el poder de crear un mundo mejor. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, El Mundo puede ser un signo de estancamiento y de falta de logro. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la luz en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
+                shadow: "En su lado de sombra, El Mundo puede ser un signo de estancamiento y de falta de logro. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
             },
             {
                 name: "As de Copas",
@@ -684,6 +684,43 @@
                 shadow: "En su lado de sombra, el Rey de Bastos puede ser un signo de tiranía y de egoísmo. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
             },
         ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealButton = document.getElementById('reveal-card-button');
+            const initialText = document.getElementById('initial-card-text');
+            const cardContent = document.getElementById('card-of-the-day-content');
+
+            if (revealButton) {
+                revealButton.addEventListener('click', () => {
+                    // Oculta el texto inicial y el botón
+                    if (initialText) {
+                        initialText.classList.add('hidden');
+                    }
+                    
+                    // Elige una carta aleatoria
+                    const randomIndex = Math.floor(Math.random() * tarotCards.length);
+                    const randomCard = tarotCards[randomIndex];
+                    
+                    // Crea el contenido de la carta
+                    const cardHTML = `
+                        <div class="tarot-card-content animate-fade-in-up">
+                            <h4 class="playfair">${randomCard.name}</h4>
+                            <div class="mt-8 text-white text-lg leading-relaxed">
+                                <h5 class="font-bold text-purple-300">Mensaje de Luz:</h5>
+                                <p>${randomCard.positive}</p>
+                                <h5 class="mt-4 font-bold text-purple-300">Mensaje en Sombra:</h5>
+                                <p>${randomCard.shadow}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Muestra el contenido de la carta
+                    if (cardContent) {
+                        cardContent.innerHTML = cardHTML;
+                    }
+                });
+            }
+        });
     </script>
 </head>
 <body class="bg-purple-950 text-white">
