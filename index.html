@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Tarot de Adriano</title>
+    <title>El Oráculo de Adriano</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -189,17 +189,115 @@
         
     </script>
     <script>
-        // Lógica para la "Carta del Día"
-        document.addEventListener('DOMContentLoaded', () => {
-            const tarotCards = [
-                { name: "El Sol", meaning: "Representa el éxito, la felicidad y la vitalidad. Anuncia un período de gran claridad y optimismo.", image: "https://i.ibb.co/6P2T8Yx/sun.png" },
-                { name: "La Estrella", meaning: "Simboliza la esperanza, la inspiración y la guía divina. Indica un camino de sanación y nuevos comienzos.", image: "https://i.ibb.co/n7x32qf/star.png" },
-                { name: "El Mago", meaning: "Anuncia el inicio de un proyecto o una nueva etapa. Tienes todas las herramientas para manifestar tus deseos.", image: "https://i.ibb.co/3s6H9z8/magician.png" },
-                { name: "La Fuerza", meaning: "Simboliza la fuerza interior, el coraje y la compasión. Te anima a dominar tus instintos con amabilidad y autocontrol.", image: "https://i.ibb.co/k2V40P4/strength.png" },
-                { name: "La Justicia", meaning: "Representa el equilibrio, la verdad y la equidad. Te insta a actuar con integridad y a tomar decisiones justas y racionales.", image: "https://i.ibb.co/D7cT0jP/justice.png" },
-                { name: "El Mundo", meaning: "El fin de un ciclo y la culminación de un gran proyecto. Simboliza el éxito, la plenitud y la integración.", image: "https://i.ibb.co/d6x48Y9/world.png" }
-            ];
+        // Datos de las 78 cartas del Tarot de Marsella con energía positiva y en sombra
+        const tarotCards = [
+          // Arcanos Mayores
+          { name: "El Loco", positive: "Nuevas aventuras, espontaneidad, libertad.", shadow: "Imprudencia, caos, irresponsabilidad." , image: "https://i.ibb.co/60V0G5b/0-The-Fool.jpg" },
+          { name: "El Mago", positive: "Manifestación, poder, recursos, habilidad.", shadow: "Manipulación, falta de ética, talento no utilizado.", image: "https://i.ibb.co/3s6H9z8/magician.png" },
+          { name: "La Sacerdotisa", positive: "Intuición, sabiduría, misterio, conocimiento interior.", shadow: "Secretos, intuición reprimida, ignorancia.", image: "https://i.ibb.co/z6JkHk9/2-The-High-Priestess.jpg" },
+          { name: "La Emperatriz", positive: "Fertilidad, maternidad, naturaleza, abundancia.", shadow: "Dependencia, falta de crecimiento, asfixia.", image: "https://i.ibb.co/zQY0j3C/3-The-Empress.jpg" },
+          { name: "El Emperador", positive: "Autoridad, estructura, control, liderazgo.", shadow: "Tiranía, inflexibilidad, falta de disciplina.", image: "https://i.ibb.co/M9KzD9M/4-The-Emperor.jpg" },
+          { name: "El Hierofante", positive: "Tradición, espiritualidad, guía, valores morales.", shadow: "Rigidez, dogmatismo, rebeldía.", image: "https://i.ibb.co/L5k6Hjr/5-The-Hierophant.jpg" },
+          { name: "Los Enamorados", positive: "Unión, elección, armonía, relaciones.", shadow: "Conflicto, desarmonía, decisiones difíciles.", image: "https://i.ibb.co/6010R5M/6-The-Lovers.jpg" },
+          { name: "El Carro", positive: "Victoria, determinación, autocontrol, éxito.", shadow: "Falta de dirección, agresividad, derrota.", image: "https://i.ibb.co/60X68qX/7-The-Chariot.jpg" },
+          { name: "La Fuerza", positive: "Coraje, dominio, compasión, autocontrol.", shadow: "Debilidad, falta de control, miedos internos.", image: "https://i.ibb.co/k2V40P4/strength.png" },
+          { name: "El Ermitaño", positive: "Búsqueda interior, soledad, introspección, sabiduría.", shadow: "Aislamiento, soledad, reclusión.", image: "https://i.ibb.co/Wc63V9P/9-The-Hermit.jpg" },
+          { name: "La Rueda de la Fortuna", positive: "Cambio, ciclos, suerte, destino.", shadow: "Inestabilidad, mala suerte, eventos inesperados.", image: "https://i.ibb.co/q1t74J2/10-Wheel-of-Fortune.jpg" },
+          { name: "La Justicia", positive: "Equilibrio, verdad, equidad, ley.", shadow: "Injusticia, desequilibrio, prejuicio.", image: "https://i.ibb.co/D7cT0jP/justice.png" },
+          { name: "El Colgado", positive: "Nueva perspectiva, sacrificio, liberación, introspección.", shadow: "Impasse, estancamiento, resistencia.", image: "https://i.ibb.co/Xz9Fp0q/12-The-Hanged-Man.jpg" },
+          { name: "La Muerte", positive: "Fin de ciclo, transformación, renacimiento.", shadow: "Estancamiento, resistencia al cambio, final doloroso.", image: "https://i.ibb.co/wJm86k4/13-Death.jpg" },
+          { name: "La Templanza", positive: "Equilibrio, paciencia, moderación, armonía.", shadow: "Desequilibrio, excesos, impaciencia.", image: "https://i.ibb.co/28c114g/14-Temperance.jpg" },
+          { name: "El Diablo", positive: "Ambición, sexualidad, creatividad, poder material.", shadow: "Adicción, materialismo, opresión, ataduras.", image: "https://i.ibb.co/k4k37xW/15-The-Devil.jpg" },
+          { name: "La Torre", positive: "Revelación, cambio abrupto, liberación.", shadow: "Destrucción, catástrofe, crisis, dolor.", image: "https://i.ibb.co/P44vXnK/16-The-Tower.jpg" },
+          { name: "La Estrella", positive: "Esperanza, inspiración, sanación, fe.", shadow: "Desesperación, falta de fe, decepción.", image: "https://i.ibb.co/n7x32qf/star.png" },
+          { name: "La Luna", positive: "Intuición, sueños, lo subconsciente, misterio.", shadow: "Miedo, confusión, autoengaño, ilusión.", image: "https://i.ibb.co/wQzHjF9/18-The-Moon.jpg" },
+          { name: "El Sol", positive: "Éxito, felicidad, vitalidad, claridad.", shadow: "Infelicidad, falta de éxito, egoísmo.", image: "https://i.ibb.co/6P2T8Yx/sun.png" },
+          { name: "El Juicio", positive: "Renacimiento, despertar, absolución, llamado interior.", shadow: "Dudas, culpa, miedo al juicio, estancamiento.", image: "https://i.ibb.co/gdnQ2tM/20-Judgement.jpg" },
+          { name: "El Mundo", positive: "Realización, culminación, plenitud, integración.", shadow: "Incompleto, estancamiento, falta de logro.", image: "https://i.ibb.co/d6x48Y9/world.png" },
 
+          // Arcanos Menores
+          // Copas
+          { name: "As de Copas", positive: "Emociones, amor, creatividad, nuevos comienzos.", shadow: "Emociones reprimidas, amor no correspondido, infelicidad.", image: "https://i.ibb.co/Sdn0p1P/aceofcups.png" },
+          { name: "Dos de Copas", positive: "Unión, pareja, conexión, amor.", shadow: "Desconexión, conflicto, separación, desconfianza.", image: "https://i.ibb.co/wYdKzV5/2ofcups.png" },
+          { name: "Tres de Copas", positive: "Celebración, amistad, comunidad, alegría.", shadow: "Exceso, chismes, aislamiento, traición.", image: "https://i.ibb.co/9vP2x8W/3ofcups.png" },
+          { name: "Cuatro de Copas", positive: "Apatía, descontento, aburrimiento, reevaluación.", shadow: "Rechazo de oportunidades, aislamiento, falta de motivación.", image: "https://i.ibb.co/9bN0f6V/4ofcups.png" },
+          { name: "Cinco de Copas", positive: "Pérdida, tristeza, arrepentimiento, dolor.", shadow: "Resistencia a la pérdida, auto-lástima, incapacidad de soltar.", image: "https://i.ibb.co/180Y06V/5ofcups.png" },
+          { name: "Seis de Copas", positive: "Nostalgia, inocencia, reencuentro, recuerdos de la infancia.", shadow: "Vivir en el pasado, aferrarse, estancamiento.", image: "https://i.ibb.co/zXn2b3G/6ofcups.png" },
+          { name: "Siete de Copas", positive: "Elecciones, sueños, fantasía, opciones.", shadow: "Confusión, indecisión, ilusiones, dispersión.", image: "https://i.ibb.co/8bN9W01/7ofcups.png" },
+          { name: "Ocho de Copas", positive: "Desapego, búsqueda, viaje, dejar atrás.", shadow: "Miedo a abandonar, estancamiento emocional.", image: "https://i.ibb.co/w43q7jJ/8ofcups.png" },
+          { name: "Nueve de Copas", positive: "Satisfacción, deseos cumplidos, bienestar.", shadow: "Complacencia, materialismo, deseos no cumplidos.", image: "https://i.ibb.co/jH0Q6n6/9ofcups.png" },
+          { name: "Diez de Copas", positive: "Felicidad, armonía, familia, plenitud.", shadow: "Disarmonía familiar, felicidad falsa, descontento.", image: "https://i.ibb.co/y6k6yq4/10ofcups.png" },
+          { name: "Sota de Copas", positive: "Mensajero de emociones, creatividad, intuición, sueños.", shadow: "Inmadurez emocional, fantasía, timidez.", image: "https://i.ibb.co/z8v17Qd/pageofcups.png" },
+          { name: "Caballero de Copas", positive: "Romance, propuesta, encanto, idealismo.", shadow: "Falta de compromiso, fantasía, manipulador.", image: "https://i.ibb.co/y6Xp598/knightofcups.png" },
+          { name: "Reina de Copas", positive: "Empatía, intuición, compasión, sanación.", shadow: "Inseguridad emocional, dependencia, manipulación.", image: "https://i.ibb.co/n6v3L2L/queenofcups.png" },
+          { name: "Rey de Copas", positive: "Control emocional, compasión, sabiduría, calma.", shadow: "Manipulación emocional, frialdad, inestabilidad.", image: "https://i.ibb.co/gFg12k1/kingofcups.png" },
+
+          // Espadas
+          { name: "As de Espadas", positive: "Claridad, verdad, poder mental, decisión.", shadow: "Confusión, crueldad, verdad dolorosa, conflicto.", image: "https://i.ibb.co/k5p5HnL/aceofswords.png" },
+          { name: "Dos de Espadas", positive: "Tregua, indecisión, equilibrio, evitación.", shadow: "Mentiras, conflicto interno, negación, estancamiento.", image: "https://i.ibb.co/nQf3bVq/2ofswords.png" },
+          { name: "Tres de Espadas", positive: "Corazón roto, dolor, separación, tristeza.", shadow: "Dolor persistente, rechazo al duelo, sufrimiento.", image: "https://i.ibb.co/GdkbY26/3ofswords.png" },
+          { name: "Cuatro de Espadas", positive: "Descanso, recuperación, introspección, meditación.", shadow: "Agotamiento, estancamiento, evitar problemas.", image: "https://i.ibb.co/71z0pT2/4ofswords.png" },
+          { name: "Cinco de Espadas", positive: "Conflicto, derrota, humillación, tensión.", shadow: "Conflicto sin resolver, amargura, resentimiento.", image: "https://i.ibb.co/jrcF92V/5ofswords.png" },
+          { name: "Seis de Espadas", positive: "Transición, sanación, viaje, alejarse.", shadow: "Resistencia al cambio, estancamiento, carga.", image: "https://i.ibb.co/wJv8W9r/6ofswords.png" },
+          { name: "Siete de Espadas", positive: "Estrategia, engaño, secretos, deshonestidad.", shadow: "Ser descubierto, remordimiento, evitación.", image: "https://i.ibb.co/T1W7t82/7ofswords.png" },
+          { name: "Ocho de Espadas", positive: "Restricción, limitación, auto-impuesto, miedo.", shadow: "Incapacidad de ver la salida, victimización.", image: "https://i.ibb.co/wL4x191/8ofswords.png" },
+          { name: "Nueve de Espadas", positive: "Ansiedad, pesadillas, preocupación, desesperación.", shadow: "Angustia profunda, culpa, paranoia.", image: "https://i.ibb.co/wS1932x/9ofswords.png" },
+          { name: "Diez de Espadas", positive: "Fin, colapso, final inevitable, liberación.", shadow: "Resistencia al final, dolor prolongado, ruina.", image: "https://i.ibb.co/gFg12k1/kingofcups.png" },
+          { name: "Sota de Espadas", positive: "Curiosidad, mensajero, nuevo conocimiento, alerta.", shadow: "Chismes, falta de discreción, espionaje.", image: "https://i.ibb.co/d6x48Y9/world.png" },
+          { name: "Caballero de Espadas", positive: "Ambición, impulso, pensamiento rápido, acción.", shadow: "Imprudencia, impulsividad, agresividad.", image: "https://i.ibb.co/gFg12k1/kingofcups.png" },
+          { name: "Reina de Espadas", positive: "Inteligencia, perspicacia, honestidad, independencia.", shadow: "Crueldad, frialdad, manipulación, amargura.", image: "https://i.ibb.co/d6x48Y9/world.png" },
+          { name: "Rey de Espadas", positive: "Lógica, autoridad, intelecto, disciplina.", shadow: "Tiranía, crueldad, mentalidad estrecha, falta de empatía.", image: "https://i.ibb.co/k2V40P4/strength.png" },
+
+          // Pentáculos
+          { name: "As de Pentáculos", positive: "Oportunidad, prosperidad, seguridad, nuevos proyectos.", shadow: "Oportunidad perdida, inestabilidad, falta de enfoque.", image: "https://i.ibb.co/Sdn0p1P/aceofcups.png" },
+          { name: "Dos de Pentáculos", positive: "Equilibrio, adaptación, gestión, flexibilidad.", shadow: "Desequilibrio, inestabilidad, falta de organización.", image: "https://i.ibb.co/wYdKzV5/2ofcups.png" },
+          { name: "Tres de Pentáculos", positive: "Trabajo en equipo, colaboración, talento, aprendizaje.", shadow: "Desacuerdo, falta de habilidad, competencia.", image: "https://i.ibb.co/9vP2x8W/3ofcups.png" },
+          { name: "Cuatro de Pentáculos", positive: "Estabilidad, seguridad, posesión, control.", shadow: "Codicia, aferrarse al pasado, materialismo.", image: "https://i.ibb.co/9bN0f6V/4ofcups.png" },
+          { name: "Cinco de Pentáculos", positive: "Pobreza, dificultad, abandono, crisis.", shadow: "Superar la crisis, encontrar ayuda, sanación.", image: "https://i.ibb.co/180Y06V/5ofcups.png" },
+          { name: "Seis de Pentáculos", positive: "Generosidad, caridad, dar y recibir, apoyo.", shadow: "Deuda, egoísmo, desequilibrio en dar.", image: "https://i.ibb.co/zXn2b3G/6ofcups.png" },
+          { name: "Siete de Pentáculos", positive: "Evaluación, paciencia, recompensa, cosecha.", shadow: "Frustración, impaciencia, falta de recompensa.", image: "https://i.ibb.co/8bN9W01/7ofcups.png" },
+          { name: "Ocho de Pentáculos", positive: "Diligencia, maestría, aprendizaje, trabajo duro.", shadow: "Perfeccionismo, mediocridad, falta de concentración.", image: "https://i.ibb.co/w43q7jJ/8ofcups.png" },
+          { name: "Nueve de Pentáculos", positive: "Lujo, éxito, autosuficiencia, independencia.", shadow: "Soledad, trabajo excesivo, estancamiento.", image: "https://i.ibb.co/jH0Q6n6/9ofcups.png" },
+          { name: "Diez de Pentáculos", positive: "Legado, riqueza, seguridad familiar, culminación.", shadow: "Fracaso, pérdida de legado, inestabilidad.", image: "https://i.ibb.co/y6k6yq4/10ofcups.png" },
+          { name: "Sota de Pentáculos", positive: "Oportunidad, aprendizaje, manifestación, mensaje.", shadow: "Falta de enfoque, irrealismo, falta de crecimiento.", image: "https://i.ibb.co/z8v17Qd/pageofcups.png" },
+          { name: "Caballero de Pentáculos", positive: "Responsabilidad, fiabilidad, lealtad, trabajo duro.", shadow: "Inercia, pereza, falta de ambición.", image: "https://i.ibb.co/y6Xp598/knightofcups.png" },
+          { name: "Reina de Pentáculos", positive: "Maternidad, nutrición, seguridad, practicidad.", shadow: "Dependencia, materialismo, egoísmo.", image: "https://i.ibb.co/n6v3L2L/queenofcups.png" },
+          { name: "Rey de Pentáculos", positive: "Prosperidad, liderazgo, seguridad, éxito material.", shadow: "Corrupción, materialismo, tiranía, control.", image: "https://i.ibb.co/gFg12k1/kingofcups.png" },
+          
+          // Bastos
+          { name: "As de Bastos", positive: "Inspiración, pasión, nuevos proyectos, creatividad.", shadow: "Falta de dirección, retrasos, oportunidades perdidas.", image: "https://i.ibb.co/P44vXnK/16-The-Tower.jpg" },
+          { name: "Dos de Bastos", positive: "Planificación, progreso, decisión, futuro.", shadow: "Miedo al futuro, indecisión, estancamiento.", image: "https://i.ibb.co/wQzHjF9/18-The-Moon.jpg" },
+          { name: "Tres de Bastos", positive: "Expansión, visión, liderazgo, éxito.", shadow: "Retrasos, falta de visión, decepción.", image: "https://i.ibb.co/gdnQ2tM/20-Judgement.jpg" },
+          { name: "Cuatro de Bastos", positive: "Celebración, hogar, comunidad, estabilidad.", shadow: "Inestabilidad, falta de celebración, hogar roto.", image: "https://i.ibb.co/6P2T8Yx/sun.png" },
+          { name: "Cinco de Bastos", positive: "Conflicto, competencia, desacuerdo, rivalidad.", shadow: "Evitar el conflicto, tensión, estancamiento.", image: "https://i.ibb.co/q1t74J2/10-Wheel-of-Fortune.jpg" },
+          { name: "Seis de Bastos", positive: "Victoria, éxito, reconocimiento, logro.", shadow: "Derrota, arrogancia, falta de reconocimiento.", image: "https://i.ibb.co/zQY0j3C/3-The-Empress.jpg" },
+          { name: "Siete de Bastos", positive: "Defensa, valentía, desafío, protección.", shadow: "Sentirse abrumado, rendición, vulnerabilidad.", image: "https://i.ibb.co/z6JkHk9/2-The-High-Priestess.jpg" },
+          { name: "Ocho de Bastos", positive: "Velocidad, acción, noticias, movimiento.", shadow: "Retrasos, impaciencia, falta de dirección.", image: "https://i.ibb.co/3s6H9z8/magician.png" },
+          { name: "Nueve de Bastos", positive: "Resiliencia, perseverancia, fortaleza, precaución.", shadow: "Miedo, agotamiento, paranoia, defensiva.", image: "https://i.ibb.co/k2V40P4/strength.png" },
+          { name: "Diez de Bastos", positive: "Carga, responsabilidad, trabajo, estrés.", shadow: "Evitar la responsabilidad, agotamiento, opresión.", image: "https://i.ibb.co/d6x48Y9/world.png" },
+          { name: "Sota de Bastos", positive: "Inspiración, creatividad, noticias, entusiasmo.", shadow: "Indecisión, impulsividad, falta de pasión.", image: "https://i.ibb.co/Xz9Fp0q/12-The-Hanged-Man.jpg" },
+          { name: "Caballero de Bastos", positive: "Acción, energía, aventura, cambio.", shadow: "Impulsividad, imprudencia, irritabilidad.", image: "https://i.ibb.co/wJm86k4/13-Death.jpg" },
+          { name: "Reina de Bastos", positive: "Confianza, carisma, independencia, creatividad.", shadow: "Egoísmo, dominación, superficialidad.", image: "https://i.ibb.co/28c114g/14-Temperance.jpg" },
+          { name: "Rey de Bastos", positive: "Visión, liderazgo, inspiración, confianza.", shadow: "Tiranía, egoísmo, falta de dirección.", image: "https://i.ibb.co/k4k37xW/15-The-Devil.jpg" },
+
+          // Oros
+          { name: "As de Oros", positive: "Nuevos comienzos financieros, prosperidad, oportunidad.", shadow: "Oportunidad perdida, mala inversión, inestabilidad.", image: "https://i.ibb.co/n7x32qf/star.png" },
+          { name: "Dos de Oros", positive: "Equilibrio, adaptación, manejo de cambios, flexibilidad.", shadow: "Desequilibrio, desorganización, deuda.", image: "https://i.ibb.co/wQzHjF9/18-The-Moon.jpg" },
+          { name: "Tres de Oros", positive: "Trabajo en equipo, colaboración, talento, crecimiento.", shadow: "Falta de trabajo en equipo, falta de motivación.", image: "https://i.ibb.co/gdnQ2tM/20-Judgement.jpg" },
+          { name: "Cuatro de Oros", positive: "Estabilidad, seguridad financiera, control, posesión.", shadow: "Avaricia, materialismo, aferrarse a lo viejo.", image: "https://i.ibb.co/6P2T8Yx/sun.png" },
+          { name: "Cinco de Oros", positive: "Pérdida, necesidad, dificultad, abandono.", shadow: "Recuperación, encontrar apoyo, superación.", image: "https://i.ibb.co/d6x48Y9/world.png" },
+          { name: "Seis de Oros", positive: "Generosidad, dar y recibir, apoyo, caridad.", shadow: "Deuda, egoísmo, desigualdad, abuso de poder.", image: "https://i.ibb.co/Sdn0p1P/aceofcups.png" },
+          { name: "Siete de Oros", positive: "Paciencia, evaluación, inversión, recompensa.", shadow: "Impaciencia, frustración, falta de recompensa.", image: "https://i.ibb.co/wYdKzV5/2ofcups.png" },
+          { name: "Ocho de Oros", positive: "Maestría, habilidad, trabajo duro, dedicación.", shadow: "Perfeccionismo, falta de atención, estancamiento.", image: "https://i.ibb.co/9vP2x8W/3ofcups.png" },
+          { name: "Nueve de Oros", positive: "Abundancia, éxito, independencia, lujo.", shadow: "Soledad, trabajo en exceso, materialismo.", image: "https://i.ibb.co/9bN0f6V/4ofcups.png" },
+          { name: "Diez de Oros", positive: "Riqueza, seguridad, legado, culminación.", shadow: "Inestabilidad financiera, pérdida, fracaso.", image: "https://i.ibb.co/180Y06V/5ofcups.png" },
+          { name: "Sota de Oros", positive: "Oportunidad, aprendizaje, manifestación, nuevos planes.", shadow: "Inmadurez, falta de enfoque, pereza.", image: "https://i.ibb.co/zXn2b3G/6ofcups.png" },
+          { name: "Caballero de Oros", positive: "Responsabilidad, fiabilidad, lealtad, disciplina.", shadow: "Pereza, estancamiento, aburrimiento.", image: "https://i.ibb.co/8bN9W01/7ofcups.png" },
+          { name: "Reina de Oros", positive: "Cuidado, nutrición, seguridad, estabilidad.", shadow: "Inseguridad, materialismo, egoísmo.", image: "https://i.ibb.co/w43q7jJ/8ofcups.png" },
+          { name: "Rey de Oros", positive: "Liderazgo, éxito, prosperidad, control.", shadow: "Corrupción, materialismo, abuso de poder.", image: "https://i.ibb.co/jH0Q6n6/9ofcups.png" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
             const cardContainer = document.getElementById('card-of-the-day-content');
             const revealButton = document.getElementById('reveal-card-button');
             const initialText = document.getElementById('initial-card-text');
@@ -218,9 +316,21 @@
                                 </div>
                                 <div class="md:w-2/3 text-center md:text-left">
                                     <h4 class="text-4xl playfair font-bold text-purple-400 mb-4">${cardOfTheDay.name}</h4>
-                                    <p class="text-lg text-white italic">"${cardOfTheDay.meaning}"</p>
-                                    <p class="mt-4 text-white/60 text-sm">Esta es la energía que te acompaña hoy. Reflexiona sobre su mensaje.</p>
+                                    <div class="mb-4">
+                                        <h5 class="text-xl font-semibold text-white mb-2">Energía Positiva</h5>
+                                        <p class="text-lg text-white/80">${cardOfTheDay.positive}</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-xl font-semibold text-white mb-2">En Sombra</h5>
+                                        <p class="text-lg text-white/80">${cardOfTheDay.shadow}</p>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="mt-8 text-center bg-purple-900/50 p-6 rounded-lg shadow-md">
+                                <p class="text-lg font-semibold text-white mb-4">
+                                    Esta carta es un espejo de tu momento. Para profundizar en tu situación y obtener una guía clara, te invito a una sesión de tarot personal conmigo.
+                                </p>
+                                <a href="#contact" class="inline-block px-6 py-3 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">Agenda tu Sesión Ahora</a>
                             </div>
                         `;
                     }
@@ -415,7 +525,7 @@
                     <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfaTjVfLxV&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
                 </div>
-                <p class="text-white/70">&copy; 2020 El Oráculo de Adriano. Todos los derechos reservados.</p>
+                <p class="text-white/70">&copy; 2024 El Oráculo de Adriano. Todos los derechos reservados.</p>
             </div>
         </footer>
     </main>
