@@ -121,18 +121,25 @@
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, addDoc, onSnapshot, collection, query, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        setLogLevel('debug');
-        
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, addDoc, onSnapshot, collection, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // *** PASO 1: Inserta tu configuración de Firebase aquí ***
+        // Puedes encontrar esta información en la Consola de Firebase -> Configuración del proyecto -> Tus aplicaciones
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_AUTHDOMAIN",
+            projectId: "TU_PROJECT_ID",
+            storageBucket: "TU_STORAGE_BUCKET",
+            messagingSenderId: "TU_MESSAGING_SENDER_ID",
+            appId: "TU_APP_ID"
+        };
+        // -------------------------------------------------------------------
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        
+
         let userId = null;
         let reviewsData = [];
 
@@ -205,7 +212,10 @@
                 if(reviewFormContainer) reviewFormContainer.classList.remove('hidden');
                 
                 if(reviewsContainer) {
-                    const q = query(collection(db, `artifacts/${appId}/public/data/reviews`));
+                    // *** PASO 2: La ruta de la colección debe coincidir con tu Project ID de Firebase ***
+                    // Esto asegura que cada reseña se asocie con tu proyecto.
+                    const q = query(collection(db, `reviews`));
+                    // -------------------------------------------------------------------
                     
                     onSnapshot(q, (snapshot) => {
                         reviewsData = [];
@@ -227,11 +237,7 @@
                 }
             } else {
                 try {
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
+                    await signInAnonymously(auth);
                 } catch (error) {
                     console.error("Error during authentication:", error);
                     showMessage("Error de autenticación. Intenta recargar la página.", true);
@@ -256,12 +262,15 @@
               }
 
               try {
-                  await addDoc(collection(db, `artifacts/${appId}/public/data/reviews`), {
+                  // *** PASO 3: La ruta de la colección para guardar debe coincidir con tu Project ID de Firebase ***
+                  // Esto asegura que las reseñas se guarden en la ubicación correcta.
+                  await addDoc(collection(db, `reviews`), {
                       userId: userId,
                       comment: comment,
                       rating: parseInt(rating.value),
                       createdAt: serverTimestamp()
                   });
+                  // -------------------------------------------------------------------
 
                   showMessage('¡Gracias! Tu reseña ha sido enviada.');
                   form.reset();
@@ -525,325 +534,214 @@
             },
             {
                 name: "Sota de Espadas",
-                positive: "La Sota de Espadas te trae un mensaje de curiosidad, de nuevo conocimiento y de alerta. Esta carta te invita a que te atrevas a pensar por ti mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, la Sota de Espadas puede ser un signo de chismes y de indiscreción. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Caballero de Espadas",
-                positive: "El Caballero de Espadas te trae un mensaje de ambición, de impulso y de acción. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Caballero de Espadas puede ser un signo de imprudencia y de agresividad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Reina de Espadas",
-                positive: "La Reina de Espadas te trae un mensaje de inteligencia, de perspicacia y de honestidad. Esta carta te invita a que te atrevas a pensar por ti mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, la Reina de Espadas puede ser un signo de crueldad y de frialdad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Rey de Espadas",
-                positive: "El Rey de Espadas te trae un mensaje de lógica, de autoridad y de intelecto. Esta carta te invita a que te atrevas a pensar por ti mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Rey de Espadas puede ser un signo de tiranía y de egoísmo. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "As de Pentáculos",
-                positive: "El As de Pentáculos te trae un mensaje de nuevos comienzos financieros, de prosperidad y de oportunidad. Esta carta te invita a que te atrevas a tomar un nuevo camino en tu vida y a que te dejes llevar por tu intuición. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el As de Pentáculos puede ser un signo de oportunidad perdida y de inestabilidad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Dos de Pentáculos",
-                positive: "El Dos de Pentáculos te trae un mensaje de equilibrio, de adaptación y de manejo de cambios. Esta carta te invita a que te tomes un momento para reflexionar y a que te atrevas a tomar una decisión. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Dos de Pentáculos puede ser un signo de desequilibrio y de desorganización. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Tres de Pentáculos",
-                positive: "El Tres de Pentáculos te trae un mensaje de trabajo en equipo, de colaboración y de talento. Esta carta te invita a que te atrevas a trabajar con los demás y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Tres de Pentáculos puede ser un signo de desacuerdo y de falta de habilidad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Cuatro de Pentáculos",
-                positive: "El Cuatro de Pentáculos te trae un mensaje de estabilidad, de seguridad y de control. Esta carta te invita a que te tomes un momento para reflexionar y a que te atrevas a tomar una decisión. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Cuatro de Pentáculos puede ser un signo de avaricia y de materialismo. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Cinco de Pentáculos",
-                positive: "El Cinco de Pentáculos te trae un mensaje de pobreza, de dificultad y de abandono. Esta carta te invita a que te tomes un momento para reflexionar y a que te permitas sentir el dolor de la pérdida. Confía en que el universo te dará lo que necesitas para salir adelante y para encontrar la paz en tu corazón.",
-                shadow: "En su lado de sombra, el Cinco de Pentáculos puede ser un signo de estancamiento y de falta de ayuda. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Seis de Pentáculos",
-                positive: "El Seis de Pentáculos te trae un mensaje de generosidad, de caridad y de dar y recibir. Esta carta te invita a que te abras a los demás y a que te dejes llevar por tus emociones. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Seis de Pentáculos puede ser un signo de egoísmo y de desigualdad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Siete de Pentáculos",
-                positive: "El Siete de Pentáculos te trae un mensaje de paciencia, de evaluación y de inversión. Esta carta te invita a que te tomes un momento para reflexionar y a que te atrevas a tomar una decisión. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Siete de Pentáculos puede ser un signo de impaciencia y de frustración. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Ocho de Pentáculos",
-                positive: "El Ocho de Pentáculos te trae un mensaje de maestría, de habilidad y de trabajo duro. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Ocho de Pentáculos puede ser un signo de perfeccionismo y de falta de atención. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Nueve de Pentáculos",
-                positive: "El Nueve de Pentáculos te trae un mensaje de abundancia, de éxito y de autosuficiencia. Esta carta te invita a que te sientas orgulloso de lo que has logrado y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Nueve de Pentáculos puede ser un signo de soledad y de trabajo excesivo. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Diez de Pentáculos",
-                positive: "El Diez de Pentáculos te trae un mensaje de legado, de riqueza y de seguridad. Esta carta te invita a que te sientas orgulloso de lo que has logrado y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Diez de Pentáculos puede ser un signo de fracaso y de pérdida de legado. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Sota de Pentáculos",
-                positive: "La Sota de Pentáculos te trae un mensaje de oportunidad, de aprendizaje y de manifestación. Esta carta te invita a que te atrevas a tomar un nuevo camino en tu vida y a que te dejes llevar por tu intuición. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, la Sota de Pentáculos puede ser un signo de inmadurez y de falta de enfoque. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Caballero de Pentáculos",
-                positive: "El Caballero de Pentáculos te trae un mensaje de responsabilidad, de fiabilidad y de lealtad. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Caballero de Pentáculos puede ser un signo de inercia y de pereza. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Reina de Pentáculos",
-                positive: "La Reina de Pentáculos te trae un mensaje de cuidado, de nutrición y de seguridad. Esta carta te invita a que te abras a los demás y a que te dejes llevar por tus emociones. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, la Reina de Pentáculos puede ser un signo de inseguridad y de materialismo. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Rey de Pentáculos",
-                positive: "El Rey de Pentáculos te trae un mensaje de liderazgo, de éxito y de prosperidad. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Rey de Pentáculos puede ser un signo de corrupción y de abuso de poder. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "As de Bastos",
-                positive: "El As de Bastos te trae un mensaje de inspiración, de pasión y de nuevos proyectos. Esta carta te invita a que te atrevas a tomar un nuevo camino en tu vida y a que te dejes llevar por tu intuición. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el As de Bastos puede ser un signo de falta de dirección y de oportunidades perdidas. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Dos de Bastos",
-                positive: "El Dos de Bastos te trae un mensaje de planificación, de progreso y de decisión. Esta carta te invita a que te tomes un momento para reflexionar y a que te atrevas a tomar una decisión. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Dos de Bastos puede ser un signo de estancamiento y de miedo al futuro. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Tres de Bastos",
-                positive: "El Tres de Bastos te trae un mensaje de expansión, de visión y de liderazgo. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Tres de Bastos puede ser un signo de retrasos y de falta de visión. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Cuatro de Bastos",
-                positive: "El Cuatro de Bastos te trae un mensaje de celebración, de hogar y de comunidad. Esta carta te invita a que te abras a los demás y a que te dejes llevar por tus emociones. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Cuatro de Bastos puede ser un signo de inestabilidad y de hogar roto. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Cinco de Bastos",
-                positive: "El Cinco de Bastos te trae un mensaje de conflicto, de competencia y de desacuerdo. Esta carta te invita a que te tomes un momento para reflexionar y a que te permitas sentir el dolor de la pérdida. Confía en que el universo te dará lo que necesitas para salir adelante y para encontrar la paz en tu corazón.",
-                shadow: "En su lado de sombra, el Cinco de Bastos puede ser un signo de evitar el conflicto y de estancamiento. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Seis de Bastos",
-                positive: "El Seis de Bastos te trae un mensaje de victoria, de éxito y de reconocimiento. Esta carta te invita a que te sientas orgulloso de lo que has logrado y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Seis de Bastos puede ser un signo de derrota y de arrogancia. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Siete de Bastos",
-                positive: "El Siete de Bastos te trae un mensaje de defensa, de valentía y de desafío. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Siete de Bastos puede ser un signo de sentirse abrumado y de rendición. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Ocho de Bastos",
-                positive: "El Ocho de Bastos te trae un mensaje de velocidad, de acción y de noticias. Esta carta te invita a que te atrevas a tomar un nuevo camino en tu vida y a que te dejes llevar por tu intuición. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Ocho de Bastos puede ser un signo de retrasos y de impaciencia. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Nueve de Bastos",
-                positive: "El Nueve de Bastos te trae un mensaje de resiliencia, de perseverancia y de fortaleza. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Nueve de Bastos puede ser un signo de agotamiento y de paranoia. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Diez de Bastos",
-                positive: "El Diez de Bastos te trae un mensaje de carga, de responsabilidad y de trabajo. Esta carta te invita a que te tomes un momento para reflexionar y a que te atrevas a tomar una decisión. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Diez de Bastos puede ser un signo de evitar la responsabilidad y de opresión. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Sota de Bastos",
-                positive: "La Sota de Bastos te trae un mensaje de inspiración, de creatividad y de entusiasmo. Esta carta te invita a que te atrevas a soñar en grande y a que te dejes llevar por tu imaginación. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, la Sota de Bastos puede ser un signo de indecisión y de impulsividad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Caballero de Bastos",
-                positive: "El Caballero de Bastos te trae un mensaje de acción, de energía y de aventura. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Caballero de Bastos puede ser un signo de imprudencia y de irritabilidad. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Reina de Bastos",
-                positive: "La Reina de Bastos te trae un mensaje de confianza, de carisma y de independencia. Esta carta te invita a que te abras a los demás y a que te dejes llevar por tus emociones. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, la Reina de Bastos puede ser un signo de egoísmo y de dominación. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-            {
-                name: "Rey de Bastos",
-                positive: "El Rey de Bastos te trae un mensaje de visión, de liderazgo y de confianza. Esta carta te invita a que te atrevas a ser tú mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el universo te guiará hacia un nuevo comienzo lleno de felicidad.",
-                shadow: "En su lado de sombra, el Rey de Bastos puede ser un signo de tiranía y de egoísmo. Podrías estar sintiéndote abrumado por la tristeza o con miedo de lo que está por venir. La lección aquí es que debes buscar la felicidad en tu interior y que confíes en que el universo te dará lo que necesitas para salir adelante.",
-            },
-        ];
+                positive: "La Sota de Espadas te trae un mensaje de curiosidad, de nuevo conocimiento y de alerta. Esta carta te invita a que te atrevas a pensar por ti mismo y a que te dejes llevar por tu intuición. Es un recordatorio de que tienes el poder de crear tu propio destino, en lugar de esperar a que la suerte te sonría. Confía en que el...
+            }
+        ]
+        
+        // Función para seleccionar una carta del tarot al azar
+        function obtenerCartaAleatoria() {
+            const indiceAleatorio = Math.floor(Math.random() * tarotCards.length);
+            return tarotCards[indiceAleatorio];
+        }
+
+        // Función para mostrar la carta del día
+        function mostrarCartaDelDia() {
+            const carta = obtenerCartaAleatoria();
+            const esPositiva = Math.random() < 0.5;
+            const significado = esPositiva ? carta.positive : carta.shadow;
+            const significadoTitulo = esPositiva ? "Energía Positiva" : "Energía en Sombra";
+
+            document.getElementById('carta-titulo').textContent = carta.name;
+            document.getElementById('significado-titulo').textContent = significadoTitulo;
+            document.getElementById('significado-texto').textContent = significado;
+            document.getElementById('tarot-card-result').classList.remove('hidden');
+        }
+
+        // Asignar el evento al botón
+        document.getElementById('obtener-carta-btn').addEventListener('click', mostrarCartaDelDia);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const revealButton = document.getElementById('reveal-card-button');
-            const initialText = document.getElementById('initial-card-text');
-            const cardContent = document.getElementById('card-of-the-day-content');
-
-            if (revealButton) {
-                revealButton.addEventListener('click', () => {
-                    // Oculta el texto inicial y el botón
-                    if (initialText) {
-                        initialText.classList.add('hidden');
-                    }
+            const scrollLinks = document.querySelectorAll('a[href^="#"]');
+            
+            scrollLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
                     
-                    // Elige una carta aleatoria
-                    const randomIndex = Math.floor(Math.random() * tarotCards.length);
-                    const randomCard = tarotCards[randomIndex];
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
                     
-                    // Crea el contenido de la carta
-                    const cardHTML = `
-                        <div class="tarot-card-content animate-fade-in-up">
-                            <h4 class="playfair">${randomCard.name}</h4>
-                            <div class="mt-8 text-white text-lg leading-relaxed">
-                                <h5 class="font-bold text-purple-300">Mensaje de Luz:</h5>
-                                <p>${randomCard.positive}</p>
-                                <h5 class="mt-4 font-bold text-purple-300">Mensaje en Sombra:</h5>
-                                <p>${randomCard.shadow}</p>
-                            </div>
-                            <div class="mt-12 text-center">
-                                <h6 class="text-xl playfair font-bold text-purple-400">¿Quieres profundizar en este mensaje?</h6>
-                                <p class="text-white/80 mt-2 mb-6">Esta carta es solo una guía. Una sesión completa de tarot te dará respuestas claras y personalizadas sobre tu situación.</p>
-                                <a href="#contact" class="px-8 py-4 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">
-                                    Agenda tu Lectura
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Muestra el contenido de la carta
-                    if (cardContent) {
-                        cardContent.innerHTML = cardHTML;
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
                     }
                 });
-            }
+            });
         });
-    </script>
-</head>
-<body class="bg-purple-950 text-white">
 
-    <header class="bg-purple-900/50 backdrop-blur-md shadow-lg py-2 px-6 fixed top-0 left-0 w-full z-50 transition-all duration-300">
-        <nav class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold playfair text-purple-400 flex items-center gap-2">
-                <i class="fas fa-magic text-xl"></i>El Oráculo de Adriano
-            </h1>
-            <ul class="flex space-x-2 md:space-x-4 text-xs md:text-base">
-                <li><a href="#about" class="hover:text-purple-400 transition duration-300">Sobre Mí</a></li>
-                <li><a href="#card-of-the-day-section" class="hover:text-purple-400 transition duration-300">Tu Carta</a></li>
-                <li><a href="#services" class="hover:text-purple-400 transition duration-300">Servicios</a></li>
-                <li><a href="#tarot-types" class="hover:text-purple-400 transition duration-300">Tipos de Tarot</a></li>
-                <li><a href="#contact" class="hover:text-purple-400 transition duration-300">Contacto</a></li>
+    </script>
+    
+</head>
+<body class="bg-dark text-white font-sans">
+    
+    <header class="bg-gray-900 shadow-lg py-4 fixed top-0 w-full z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-bold playfair text-glow">El Oráculo de Adriano</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#about" class="text-white hover:text-purple-400 transition duration-300">Sobre Mí</a></li>
+                    <li><a href="#tarot" class="text-white hover:text-purple-400 transition duration-300">Tarot</a></li>
+                    <li><a href="#reviews" class="text-white hover:text-purple-400 transition duration-300">Reseñas</a></li>
+                    <li><a href="#contact" class="text-white hover:text-purple-400 transition duration-300">Contacto</a></li>
+                </ul>
+            </nav>
+            <button id="menu-toggle" class="md:hidden text-white text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 mt-4 px-6">
+            <ul class="flex flex-col space-y-4 text-center">
+                <li><a href="#about" class="block py-2 text-white hover:text-purple-400">Sobre Mí</a></li>
+                <li><a href="#tarot" class="block py-2 text-white hover:text-purple-400">Tarot</a></li>
+                <li><a href="#reviews" class="block py-2 text-white hover:text-purple-400">Reseñas</a></li>
+                <li><a href="#contact" class="block py-2 text-white hover:text-purple-400">Contacto</a></li>
             </ul>
-        </nav>
+        </div>
     </header>
 
-    <main class="pt-24">
-        <section class="relative h-[80vh] flex items-center justify-center text-center bg-cover bg-center hero-background">
-            <div class="relative z-10 p-8 rounded-lg animate-fade-in-up">
-                <h2 class="text-5xl md:text-7xl font-bold playfair text-white drop-shadow-lg text-glow">El Tarot de Adriano</h2>
-                <p class="mt-4 text-xl md:text-2xl text-white max-w-2xl mx-auto drop-shadow-lg">
-                    ¿Estás en un momento de incertidumbre? ¿Sientes que necesitas una guía para avanzar? El tarot no solo predice el futuro, sino que te ofrece un espejo para tu alma, revelando perspectivas y fortalezas que ya posees. Permite que sus símbolos te hablen y encuentren la claridad que buscas. Reserva tu sesión y empieza a transformar tu camino.
-                </p>
-                <a href="#contact" class="mt-8 inline-block px-8 py-4 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">Agenda tu Lectura</a>
-            </div>
-        </section>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-        <section id="about" class="py-20 px-6 bg-purple-950">
-            <div class="container mx-auto flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2 flex justify-center animate-fade-in-left">
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    
+    <section id="hero" class="hero-background min-h-screen flex items-center justify-center text-center px-6 pt-24 md:pt-0 relative">
+        <div class="z-10 container mx-auto space-y-6 animate-fade-in-up">
+            <h1 class="text-5xl md:text-7xl playfair font-bold text-white text-glow">El Oráculo de Adriano</h1>
+            <p class="text-xl md:text-2xl text-white/80">Tu guía en el camino de la vida a través de la sabiduría ancestral del tarot.</p>
+            <a href="#about" class="cta-button inline-block animate-fade-in-up" style="animation-delay: 0.5s;">
+                Descubre Más
+            </a>
+        </div>
+    </section>
+
+    <section id="about" class="section-background">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 animate-fade-in-left" style="animation-delay: 0.8s;">
+                    <img src="https://cdn.pixabay.com/photo/2023/12/03/10/37/woman-8427495_1280.png" alt="Adrian" class="rounded-3xl shadow-2xl">
                 </div>
-                <div class="md:w-1/2 text-center md:text-left animate-fade-in-right">
-                    <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Un Viaje de Conexión y Sabiduría</h3>
-                    <p class="text-lg text-white mb-4">Con años de experiencia y una conexión profunda con el tarot, mi misión es ofrecerte un espacio seguro y lleno de luz para que encuentres las respuestas que buscas. Soy un **tarotista profesional con amplia trayectoria en la cartomancia**, y mi enfoque no es solo predecir el futuro, sino empoderarte para que tomes las riendas de tu vida.</p>
-                    <p class="text-lg text-white mb-4">Gracias a mi formación en **coaching ontológico**, cada lectura es más que una simple tirada de cartas; es una conversación con tu yo interior, una herramienta para la autocomprensión y el crecimiento personal. Confía en la sabiduría de las cartas y en la intuición que te guiará hacia tu máximo potencial.</p>
-                    <div class="mt-8 text-center md:text-left">
-                        <p class="text-white mb-4">Descubre más sobre mi historia en el mundo del tarot.</p>
-                        <a href="https://ejemplo.com/pagina-extra" class="inline-block px-6 py-3 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">Conoce más</a>
+                <div class="md:w-1/2 space-y-6 animate-fade-in-right" style="animation-delay: 1s;">
+                    <h2 class="text-4xl md:text-5xl playfair font-bold text-white text-glow mb-4">Sobre Mí</h2>
+                    <p class="text-lg text-white/80">Hola, soy Adriano. Desde muy joven, el tarot se convirtió en mi compañero de vida. He dedicado años a estudiar, entender y conectar con la sabiduría de estas cartas para poder ayudar a otros a encontrar claridad y paz en sus propios caminos.</p>
+                    <p class="text-lg text-white/80">Mi misión es ser un faro en la oscuridad, ofreciendo lecturas que no solo predicen el futuro, sino que empoderan tu presente y te ayudan a tomar decisiones conscientes. El tarot es una herramienta de auto-conocimiento, y estoy aquí para guiarte en tu viaje.</p>
+                    <a href="#contact" class="cta-button inline-block">Conecta Conmigo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarot" class="bg-purple-900 py-20 px-6">
+        <div class="container mx-auto text-center space-y-8">
+            <h2 class="text-4xl md:text-5xl playfair font-bold text-white text-glow">Tu Mensaje del Universo</h2>
+            <p class="text-lg text-white/80 max-w-2xl mx-auto">Tómate un momento, respira profundo y presiona el botón para recibir una carta del tarot y un mensaje que ilumine tu día. Este es tu oráculo personal, una guía para la reflexión y el auto-conocimiento.</p>
+            <button id="obtener-carta-btn" class="cta-button inline-block text-xl">
+                <i class="fas fa-solid fa-sync mr-2"></i> Obtener mi Carta del Día
+            </button>
+            
+            <div id="tarot-card-result" class="hidden mt-12 bg-gray-800 p-8 rounded-2xl shadow-xl border-2 border-purple-400">
+                <h3 id="carta-titulo" class="text-4xl playfair font-bold text-purple-300 text-glow"></h3>
+                <div class="mt-6 flex flex-col md:flex-row gap-6">
+                    <div class="tarot-card-content flex-1 animate-fade-in-left">
+                        <h4 id="significado-titulo" class="font-bold mb-4 text-purple-300"></h4>
+                        <p id="significado-texto" class="text-lg text-white/90 leading-relaxed"></p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="card-of-the-day-section" class="py-20 px-6 bg-purple-900 text-center">
-            <div class="container mx-auto max-w-4xl">
-                <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Tu Carta del Momento</h3>
-                <div id="initial-card-text" class="mb-8">
-                    <p class="text-lg text-white mb-6">
-                        Concéntrate en tu pregunta o en una situación que te interese. Cuando estés listo, presiona el botón para revelar la energía que te acompaña.
-                    </p>
-                    <button id="reveal-card-button" class="px-8 py-4 bg-purple-400 text-purple-950 font-bold rounded-full hover:bg-purple-500 transition-transform transform hover:scale-105 shadow-xl">
-                        Revelar mi Carta
-                    </button>
-                </div>
-                <div id="card-of-the-day-content" class="animate-fade-in-up">
-                </div>
-            </div>
-        </section>
+    <section id="reviews" class="section-background">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl playfair font-bold text-center text-white text-glow mb-12">Lo Que Dicen Nuestros Clientes</h2>
+            
+            <div id="loading-message" class="text-center text-white/50 text-xl">Cargando comentarios...</div>
+            <div id="message-box" class="hidden text-center text-white p-3 rounded-lg my-4"></div>
 
-        <section id="services" class="py-20 px-6 bg-purple-900">
-            <div class="container mx-auto text-center">
-                <h3 class="text-4xl playfair font-bold text-purple-400 mb-12">Mis Servicios de Oráculos y Tarot</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 hover:border-purple-400 transition duration-300 transform hover:scale-105 animate-fade-in-up group">
-                        <svg class="icon-svg mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.4 5.4 0 0 1 7.5 3c2.45 0 4.24 1.22 5.5 2.52C14.26 4.22 16.05 3 18.5 3a5.4 5.4 0 0 1 5.5 5.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <h4 class="text-2xl font-semibold mb-4 text-white">Lectura de Amor</h4>
-                        <p class="text-white">Explora las dinámicas de tus relaciones, encuentra la compatibilidad y abre tu corazón a nuevas posibilidades.</p>
+            <div id="review-form-container" class="hidden bg-gray-800 p-8 rounded-xl shadow-lg mb-12 animate-fade-in-up">
+                <h3 class="text-2xl font-bold text-white mb-4">Deja tu Reseña</h3>
+                <p id="user-id-display" class="text-sm text-white/70 mb-4"></p>
+                <form id="review-form" class="space-y-4">
+                    <div class="flex items-center justify-center space-x-2">
+                        <label for="rating-5" class="text-yellow-400 text-2xl cursor-pointer">
+                            <input type="radio" id="rating-5" name="rating" value="5" class="hidden">
+                            <i class="far fa-star hover:text-yellow-300 transition-colors"></i>
+                        </label>
+                        <label for="rating-4" class="text-yellow-400 text-2xl cursor-pointer">
+                            <input type="radio" id="rating-4" name="rating" value="4" class="hidden">
+                            <i class="far fa-star hover:text-yellow-300 transition-colors"></i>
+                        </label>
+                        <label for="rating-3" class="text-yellow-400 text-2xl cursor-pointer">
+                            <input type="radio" id="rating-3" name="rating" value="3" class="hidden">
+                            <i class="far fa-star hover:text-yellow-300 transition-colors"></i>
+                        </label>
+                        <label for="rating-2" class="text-yellow-400 text-2xl cursor-pointer">
+                            <input type="radio" id="rating-2" name="rating" value="2" class="hidden">
+                            <i class="far fa-star hover:text-yellow-300 transition-colors"></i>
+                        </label>
+                        <label for="rating-1" class="text-yellow-400 text-2xl cursor-pointer">
+                            <input type="radio" id="rating-1" name="rating" value="1" class="hidden">
+                            <i class="far fa-star hover:text-yellow-300 transition-colors"></i>
+                        </label>
                     </div>
-                    <div class="bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 hover:border-purple-400 transition duration-300 transform hover:scale-105 animate-fade-in-up delay-100 group">
-                        <svg class="icon-svg mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 6h-3V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 4h6v2H9V4zM20 18H4V8h16v10zM14 12H10v4h4v-4z"/>
-                        </svg>
-                        <h4 class="text-2xl font-semibold mb-4 text-white">Lectura de Carrera</h4>
-                        <p class="text-white">Obtén claridad en tu camino profesional, toma decisiones importantes y desbloquea tu potencial para el éxito.</p>
-                    </div>
-                    <div class="bg-purple-950 p-8 rounded-lg shadow-xl border border-purple-800 hover:border-purple-400 transition duration-300 transform hover:scale-105 animate-fade-in-up delay-200 group">
-                        <svg class="icon-svg mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2.25a.75.75 0 0 0-.75.75v12.5a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75zM12 18.25a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-.75-.75zM8.75 14a.75.75 0 0 0-.75.75v7.25a.75.75 0 0 0 1.5 0v-7.25a.75.75 0 0 0-.75-.75zM8.75 2.25a.75.75 0 0 0-.75.75v10.25a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75zM15.25 10a.75.75 0 0 0-.75.75v11.25a.75.75 0 0 0 1.5 0V10.75a.75.75 0 0 0-.75-.75zM15.25 2.25a.75.75 0 0 0-.75.75v6a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75z"/>
-                        </svg>
-                        <h4 class="text-2xl font-semibold mb-4 text-white">Lectura General</h4>
-                        <p class="text-white">Una visión completa de tu vida, abordando preguntas sobre finanzas, familia, espiritualidad y, especialmente, tu **bienestar integral**. Exploraremos el **estado energético y emocional** de tu cuerpo, identificando bloqueos y patrones que te impiden sentirte en plenitud.</p>
-                    </div>
-                </div>
+                    <textarea id="comment-input" rows="4" class="w-full p-4 bg-gray-900 text-white rounded-lg border-2 border-purple-400 focus:outline-none focus:border-purple-500" placeholder="Escribe tu reseña aquí..."></textarea>
+                    <button type="submit" class="cta-button w-full">Enviar Reseña</button>
+                </form>
             </div>
-        </section>
+            
+            <div class="relative mb-6">
+                <input type="text" id="review-search-input" placeholder="Buscar reseñas por ID de usuario..." class="w-full p-3 bg-gray-800 text-white rounded-lg border-2 border-purple-400 focus:outline-none focus:border-purple-500 pl-10">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400"></i>
+                <button id="clear-search-btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-400 hover:text-white transition-colors" title="Limpiar búsqueda">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
 
-        <section id="contact" class="py-20 px-6 bg-purple-900">
-            <div class="container mx-auto text-center">
-                <h3 class="text-4xl playfair font-bold text-purple-400 mb-6">Agenda tu Lectura</h3>
-                <p class="text-lg text-white mb-8">Estoy aquí para guiarte. Contáctame por WhatsApp o correo electrónico.</p>
-                
-                <div class="max-w-xl mx-auto flex flex-col md:flex-row gap-4">
-                    <a href="https://wa.me/5492617116896?text=Hola,%20me%20gustaría%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="flex-1 w-full inline-block px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
-                        <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
-                    </a>
-                    <a href="mailto:adrianmblanes@gmail.com" class="flex-1 w-full inline-block px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105">
-                        <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
-                    </a>
+            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <footer class="bg-purple-900 py-10 px-6 text-center">
-            <div class="container mx-auto">
-                <div class="flex justify-center space-x-6 text-2xl mb-4">
-                    <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfaTjVfLxV&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
-                </div>
-                <p class="text-white/70">&copy; 2024 El Oráculo de Adriano. Todos los derechos reservados.</p>
+    <section id="contact" class="bg-gray-800 py-20 px-6">
+        <div class="container mx-auto text-center space-y-8">
+            <h2 class="text-4xl md:text-5xl playfair font-bold text-white text-glow mb-4">¿Listo para un cambio en tu vida?</h2>
+            <p class="text-lg text-white/80 max-w-2xl mx-auto">Contáctame hoy para agendar tu lectura de tarot y comenzar tu viaje de auto-descubrimiento. Estoy aquí para guiarte en cada paso del camino.</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mt-8">
+                <a href="https://api.whatsapp.com/send?phone=5492611234567&text=Hola,%20Adriano.%20Me%20gustar%C3%ADa%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="flex-1 w-full inline-block px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                    <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
+                </a>
+                <a href="mailto:adrianmblanes@gmail.com" class="flex-1 w-full inline-block px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105">
+                    <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
+                </a>
             </div>
-        </footer>
-    </main>
+        </div>
+    </section>
+
+    <footer class="bg-purple-900 py-10 px-6 text-center">
+        <div class="container mx-auto">
+            <div class="flex justify-center space-x-6 text-2xl mb-4">
+                <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=8h3M606k4zC&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.facebook.com/adrian.marcelo.79?mibextid=ZbWKwL" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-facebook"></i></a>
+            </div>
+            <p class="text-sm text-white/50">&copy; 2024 El Oráculo de Adriano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
 </body>
 </html>
