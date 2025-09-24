@@ -117,6 +117,39 @@
             margin-top: 1.5rem;
             margin-bottom: 0.5rem;
         }
+        
+        /* Estilos para el marco místico */
+        .mystic-frame {
+            position: relative;
+            padding: 2rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(43, 33, 59, 0.8) 0%, rgba(61, 27, 107, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(216, 180, 254, 0.5), inset 0 0 10px rgba(216, 180, 254, 0.3);
+            border: 2px solid #D8B4FE;
+        }
+        .mystic-frame::before,
+        .mystic-frame::after {
+            content: '';
+            position: absolute;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        .mystic-frame::before {
+            width: 50px;
+            height: 50px;
+            top: -20px;
+            left: -20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23D8B4FE" stroke="none"><path d="M12 0a1 1 0 01.78.37l4 6a1 1 0 01-.78 1.63H8a1 1 0 01-.78-1.63l4-6A1 1 0 0112 0z"/></svg>');
+            transform: rotate(45deg);
+        }
+        .mystic-frame::after {
+            width: 40px;
+            height: 40px;
+            bottom: -15px;
+            right: -15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23D8B4FE" stroke="none"><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm-2 15a1 1 0 01-1-1v-4a1 1 0 012 0v4a1 1 0 01-1 1zm4 0a1 1 0 01-1-1v-4a1 1 0 012 0v4a1 1 0 01-1 1zm-2-9c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1z"/></svg>');
+            transform: rotate(-30deg);
+        }
     </style>
     
     <script>
@@ -417,9 +450,8 @@
 
     <section id="tarot-of-the-day" class="section-background">
         <div class="container mx-auto px-6 py-16 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-12 animate-fade-in-right">Tu Carta del Día</h2>
-            
-            <div class="max-w-xl mx-auto">
+            <div class="mystic-frame">
+                <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-12 animate-fade-in-right">Tu Carta del Día</h2>
                 <p class="text-white/80 mb-6">
                     Haz click en el botón para que el universo te entregue un mensaje aleatorio.
                 </p>
@@ -432,7 +464,7 @@
         </div>
     </section>
 
-    <section id="contact" class="bg-gray-900 py-20 px-6 sm:px-10 md:py-32 text-center">
+    <section id="contact" class="bg-gray-900 py-20 px-6 sm:px-10 md:py-32 text-center" style="background-color: #3D1B6B;">
         <div class="container mx-auto">
             <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-8">Conecta conmigo</h2>
             <p class="text-lg md:text-xl text-white/80 mb-12">
@@ -449,13 +481,13 @@
         </div>
     </section>
 
-    <footer class="bg-purple-900 py-10 px-6 text-center">
+    <footer class="py-10 px-6 text-center" style="background-color: #2B0E4C;">
         <div class="container mx-auto">
             <div class="flex justify-center space-x-6 text-2xl mb-4">
                 <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
             </div>
-            <p class="text-white/60 text-sm">&copy; 2024 El Oráculo de Adriano. Todos los derechos reservados.</p>
+            <p class="text-white/60 text-sm">&copy; 1979 Adriano Tarotista profecinal. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>
