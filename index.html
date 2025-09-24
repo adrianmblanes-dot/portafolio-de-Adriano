@@ -7,22 +7,22 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* Estilos CSS personalizados */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
         
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #471396;
             color: #EFE9FF;
         }
-        .playfair {
-            font-family: 'Playfair Display', serif;
+        .cinzel-decorative {
+            font-family: 'Cinzel Decorative', serif;
         }
         .text-glow {
             text-shadow: 0 0 10px #D8BFDA, 0 0 20px #D8BFDA;
@@ -130,14 +130,25 @@
             text-align: center;
         }
         
-        /* Decoración con iconos en la tipografía */
-        .playfair-with-icon::before {
-            content: '\f02e'; /* Unicode del icono de estrella de 5 puntas */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: #FFD700;
-            margin-right: 0.5rem;
-            display: inline-block;
+        /* Estilo para el nuevo botón rojo mate */
+        .cta-button-red {
+            background-color: #963d3d; /* Un tono de rojo mate */
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 9999px;
+            padding: 1rem 2.5rem;
+            transition: all 0.3s ease;
+        }
+        .cta-button-red:hover {
+            background-color: #b05c5c; /* Un rojo un poco más claro para el efecto hover */
+            transform: scale(1.05);
+        }
+
+        /* Iconos astrológicos */
+        .astrology-icon {
+            color: #FFD700; /* Color dorado para los iconos */
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
         }
     </style>
     
@@ -158,7 +169,7 @@
                 icon: "fas fa-hat-wizard",
                 color: "text-blue-400",
                 positive: "El Mago te recuerda que tienes el poder de manifestar tus sueños. Con tus habilidades, creatividad e ingenio, posees todas las herramientas necesarias para convertir tus ideas en realidad. Esta carta es un llamado a la acción. Es el momento perfecto para iniciar un nuevo proyecto o un camino en tu vida donde te sientas el verdadero creador de tu destino.",
-                shadow: "Cuando El Mago aparece en sombra, puede indicar que no estás usando tu poder de la mejor manera. Podrías estar manipulando una situación, actuando de forma deshonesta o sintiendo que tus talentos no son suficientes. Este es un recordatorio de que tu magia debe usarse para el bien y que la verdadera habilidad viene con la integridad.",
+                shadow: "Cuando El Mago aparece en sombra, puede indicar que no estás usando tu poder de la mejor manera. Podrías estar manipulando una situación, actuando de forma deshonesta o sintiéndote que tus talentos no son suficientes. Este es un recordatorio de que tu magia debe usarse para el bien y que la verdadera habilidad viene con la integridad.",
             },
             {
                 name: "La Sacerdotisa",
@@ -392,7 +403,13 @@
 
     <header id="home" class="hero-background text-center py-20 px-6 sm:px-10 md:py-40 flex items-center justify-center">
         <div class="relative z-10 max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold playfair text-glow animate-fade-in-up">Descubre tu destino con los Tarots y Oráculos de Adriano</h1>
+            <h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up">
+                <i class="fas fa-sun astrology-icon"></i>
+                <i class="fas fa-moon astrology-icon"></i>
+                Descubre tu destino con los Tarots y Oráculos de Adriano
+                <i class="fas fa-star astrology-icon"></i>
+                <i class="fas fa-crystal-ball astrology-icon"></i>
+            </h1>
             <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up" style="animation-delay: 0.5s;">
                 Adriano te guiará en tu camino espiritual, ofreciéndote claridad y sabiduría a través del tarot y oráculos ancestrales.
             </p>
@@ -404,7 +421,7 @@
 
     <section id="services" class="section-background">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card-container p-8 rounded-lg animate-fade-in-up">
                     <div class="text-5xl mb-4">
@@ -439,7 +456,7 @@
 
     <section id="about" class="section-background">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-8 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-fade-in-up">
                 <i class="fas fa-star text-yellow-300"></i>
                 <i class="fas fa-moon text-indigo-400"></i>
                 <i class="fas fa-sun text-yellow-400"></i>
@@ -466,11 +483,17 @@
     <section id="tarot-of-the-day" class="section-background">
         <div class="container mx-auto px-6 py-16 text-center">
             <div class="mystic-frame">
-                <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-12 animate-fade-in-right playfair-with-icon">Tu Carta del Día</h2>
+                <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-right">
+                    <i class="fas fa-gem astrology-icon"></i>
+                    <i class="fas fa-crystal-ball astrology-icon"></i>
+                    Tu Carta del Día
+                    <i class="fas fa-star astrology-icon"></i>
+                    <i class="fas fa-feather-alt astrology-icon"></i>
+                </h2>
                 <p class="text-white/80 mb-6 animate-fade-in-up">
                     Haz click en el botón para que el universo te entregue un mensaje aleatorio.
                 </p>
-                <button id="draw-card-btn" class="cta-button mb-8 animate-fade-in-up">
+                <button id="draw-card-btn" class="cta-button-red mb-8 animate-fade-in-up">
                     Revelar mi mensaje
                 </button>
                 <div id="card-of-the-day-container">
@@ -481,7 +504,7 @@
 
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center" style="background-color: #5c20b8;">
         <div class="container mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold playfair text-glow mb-8 text-white animate-fade-in-up">Conecta conmigo</h2>
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-fade-in-up">Conecta conmigo</h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
