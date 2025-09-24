@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Tarots y Oráculos de Adrian Marcelo</title>
+    <title>Los Tarots y Oráculos de Adriano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -460,7 +460,7 @@
     </footer>
 
     <div class="fixed bottom-4 left-4 z-50">
-        <audio id="background-music" loop autoplay muted>
+        <audio id="background-music" loop muted>
             <source src="melodia.mp3" type="audio/mpeg">
             Tu navegador no soporta el elemento de audio.
         </audio>
@@ -472,6 +472,23 @@
     <script>
         const music = document.getElementById('background-music');
         const musicBtn = document.getElementById('music-btn');
+
+        // Intenta reproducir el audio cuando se carga la página
+        window.addEventListener('load', () => {
+            music.play().catch(error => {
+                // Si el navegador bloquea la reproducción, no hacemos nada y el usuario puede activarlo con el botón
+                console.log('Autoplay bloqueado. El usuario puede iniciar la música con el botón.');
+            });
+        });
+
+        // Este evento se activa con la primera interacción del usuario
+        document.body.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().catch(error => {
+                    console.log('Reproducción fallida al hacer clic: ' + error);
+                });
+            }
+        }, { once: true }); // Solo se activa la primera vez para asegurar la reproducción
 
         musicBtn.addEventListener('click', () => {
             if (music.muted) {
