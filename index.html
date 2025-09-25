@@ -27,6 +27,8 @@
         .text-glow {
             text-shadow: 0 0 10px #D8BFDA, 0 0 20px #D8BFDA;
         }
+
+        /* Animaciones para los elementos al entrar en la página */
         .animate-fade-in-up {
             animation: fadeInUp 1s ease-in-out;
             opacity: 0;
@@ -55,6 +57,17 @@
             to { opacity: 1; transform: translateX(0); }
         }
         
+        /* Animación de pulso para el título */
+        @keyframes pulse-animation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-pulse {
+            animation: pulse-animation 2s infinite;
+        }
+        
+        /* Fondo del encabezado y efecto de brillo */
         .hero-background {
             background-image: url('https://cdn.pixabay.com/photo/2023/12/12/10/44/ai-generated-8445101_1280.png');
             background-size: cover;
@@ -130,23 +143,25 @@
             text-align: center;
         }
         
-        /* Estilo para el nuevo botón rojo mate */
+        /* Estilo para el nuevo botón rojo mate con brillo */
         .cta-button-red {
-            background-color: #963d3d; /* Un tono de rojo mate */
+            background-color: #963d3d;
             color: #ffffff;
             font-weight: bold;
             border-radius: 9999px;
             padding: 1rem 2.5rem;
             transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
         }
         .cta-button-red:hover {
-            background-color: #b05c5c; /* Un rojo un poco más claro para el efecto hover */
+            background-color: #b05c5c;
             transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.4), 0 0 45px rgba(255, 255, 255, 0.2);
         }
-
+        
         /* Iconos astrológicos */
         .astrology-icon {
-            color: #FFD700; /* Color dorado para los iconos */
+            color: #FFD700;
             font-size: 1.5rem;
             margin: 0 0.5rem;
         }
@@ -369,7 +384,7 @@
             const cardContainer = document.getElementById('card-of-the-day-container');
             const randomIndex = Math.floor(Math.random() * tarotCards.length);
             const randomCard = tarotCards[randomIndex];
-            const isPositive = Math.random() < 0.5; // 50% chance of being positive or shadow
+            const isPositive = Math.random() < 0.5;
             const cardMessage = isPositive ? randomCard.positive : randomCard.shadow;
             const cardMessageTitle = isPositive ? "Mensaje en Energía Positiva" : "Mensaje en Sombra";
 
@@ -419,11 +434,11 @@
         </div>
     </header>
 
-    <section id="services" class="section-background">
+    <section id="services" class="section-background animate-fade-in-up">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="card-container p-8 rounded-lg animate-fade-in-up">
+                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
                     <div class="text-5xl mb-4">
                         <i class="fas fa-gem text-yellow-400"></i>
                     </div>
@@ -432,7 +447,7 @@
                         Una visión completa de tu vida: amor, trabajo, finanzas y espiritualidad. Te guiaré en cada paso para que tomes las mejores decisiones.
                     </p>
                 </div>
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
                     <div class="text-5xl mb-4">
                         <i class="fas fa-heart text-pink-400"></i>
                     </div>
@@ -441,7 +456,7 @@
                         Descubre lo que el universo tiene preparado para tu corazón. Aclara tus dudas en el amor, relaciones y vínculos emocionales.
                     </p>
                 </div>
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
                     <div class="text-5xl mb-4">
                         <i class="fas fa-wand-magic-sparkles text-orange-500"></i>
                     </div>
@@ -454,7 +469,7 @@
         </div>
     </section>
 
-    <section id="about" class="section-background">
+    <section id="about" class="section-background animate-fade-in-up" style="animation-delay: 0.5s;">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-fade-in-up">
                 <i class="fas fa-star text-yellow-300"></i>
@@ -465,25 +480,25 @@
                 <i class="fas fa-moon text-indigo-400"></i>
                 <i class="fas fa-sun text-yellow-400"></i>
             </h2>
-            <p class="text-xl md:text-2xl font-semibold text-purple-500 mb-6" style="color: #9d68e8;">
+            <p class="text-xl md:text-2xl font-semibold text-purple-500 mb-6 animate-fade-in-up" style="color: #9d68e8; animation-delay: 0.2s;">
                 Un Viaje de Conexión y Sabiduría
             </p>
-            <p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up">
+            <p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.4s;">
                 ¿Estás en un momento de incertidumbre? ¿Sientes que necesitas una guía para avanzar? El tarot no solo predice el futuro, sino que te ofrece un espejo para tu alma, revelando perspectivas y fortalezas que ya posees. Permite que sus símbolos te hablen y encuentren la claridad que buscas. Reserva tu sesión y empieza a transformar tu camino.
             </p>
-            <p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up">
+            <p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.6s;">
                 Con años de experiencia y una conexión profunda con el tarot, mi misión es ofrecerte un espacio seguro y lleno de luz para que encuentres las respuestas que buscas. Soy un **tarotista profesional con amplia trayectoria en la cartomancia**, y mi enfoque no es solo predecir el futuro, sino empoderarte para que tomes las riendas de tu vida.
             </p>
-            <p class="text-lg text-white/80 max-w-4xl mx-auto animate-fade-in-up">
+            <p class="text-lg text-white/80 max-w-4xl mx-auto animate-fade-in-up" style="animation-delay: 0.8s;">
                 Gracias a mi formación en **coaching ontológico**, cada lectura es más que una simple tirada de cartas; es una conversación con tu yo interior, una herramienta para la autocomprensión y el crecimiento personal. Confía en la sabiduría de las cartas y en la intuición que te guiará hacia tu máximo potencial.
             </p>
         </div>
     </section>
 
-    <section id="tarot-of-the-day" class="section-background">
+    <section id="tarot-of-the-day" class="section-background animate-fade-in-up" style="animation-delay: 1s;">
         <div class="container mx-auto px-6 py-16 text-center">
             <div class="mystic-frame">
-                <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-right">
+                <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-pulse">
                     <i class="fas fa-gem astrology-icon"></i>
                     <i class="fas fa-crystal-ball astrology-icon"></i>
                     Tu Carta del Día
@@ -502,13 +517,13 @@
         </div>
     </section>
 
-    <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center" style="background-color: #5c20b8;">
+    <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
         <div class="container mx-auto">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-fade-in-up">Conecta conmigo</h2>
-            <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up">
+            <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-6 animate-fade-in-up">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
                 <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="flex-1 w-full inline-block px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
                     <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
                 </a>
@@ -519,9 +534,9 @@
         </div>
     </section>
 
-    <footer class="py-10 px-6 text-center" style="background-color: #471396;">
+    <footer class="py-10 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 2s;">
         <div class="container mx-auto">
-            <div class="flex justify-center space-x-6 text-2xl mb-4">
+            <div class="flex justify-center space-x-6 text-4xl mb-4">
                 <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
             </div>
@@ -530,4 +545,3 @@
     </footer>
 </body>
 </html>
-
