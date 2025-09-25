@@ -27,8 +27,6 @@
         .text-glow {
             text-shadow: 0 0 10px #D8BFDA, 0 0 20px #D8BFDA;
         }
-
-        /* Animaciones para los elementos al entrar en la página */
         .animate-fade-in-up {
             animation: fadeInUp 1s ease-in-out;
             opacity: 0;
@@ -56,8 +54,7 @@
             from { opacity: 0; transform: translateX(20px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        
-        /* Animación de pulso para el título */
+        /* Nueva animación de pulso para el título y el botón vibrante */
         @keyframes pulse-animation {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -67,13 +64,79 @@
             animation: pulse-animation 2s infinite;
         }
 
-        /* Nueva animación de brillo */
+        /* Nueva animación de brillo avanzado para los títulos */
         @keyframes twinkle-glow {
             0%, 100% { text-shadow: 0 0 5px #BD8FE2, 0 0 10px #D8BFDA, 0 0 15px #EFE9FF; }
             50% { text-shadow: 0 0 10px #BD8FE2, 0 0 20px #D8BFDA, 0 0 30px #EFE9FF; }
         }
         .animate-twinkle {
             animation: twinkle-glow 2s ease-in-out infinite;
+        }
+
+        /* Nueva animación para el brillo del botón */
+        @keyframes button-glow {
+            0%, 100% { box-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 30px #a855f7; }
+            50% { box-shadow: 0 0 20px #a855f7, 0 0 30px #a855f7, 0 0 40px #a855f7; }
+        }
+
+        /* Estilo para el botón de WhatsApp vibrante */
+        .cta-button-vibrant {
+            background-color: #a855f7; /* Color principal morado */
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 9999px;
+            padding: 1rem 2.5rem;
+            transition: all 0.3s ease;
+            animation: pulse-animation 2s infinite, button-glow 3s infinite;
+        }
+        .cta-button-vibrant:hover {
+            transform: scale(1.05);
+            background-color: #9333ea;
+        }
+        /* Nuevo estilo para el botón de 'Explorar lecturas' */
+        .cta-explore-vibrant {
+            background: linear-gradient(to right, #6b46c1, #805ad5);
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 9999px;
+            padding: 1rem 2.5rem;
+            transition: all 0.3s ease;
+            animation: pulse-animation 2s infinite;
+            box-shadow: 0 0 10px rgba(128, 90, 213, 0.7), 0 0 20px rgba(128, 90, 213, 0.4);
+        }
+        .cta-explore-vibrant:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, #805ad5, #6b46c1);
+            box-shadow: 0 0 15px rgba(128, 90, 213, 0.9), 0 0 30px rgba(128, 90, 213, 0.6);
+        }
+
+        /* Nuevos estilos para los botones del encabezado */
+        .header-cta-button {
+            background-color: #9d68e8;
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 9999px;
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+        }
+        .header-cta-button.contact {
+            background-color: #7c22a7; /* Un morado más oscuro y vibrante para contacto */
+            animation: button-glow 3s infinite;
+        }
+        .header-cta-button.social {
+            background-color: #b792f9; /* Un morado más claro para redes sociales */
+            animation: button-glow 3s infinite;
+        }
+        
+        .header-cta-button:hover {
+            transform: scale(1.05);
+            background-color: #b792f9;
+        }
+        .header-cta-button.contact:hover {
+            background-color: #6a1b9a;
+        }
+        .header-cta-button.social:hover {
+            background-color: #a855f7;
         }
         
         /* Fondo del encabezado y efecto de brillo */
@@ -105,18 +168,6 @@
         }
         .card-container:hover {
             transform: translateY(-5px);
-        }
-        .cta-button {
-            background-color: #9d68e8;
-            color: #ffffff;
-            font-weight: bold;
-            border-radius: 9999px;
-            padding: 1rem 2.5rem;
-            transition: all 0.3s ease;
-        }
-        .cta-button:hover {
-            background-color: #b792f9;
-            transform: scale(1.05);
         }
         
         /* Nuevo estilo para la carta sin imagen */
@@ -437,9 +488,17 @@
             <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up" style="animation-delay: 0.5s;">
                 Adriano te guiará en tu camino espiritual, ofreciéndote claridad y sabiduría a través del tarot y oráculos ancestrales.
             </p>
-            <a href="#services" class="cta-button mt-8 inline-block animate-fade-in-up" style="animation-delay: 1s;">
-                Explorar lecturas
-            </a>
+            <div class="flex justify-center items-center gap-4 mt-8 animate-fade-in-up" style="animation-delay: 1s;">
+                <a href="#services" class="cta-explore-vibrant inline-block">
+                    <i class="fas fa-book-open mr-2"></i> Explorar lecturas
+                </a>
+                <a href="#contact" class="header-cta-button contact">
+                    <i class="fas fa-id-card-alt mr-2"></i> Contacto
+                </a>
+                <a href="#social-media" class="header-cta-button social">
+                    <i class="fas fa-share-alt mr-2"></i> Redes Sociales
+                </a>
+            </div>
         </div>
     </header>
 
@@ -528,7 +587,9 @@
 
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
         <div class="container mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">Conecta conmigo</h2>
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
+                Conecta conmigo
+            </h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
@@ -543,12 +604,21 @@
         </div>
     </section>
 
-    <footer class="py-10 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 2s;">
+    <section id="social-media" class="section-background py-20 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 1.8s;">
         <div class="container mx-auto">
-            <div class="flex justify-center space-x-6 text-4xl mb-4">
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
+                Mis redes sociales
+            </h2>
+            <p class="text-white/80 mb-6">Conéctate conmigo y mantente al día con todas las novedades del universo esotérico.</p>
+            <div id="social-media-links" class="flex justify-center space-x-6 text-4xl mt-8">
                 <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
             </div>
+        </div>
+    </section>
+
+    <footer class="py-10 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 2s;">
+        <div class="container mx-auto">
             <p class="text-white/60 text-sm">&copy; 1979 Adriano Tarotista Profesional. Todos los derechos reservados.</p>
         </div>
     </footer>
