@@ -203,20 +203,26 @@
             text-align: center;
         }
         
-        /* Estilo para el nuevo botón rojo mate con brillo */
+        /* Nuevos estilos para los botones rojos */
+        @keyframes pulse-red-vibrant {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 40px rgba(255, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3); }
+        }
+
         .cta-button-red {
-            background-color: #963d3d;
+            background-color: #cc0000;
             color: #ffffff;
             font-weight: bold;
             border-radius: 9999px;
             padding: 1rem 2.5rem;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: pulse-red-vibrant 2s infinite;
         }
         .cta-button-red:hover {
-            background-color: #b05c5c;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.4), 0 0 45px rgba(255, 255, 255, 0.2);
+            background-color: #ff3333;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.7), 0 0 30px rgba(255, 51, 51, 0.4), 0 0 45px rgba(255, 51, 51, 0.2);
         }
         
         /* Iconos astrológicos */
@@ -474,7 +480,7 @@
                     <p class="text-white/80 text-center">${cardMessage}</p>
                     <div class="mt-8 text-center animate-fade-in-up">
                         <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
-                        <a href="#contact" class="inline-block px-8 py-4 bg-purple-500 text-white font-bold rounded-full hover:bg-purple-600 transition duration-300">
+                        <a href="#contact" class="cta-button-red inline-block">
                             Agendar Lectura
                         </a>
                     </div>
@@ -592,11 +598,11 @@
                 <p class="text-white/80 mb-6 animate-fade-in-up">
                     Haz click en el botón para que el universo te entregue un mensaje aleatorio.
                 </p>
-                <button id="draw-card-btn" class="cta-button-red mb-8 animate-fade-in-up">
+                <button id="draw-card-btn" class="cta-button-red mb-8">
                     Revelar mi mensaje
                 </button>
                 <div id="card-of-the-day-container">
-                    </div>
+                </div>
             </div>
         </div>
     </section>
