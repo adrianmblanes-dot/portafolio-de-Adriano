@@ -73,10 +73,22 @@
             animation: twinkle-glow 2s ease-in-out infinite;
         }
 
-        /* Nueva animación para el brillo del botón */
+        /* Nueva animación de brillo para los botones de las redes sociales */
         @keyframes button-glow {
             0%, 100% { box-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 30px #a855f7; }
             50% { box-shadow: 0 0 20px #a855f7, 0 0 30px #a855f7, 0 0 40px #a855f7; }
+        }
+        
+        /* Nueva animación de super-brillo para el botón de contacto */
+        @keyframes super-glow {
+            0%, 100% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #bd8fe2, 0 0 40px #bd8fe2, 0 0 60px #bd8fe2; 
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 0 30px #bd8fe2, 0 0 50px #bd8fe2, 0 0 80px #bd8fe2; 
+            }
         }
 
         /* Estilo para el botón de WhatsApp vibrante */
@@ -95,24 +107,23 @@
         }
         /* Nuevo estilo para el botón de 'Explorar lecturas' */
         .cta-explore-vibrant {
-            background: linear-gradient(to right, #6b46c1, #805ad5);
+            background: linear-gradient(to right, #e933d0, #b833e9);
             color: #ffffff;
             font-weight: bold;
             border-radius: 9999px;
-            padding: 1rem 2.5rem;
+            padding: 0.75rem 1.75rem; /* Ajuste del tamaño */
             transition: all 0.3s ease;
             animation: pulse-animation 2s infinite;
-            box-shadow: 0 0 10px rgba(128, 90, 213, 0.7), 0 0 20px rgba(128, 90, 213, 0.4);
+            box-shadow: 0 0 10px rgba(233, 51, 208, 0.7), 0 0 20px rgba(184, 51, 233, 0.4);
         }
         .cta-explore-vibrant:hover {
             transform: scale(1.05);
-            background: linear-gradient(to right, #805ad5, #6b46c1);
-            box-shadow: 0 0 15px rgba(128, 90, 213, 0.9), 0 0 30px rgba(128, 90, 213, 0.6);
+            background: linear-gradient(to right, #b833e9, #e933d0);
+            box-shadow: 0 0 15px rgba(233, 51, 208, 0.9), 0 0 30px rgba(184, 51, 233, 0.6);
         }
 
         /* Nuevos estilos para los botones del encabezado */
         .header-cta-button {
-            background-color: #9d68e8;
             color: #ffffff;
             font-weight: bold;
             border-radius: 9999px;
@@ -121,11 +132,12 @@
         }
         .header-cta-button.contact {
             background-color: #7c22a7; /* Un morado más oscuro y vibrante para contacto */
-            animation: button-glow 3s infinite;
+            animation: super-glow 3s infinite;
+            font-weight: 700;
         }
         .header-cta-button.social {
-            background-color: #b792f9; /* Un morado más claro para redes sociales */
-            animation: button-glow 3s infinite;
+            background-color: #008080; /* Un turquesa profundo para redes sociales */
+            animation: pulse-animation 2s infinite;
         }
         
         .header-cta-button:hover {
@@ -136,7 +148,7 @@
             background-color: #6a1b9a;
         }
         .header-cta-button.social:hover {
-            background-color: #a855f7;
+            background-color: #00a8a8;
         }
         
         /* Fondo del encabezado y efecto de brillo */
@@ -224,12 +236,40 @@
             background-color: #ff3333;
             box-shadow: 0 0 15px rgba(255, 51, 51, 0.7), 0 0 30px rgba(255, 51, 51, 0.4), 0 0 45px rgba(255, 51, 51, 0.2);
         }
+
+        /* Estilos para el botón turquesa */
+        .cta-button-turquesa {
+            background-color: #00A3A8;
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 9999px;
+            padding: 1rem 2.5rem;
+            transition: all 0.3s ease;
+            animation: pulse-animation 2s infinite;
+        }
+        .cta-button-turquesa:hover {
+            transform: scale(1.05);
+            background-color: #00BFBF;
+            box-shadow: 0 0 15px rgba(0, 191, 191, 0.7), 0 0 30px rgba(0, 191, 191, 0.4);
+        }
         
         /* Iconos astrológicos */
         .astrology-icon {
             color: #FFD700;
             font-size: 1.5rem;
             margin: 0 0.5rem;
+        }
+        
+        /* Nueva animación de pulso y brillo para íconos */
+        @keyframes icon-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .icon-pulse-glow {
+            animation: icon-pulse 2s infinite;
+            text-shadow: 0 0 5px #EFE9FF, 0 0 10px #EFE9FF, 0 0 15px #EFE9FF;
         }
 
         /* Media query para ajustar estilos en pantallas pequeñas */
@@ -473,14 +513,14 @@
             cardContainer.innerHTML = `
                 <div class="tarot-card-content animate-fade-in-up">
                     <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                        <i class="${randomCard.icon} ${randomCard.color} text-3xl"></i>
+                        <i class="${randomCard.icon} ${randomCard.color} text-3xl icon-pulse-glow"></i>
                         ${randomCard.name}
                     </h5>
                     <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
                     <p class="text-white/80 text-center">${cardMessage}</p>
                     <div class="mt-8 text-center animate-fade-in-up">
                         <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
-                        <a href="#contact" class="cta-button-red inline-block">
+                        <a href="#contact" class="cta-button-turquesa inline-block">
                             Agendar Lectura
                         </a>
                     </div>
@@ -501,11 +541,11 @@
     <header id="home" class="hero-background text-center py-20 px-6 sm:px-10 md:py-40 flex items-center justify-center">
         <div class="relative z-10 max-w-4xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up">
-                <i class="fas fa-sun astrology-icon"></i>
-                <i class="fas fa-moon astrology-icon"></i>
+                <i class="fas fa-sun astrology-icon icon-pulse-glow"></i>
+                <i class="fas fa-moon astrology-icon icon-pulse-glow"></i>
                 Descubre tu destino con los Tarots y Oráculos de Adriano
-                <i class="fas fa-star astrology-icon"></i>
-                <i class="fas fa-crystal-ball astrology-icon"></i>
+                <i class="fas fa-star astrology-icon icon-pulse-glow"></i>
+                <i class="fas fa-crystal-ball astrology-icon icon-pulse-glow"></i>
             </h1>
             <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up" style="animation-delay: 0.5s;">
                 Adriano te guiará en tu camino espiritual, ofreciéndote claridad y sabiduría a través del tarot y oráculos ancestrales.
@@ -530,7 +570,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
                     <div class="text-5xl mb-4">
-                        <i class="fas fa-gem text-yellow-400"></i>
+                        <i class="fas fa-gem text-yellow-400 icon-pulse-glow"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white">Lectura de Tarot General</h3>
                     <p class="text-white/80">
@@ -539,7 +579,7 @@
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
                     <div class="text-5xl mb-4">
-                        <i class="fas fa-heart text-pink-400"></i>
+                        <i class="fas fa-heart text-pink-400 icon-pulse-glow"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white">Lectura de Amor</h3>
                     <p class="text-white/80">
@@ -548,7 +588,7 @@
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
                     <div class="text-5xl mb-4">
-                        <i class="fas fa-wand-magic-sparkles text-orange-500"></i>
+                        <i class="fas fa-wand-magic-sparkles text-orange-500 icon-pulse-glow"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white">Lectura de Trabajo</h3>
                     <p class="text-white/80">
@@ -562,13 +602,13 @@
     <section id="about" class="section-background animate-fade-in-up" style="animation-delay: 0.5s;">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle">
-                <i class="fas fa-star text-yellow-300"></i>
-                <i class="fas fa-moon text-indigo-400"></i>
-                <i class="fas fa-sun text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-300 icon-pulse-glow"></i>
+                <i class="fas fa-moon text-indigo-400 icon-pulse-glow"></i>
+                <i class="fas fa-sun text-yellow-400 icon-pulse-glow"></i>
                 Agenda tu Lectura
-                <i class="fas fa-star text-yellow-300"></i>
-                <i class="fas fa-moon text-indigo-400"></i>
-                <i class="fas fa-sun text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-300 icon-pulse-glow"></i>
+                <i class="fas fa-moon text-indigo-400 icon-pulse-glow"></i>
+                <i class="fas fa-sun text-yellow-400 icon-pulse-glow"></i>
             </h2>
             <p class="text-xl md:text-2xl font-semibold text-purple-500 mb-6 animate-fade-in-up" style="color: #9d68e8; animation-delay: 0.2s;">
                 Un Viaje de Conexión y Sabiduría
@@ -589,11 +629,11 @@
         <div class="container mx-auto px-6 py-16 text-center">
             <div class="mystic-frame">
                 <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-pulse">
-                    <i class="fas fa-gem astrology-icon"></i>
-                    <i class="fas fa-crystal-ball astrology-icon"></i>
+                    <i class="fas fa-gem astrology-icon icon-pulse-glow"></i>
+                    <i class="fas fa-crystal-ball astrology-icon icon-pulse-glow"></i>
                     Tu Carta del Día
-                    <i class="fas fa-star astrology-icon"></i>
-                    <i class="fas fa-feather-alt astrology-icon"></i>
+                    <i class="fas fa-star astrology-icon icon-pulse-glow"></i>
+                    <i class="fas fa-feather-alt astrology-icon icon-pulse-glow"></i>
                 </h2>
                 <p class="text-white/80 mb-6 animate-fade-in-up">
                     Haz click en el botón para que el universo te entregue un mensaje aleatorio.
@@ -610,14 +650,16 @@
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
         <div class="container mx-auto max-w-md">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
+                <i class="fas fa-crystal-ball text-purple-400"></i>
                 Conecta conmigo
+                <i class="fas fa-star text-yellow-400"></i>
             </h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
             <div class="flex flex-col justify-center items-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
-                <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="inline-block w-full px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
-                    <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
+                <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="inline-block w-full px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105 animate-pulse">
+                    <i class="fab fa-whatsapp mr-2 icon-pulse-glow"></i> Contactar por WhatsApp
                 </a>
                 <a href="mailto:adrianmblanes@gmail.com" class="inline-block w-full px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105" style="background-color: #9d68e8; hover:bg-color: #b792f9;">
                     <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
@@ -633,8 +675,8 @@
             </h2>
             <p class="text-white/80 mb-6">Conéctate conmigo y mantente al día con todas las novedades del universo esotérico.</p>
             <div id="social-media-links" class="flex justify-center space-x-6 text-4xl mt-8">
-                <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram icon-pulse-glow"></i></a>
+                <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok icon-pulse-glow"></i></a>
             </div>
         </div>
     </section>
