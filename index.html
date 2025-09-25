@@ -66,6 +66,15 @@
         .animate-pulse {
             animation: pulse-animation 2s infinite;
         }
+
+        /* Nueva animación de brillo */
+        @keyframes twinkle-glow {
+            0%, 100% { text-shadow: 0 0 5px #BD8FE2, 0 0 10px #D8BFDA, 0 0 15px #EFE9FF; }
+            50% { text-shadow: 0 0 10px #BD8FE2, 0 0 20px #D8BFDA, 0 0 30px #EFE9FF; }
+        }
+        .animate-twinkle {
+            animation: twinkle-glow 2s ease-in-out infinite;
+        }
         
         /* Fondo del encabezado y efecto de brillo */
         .hero-background {
@@ -471,7 +480,7 @@
 
     <section id="about" class="section-background animate-fade-in-up" style="animation-delay: 0.5s;">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle">
                 <i class="fas fa-star text-yellow-300"></i>
                 <i class="fas fa-moon text-indigo-400"></i>
                 <i class="fas fa-sun text-yellow-400"></i>
@@ -519,7 +528,7 @@
 
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
         <div class="container mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-fade-in-up">Conecta conmigo</h2>
+            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">Conecta conmigo</h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
