@@ -54,7 +54,6 @@
             from { opacity: 0; transform: translateX(20px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        
         /* Nueva animación de pulso para el título y el botón vibrante */
         @keyframes pulse-animation {
             0% { transform: scale(1); }
@@ -64,6 +63,7 @@
         .animate-pulse {
             animation: pulse-animation 2s infinite;
         }
+
         /* Nueva animación de brillo avanzado para los títulos */
         @keyframes twinkle-glow {
             0%, 100% { text-shadow: 0 0 5px #BD8FE2, 0 0 10px #D8BFDA, 0 0 15px #EFE9FF; }
@@ -72,12 +72,13 @@
         .animate-twinkle {
             animation: twinkle-glow 2s ease-in-out infinite;
         }
+
         /* Nueva animación para el brillo del botón */
         @keyframes button-glow {
             0%, 100% { box-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 30px #a855f7; }
             50% { box-shadow: 0 0 20px #a855f7, 0 0 30px #a855f7, 0 0 40px #a855f7; }
         }
-        
+
         /* Estilo para el botón de WhatsApp vibrante */
         .cta-button-vibrant {
             background-color: #a855f7; /* Color principal morado */
@@ -108,7 +109,7 @@
             background: linear-gradient(to right, #805ad5, #6b46c1);
             box-shadow: 0 0 15px rgba(128, 90, 213, 0.9), 0 0 30px rgba(128, 90, 213, 0.6);
         }
-        
+
         /* Nuevos estilos para los botones del encabezado */
         .header-cta-button {
             background-color: #9d68e8;
@@ -203,7 +204,7 @@
         }
         
         /* Estilo para el nuevo botón rojo mate con brillo */
-        .cta-button-red-vibrant {
+        .cta-button-red {
             background-color: #963d3d;
             color: #ffffff;
             font-weight: bold;
@@ -211,29 +212,11 @@
             padding: 1rem 2.5rem;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
-            animation: pulse-animation 2s infinite;
         }
-        .cta-button-red-vibrant:hover {
+        .cta-button-red:hover {
             background-color: #b05c5c;
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.4), 0 0 45px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Nuevo estilo para el botón de 'Agendar Lectura' que aparece en la carta del día */
-        .cta-agendar-vibrant {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
-            color: #ffffff;
-            font-weight: bold;
-            border-radius: 9999px;
-            padding: 1rem 2.5rem;
-            transition: all 0.3s ease;
-            animation: pulse-animation 2s infinite;
-            box-shadow: 0 0 10px rgba(255, 75, 43, 0.7), 0 0 20px rgba(255, 75, 43, 0.4);
-        }
-        .cta-agendar-vibrant:hover {
-            transform: scale(1.05);
-            background: linear-gradient(to right, #ff4b2b, #ff416c);
-            box-shadow: 0 0 15px rgba(255, 75, 43, 0.9), 0 0 30px rgba(255, 75, 43, 0.6);
         }
         
         /* Iconos astrológicos */
@@ -241,6 +224,22 @@
             color: #FFD700;
             font-size: 1.5rem;
             margin: 0 0.5rem;
+        }
+
+        /* Media query para ajustar estilos en pantallas pequeñas */
+        @media (max-width: 767px) {
+            .hero-background h1 {
+                font-size: 2.5rem; /* Ajusta el tamaño del título principal en móviles */
+            }
+            .hero-background p {
+                font-size: 1rem; /* Ajusta el tamaño del texto principal en móviles */
+            }
+            .header-cta-button {
+                padding: 0.5rem 1.5rem; /* Reduce el padding de los botones del header */
+            }
+            .cta-explore-vibrant {
+                padding: 0.75rem 1.5rem; /* Reduce el padding del botón principal */
+            }
         }
     </style>
     
@@ -475,7 +474,7 @@
                     <p class="text-white/80 text-center">${cardMessage}</p>
                     <div class="mt-8 text-center animate-fade-in-up">
                         <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
-                        <a href="#contact" class="cta-agendar-vibrant inline-block">
+                        <a href="#contact" class="inline-block px-8 py-4 bg-purple-500 text-white font-bold rounded-full hover:bg-purple-600 transition duration-300">
                             Agendar Lectura
                         </a>
                     </div>
@@ -505,7 +504,7 @@
             <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up" style="animation-delay: 0.5s;">
                 Adriano te guiará en tu camino espiritual, ofreciéndote claridad y sabiduría a través del tarot y oráculos ancestrales.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 animate-fade-in-up" style="animation-delay: 1s;">
+            <div class="flex flex-wrap justify-center items-center gap-4 mt-8 animate-fade-in-up" style="animation-delay: 1s;">
                 <a href="#services" class="cta-explore-vibrant inline-block">
                     <i class="fas fa-book-open mr-2"></i> Explorar lecturas
                 </a>
@@ -593,7 +592,7 @@
                 <p class="text-white/80 mb-6 animate-fade-in-up">
                     Haz click en el botón para que el universo te entregue un mensaje aleatorio.
                 </p>
-                <button id="draw-card-btn" class="cta-button-red-vibrant mb-8 animate-fade-in-up">
+                <button id="draw-card-btn" class="cta-button-red mb-8 animate-fade-in-up">
                     Revelar mi mensaje
                 </button>
                 <div id="card-of-the-day-container">
@@ -603,18 +602,18 @@
     </section>
 
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
-        <div class="container mx-auto">
+        <div class="container mx-auto max-w-md">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
                 Conecta conmigo
             </h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
-                <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="flex-1 w-full inline-block px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
+            <div class="flex flex-col justify-center items-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="inline-block w-full px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105">
                     <i class="fab fa-whatsapp mr-2"></i> Contactar por WhatsApp
                 </a>
-                <a href="mailto:adrianmblanes@gmail.com" class="flex-1 w-full inline-block px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105" style="background-color: #9d68e8; hover:bg-color: #b792f9;">
+                <a href="mailto:adrianmblanes@gmail.com" class="inline-block w-full px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105" style="background-color: #9d68e8; hover:bg-color: #b792f9;">
                     <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
                 </a>
             </div>
