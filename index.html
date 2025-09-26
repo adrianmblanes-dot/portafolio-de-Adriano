@@ -271,6 +271,37 @@
             animation: icon-pulse 2s infinite;
             text-shadow: 0 0 5px #EFE9FF, 0 0 10px #EFE9FF, 0 0 15px #EFE9FF;
         }
+        
+        /* Nuevo estilo para precios con brillo tenue y titilante */
+        @keyframes tenuous-glow {
+            0%, 100% { 
+                text-shadow: 0 0 5px #FFD700, 0 0 10px rgba(255, 215, 0, 0.5);
+                opacity: 1;
+            }
+            50% { 
+                text-shadow: 0 0 8px #FFD700, 0 0 15px rgba(255, 215, 0, 0.7);
+                opacity: 0.9;
+            }
+        }
+
+        .price-tag {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #FFD700; /* Oro para el precio */
+            /* Aplicar la nueva animación */
+            animation: tenuous-glow 2s ease-in-out infinite;
+        }
+        
+        .price-link {
+            display: block; /* Hace que el área de clic cubra el bloque de precio */
+            margin-top: 1rem;
+            text-decoration: none; /* Quita el subrayado del enlace */
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .price-link:hover {
+            transform: scale(1.05); /* Agrega un pequeño efecto al pasar el mouse */
+        }
 
         /* Media query para ajustar estilos en pantallas pequeñas */
         @media (max-width: 767px) {
@@ -285,6 +316,22 @@
             }
             .cta-explore-vibrant {
                 padding: 0.75rem 1.5rem; /* Reduce el padding del botón principal */
+            }
+            /* Ajuste para la cuadrícula de servicios en móvil */
+            .grid-services-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Ajuste de cuadrícula para 5 elementos: 3 en escritorio, 2 en tablet, 1 en móvil */
+        @media (min-width: 1024px) { /* Large screens (desktop) */
+            .grid-services-layout {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) { /* Medium screens (tablet) */
+            .grid-services-layout {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
     </style>
@@ -567,33 +614,78 @@
     <section id="services" class="section-background animate-fade-in-up">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid grid-services-layout gap-8">
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
                     <div class="text-5xl mb-4">
                         <i class="fas fa-gem text-yellow-400 icon-pulse-glow"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Lectura de Tarot General</h3>
+                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Tarot General</h3>
+                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                    </p>
                     <p class="text-white/80">
                         Una visión completa de tu vida: amor, trabajo, finanzas y espiritualidad. Te guiaré en cada paso para que tomes las mejores decisiones.
                     </p>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD)." class="price-link">
+                        <span class="price-tag">10.000 ARS / 10 USD</span>
+                    </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
                     <div class="text-5xl mb-4">
                         <i class="fas fa-heart text-pink-400 icon-pulse-glow"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Lectura de Amor</h3>
+                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Amor</h3>
+                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                    </p>
                     <p class="text-white/80">
                         Descubre lo que el universo tiene preparado para tu corazón. Aclara tus dudas en el amor, relaciones y vínculos emocionales.
                     </p>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD)." class="price-link">
+                        <span class="price-tag">9.000 ARS / 10 USD</span>
+                    </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
                     <div class="text-5xl mb-4">
                         <i class="fas fa-wand-magic-sparkles text-orange-500 icon-pulse-glow"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Lectura de Trabajo</h3>
+                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Trabajo/Proyectos</h3>
+                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                    </p>
                     <p class="text-white/80">
                         Enfoca tu energía laboral. Resuelve conflictos, toma decisiones de carrera y encuentra tu verdadera vocación con una guía precisa.
                     </p>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD)." class="price-link">
+                        <span class="price-tag">8.500 ARS / 8 USD</span>
+                    </a>
+                </div>
+                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.8s;">
+                    <div class="text-5xl mb-4">
+                        <i class="fas fa-mask text-red-600 icon-pulse-glow"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Magias o Trabajos</h3>
+                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                    </p>
+                    <p class="text-white/80">
+                        ¿Sientes energías que te bloquean? Identifica si hay trabajos energéticos o de magia que están afectando tu vida y cómo contrarrestarlos.
+                    </p>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD)." class="price-link">
+                        <span class="price-tag">10.000 ARS / 10 USD</span>
+                    </a>
+                </div>
+                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 1.0s;">
+                    <div class="text-5xl mb-4">
+                        <i class="fas fa-chalkboard-teacher text-cyan-400 icon-pulse-glow"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Sesión de Tarot 1 Hora + Coaching</h3>
+                    <p class="text-white/80">
+                        Una sesión profunda de **60 minutos con preguntas ilimitadas**. Incluye acompañamiento de Coaching Ontológico para encontrar las respuestas y un plan de acción.
+                    </p>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD)." class="price-link">
+                        <span class="price-tag">50.000 ARS / 25 USD</span>
+                    </a>
                 </div>
             </div>
         </div>
