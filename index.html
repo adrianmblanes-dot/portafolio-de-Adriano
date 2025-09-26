@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
     <style>
         /* Estilos CSS personalizados */
@@ -463,6 +463,32 @@
             filter: blur(1px); /* Suavizar el ícono */
             animation: slow-spin 120s linear infinite;
         }
+
+        /* ========================================================== */
+        /* == ESTILOS PARA ÍCONOS DE ESCORPIO Y CÁNCER VIBRANTES == */
+        /* ========================================================== */
+        
+        @keyframes wiggle {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(3deg) scale(1.05); }
+            50% { transform: rotate(-3deg) scale(1.05); }
+            75% { transform: rotate(3deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+
+        .icon-wiggle-scorpio {
+            /* Color rojo/granate para Escorpio, más oscuro que el rojo normal */
+            color: #b91c1c; 
+            animation: wiggle 2s ease-in-out infinite, icon-pulse 2s infinite; 
+            text-shadow: 0 0 10px #f87171, 0 0 20px #dc2626; /* Brillo rojizo */
+        }
+
+        .icon-wiggle-cancer {
+            /* Color azul/cian para Cáncer, más vibrante */
+            color: #06b6d4; 
+            animation: wiggle 2s ease-in-out infinite 0.5s, icon-pulse 2s infinite 0.5s; /* Animación ligeramente desfasada */
+            text-shadow: 0 0 10px #67e8f9, 0 0 20px #0891b2; /* Brillo cian */
+        }
         
     </style>
     
@@ -731,7 +757,7 @@
             <h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up relative z-20">
                 <i class="fas fa-sun astrology-icon icon-pulse-glow"></i>
                 <i class="fas fa-moon astrology-icon icon-pulse-glow"></i>
-                Descubre tu destino con los Tarots y Oráculos de Adriano
+                Bienvenido al Tarot de Adriano. Tu brújula interior
                 <i class="fas fa-star astrology-icon icon-pulse-glow"></i>
                 <i class="fas fa-feather-alt astrology-icon icon-pulse-glow"></i>
             </h1>
@@ -937,9 +963,9 @@
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
         <div class="container mx-auto max-w-md">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
-                <i class="fas fa-scorpion text-red-800 text-4xl icon-pulse-glow mx-2"></i>
+                <i class="fas fa-scorpion fa-fw text-4xl mx-2 icon-wiggle-scorpio"></i>
                 Conecta conmigo
-                <i class="fas fa-cancer text-blue-400 text-4xl icon-pulse-glow mx-2"></i>
+                <i class="fas fa-cancer fa-fw text-4xl mx-2 icon-wiggle-cancer"></i>
             </h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
