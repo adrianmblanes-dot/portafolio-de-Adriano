@@ -14,7 +14,7 @@
     
     <style>
         /* Estilos CSS personalizados */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght+400;700&family=Montserrat:wght+300;400;700&display=swap');
         
         body {
             font-family: 'Montserrat', sans-serif;
@@ -213,6 +213,7 @@
             border: 2px solid #9d68e8;
             box-shadow: 0 0 15px rgba(189, 143, 226, 0.5), 0 0 30px rgba(189, 143, 226, 0.3);
             text-align: center;
+            overflow: hidden; /* Asegura que los íconos de fondo no se salgan */
         }
         
         /* Nuevos estilos para los botones rojos */
@@ -370,6 +371,99 @@
         }
         /* Fin de estilos para íconos de pago */
 
+        /* ========================================================== */
+        /* == NUEVOS ESTILOS PARA PAGOS Y COPIADO CON PULSE SUAVE == */
+        /* ========================================================== */
+        
+        /* Nuevo keyframes para pulso constante y suave */
+        @keyframes constant-gentle-pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 8px rgba(157, 104, 232, 0.2); 
+            }
+            50% { 
+                transform: scale(1.005); /* Muy sutil */
+                box-shadow: 0 0 12px rgba(157, 104, 232, 0.4); 
+            }
+        }
+
+        /* Keyframes para pulso de hover (más notorio) */
+        @keyframes subtle-hover-pulse {
+            0% { transform: scale(1.02); box-shadow: 0 0 10px rgba(157, 104, 232, 0.2); }
+            50% { transform: scale(1.04); box-shadow: 0 0 15px rgba(157, 104, 232, 0.5); }
+            100% { transform: scale(1.02); box-shadow: 0 0 10px rgba(157, 104, 232, 0.2); }
+        }
+        
+        .payment-box {
+            /* Aplica el pulso constante y armonioso */
+            animation: constant-gentle-pulse 4s infinite ease-in-out; 
+        }
+
+        .payment-box:hover {
+            /* Sobreescribe con el pulso más notorio y rápida en hover */
+            animation: subtle-hover-pulse 1.5s ease-in-out infinite; 
+            transform: scale(1.03) !important; 
+        }
+
+        .copy-action-group:hover .copy-icon {
+            color: #7c3aed; /* Color al hacer hover en el botón de copiar */
+            text-shadow: 0 0 5px #c4b5fd;
+        }
+
+        .copy-action-group:hover .copy-text {
+            color: #7c3aed;
+        }
+
+        /* ========================================================== */
+        /* == ESTILOS PARA EL ÍCONO DE ESCORPIO EN EL ENCABEZADO == */
+        /* ========================================================== */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .scorpio-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 80vh; /* Tamaño grande para llenar el fondo */
+            color: #BD8FE2; /* Un color morado místico */
+            transform: translate(-50%, -50%);
+            z-index: 0; /* Detrás del texto pero sobre el fondo oscuro */
+            animation: spin 60s linear infinite; /* Gira lentamente */
+            opacity: 0.1; /* Muy transparente */
+        }
+        
+        .hero-title-container {
+            position: relative;
+            z-index: 10; /* Asegura que el texto esté delante del icono */
+        }
+
+        /* ========================================================== */
+        /* == ESTILOS PARA ÍCONOS DE FONDO SUTILES DE CARTA DEL DÍA == */
+        /* ========================================================== */
+        
+        @keyframes slow-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .mystic-zodiac-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none; /* No bloquear clicks */
+        }
+
+        .mystic-zodiac-bg i {
+            position: absolute;
+            opacity: 0.05; /* Semi-transparente */
+            filter: blur(1px); /* Suavizar el ícono */
+            animation: slow-spin 120s linear infinite;
+        }
+        
     </style>
     
     <script>
@@ -421,7 +515,7 @@
                 icon: "fas fa-cross",
                 color: "text-purple-600",
                 positive: "El Hierofante representa la sabiduría, la tradición y la guía espiritual. Esta carta te invita a buscar un mentor o a confiar en las enseñanzas de un sistema de creencias que te dé seguridad. Es un mensaje de conformismo y de conexión con los valores que te sostienen.",
-                shadow: "En su lado de sombra, El Hierofante puede ser dogmático y rígido. Podrías estar siguiendo ciegamente las reglas sin cuestionarlas o sintiéndote atrapado en una tradición que ya no te sirve. La lección aquí es encontrar tu propia verdad, incluso si eso significa ir en contra de lo establecido.",
+                shadow: "En su lado de sombra, El Hierofante puede ser dogmático y rígido. Podrías estar siguiendo ciegamente las reglas sin cuestionarlas o sintiéndote atrapado en una tradición que ya no te sirve. Este es un llamado a encontrar tu propia verdad, incluso si eso significa ir en contra de lo establecido.",
             },
             {
                 name: "Los Enamorados",
@@ -631,18 +725,20 @@
 <body class="bg-dark-purple min-h-screen text-light-lavender">
 
     <header id="home" class="hero-background text-center py-20 px-6 sm:px-10 md:py-40 flex items-center justify-center">
-        <div class="relative z-10 max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up">
+        <div class="relative z-10 max-w-4xl mx-auto hero-title-container">
+            <i class="fas fa-scorpion scorpio-overlay hidden md:block" aria-hidden="true"></i>
+            
+            <h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up relative z-20">
                 <i class="fas fa-sun astrology-icon icon-pulse-glow"></i>
                 <i class="fas fa-moon astrology-icon icon-pulse-glow"></i>
                 Descubre tu destino con los Tarots y Oráculos de Adriano
                 <i class="fas fa-star astrology-icon icon-pulse-glow"></i>
-                <i class="fas fa-crystal-ball astrology-icon icon-pulse-glow"></i>
+                <i class="fas fa-feather-alt astrology-icon icon-pulse-glow"></i>
             </h1>
-            <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up" style="animation-delay: 0.5s;">
+            <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up relative z-20" style="animation-delay: 0.5s;">
                 Adriano te guiará en tu camino espiritual, ofreciéndote claridad y sabiduría a través del tarot y oráculos ancestrales.
             </p>
-            <div class="flex flex-wrap justify-center items-center gap-4 mt-8 animate-fade-in-up" style="animation-delay: 1s;">
+            <div class="flex flex-wrap justify-center items-center gap-4 mt-8 animate-fade-in-up relative z-20" style="animation-delay: 1s;">
                 <a href="#services" class="cta-explore-vibrant inline-block">
                     <i class="fas fa-book-open mr-2"></i> Explorar lecturas
                 </a>
@@ -799,21 +895,40 @@
 
     <section id="tarot-of-the-day" class="section-background animate-fade-in-up" style="animation-delay: 1s;">
         <div class="container mx-auto px-6 py-16 text-center">
-            <div class="mystic-frame">
-                <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-pulse">
-                    <i class="fas fa-gem astrology-icon icon-pulse-glow"></i>
-                    <i class="fas fa-crystal-ball astrology-icon icon-pulse-glow"></i>
-                    Tu Carta del Día
-                    <i class="fas fa-star astrology-icon icon-pulse-glow"></i>
-                    <i class="fas fa-feather-alt astrology-icon icon-pulse-glow"></i>
-                </h2>
-                <p class="text-white/80 mb-6 animate-fade-in-up">
-                    Haz click en el botón para que el universo te entregue un mensaje aleatorio.
-                </p>
-                <button id="draw-card-btn" class="cta-button-red mb-8">
-                    Revelar mi mensaje
-                </button>
-                <div id="card-of-the-day-container">
+            <div class="mystic-frame relative">
+                <div class="mystic-zodiac-bg">
+                    <i class="fas fa-mars text-red-500" style="top: 10%; left: 5%; font-size: 15vh; animation-duration: 40s; animation-delay: 0s;"></i>
+                    <i class="fas fa-venus text-green-500" style="top: 80%; left: 15%; font-size: 10vh; animation-duration: 50s; animation-delay: 5s;"></i>
+                    <i class="fas fa-gemini text-yellow-300" style="top: 5%; right: 5%; font-size: 20vh; animation-duration: 60s; animation-delay: 10s;"></i>
+                    <i class="fas fa-cancer text-blue-300" style="top: 75%; right: 10%; font-size: 12vh; animation-duration: 70s; animation-delay: 15s;"></i>
+                    <i class="fas fa-sun text-yellow-500" style="top: 50%; left: 5%; font-size: 18vh; animation-duration: 80s; animation-delay: 20s;"></i>
+                    <i class="fas fa-wheat-alt text-green-700" style="top: 20%; left: 30%; font-size: 11vh; animation-duration: 90s; animation-delay: 25s;"></i>
+                    <i class="fas fa-balance-scale text-pink-400" style="top: 90%; right: 40%; font-size: 16vh; animation-duration: 100s; animation-delay: 30s;"></i>
+                    <i class="fas fa-scorpion text-red-700" style="top: 50%; right: 20%; font-size: 9vh; animation-duration: 110s; animation-delay: 35s;"></i>
+                    <i class="fas fa-arrow-alt-circle-right text-purple-600" style="top: 15%; right: 35%; font-size: 14vh; animation-duration: 120s; animation-delay: 40s;"></i>
+                    <i class="fas fa-mountain text-gray-400" style="top: 70%; left: 30%; font-size: 13vh; animation-duration: 130s; animation-delay: 45s;"></i>
+                    <i class="fas fa-water text-cyan-400" style="top: 30%; right: 50%; font-size: 17vh; animation-duration: 140s; animation-delay: 50s;"></i>
+                    <i class="fas fa-fish text-blue-500" style="top: 60%; left: 45%; font-size: 10vh; animation-duration: 150s; animation-delay: 55s;"></i>
+                    <i class="fas fa-globe-americas text-indigo-400" style="top: 40%; right: 5%; font-size: 13vh; animation-duration: 95s; animation-delay: 12s;"></i>
+                    <i class="fas fa-ring text-gray-500" style="top: 25%; left: 55%; font-size: 8vh; animation-duration: 105s; animation-delay: 28s;"></i>
+                </div>
+                
+                <div class="relative z-10"> 
+                    <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-pulse flex items-center justify-center flex-wrap">
+                        <i class="fas fa-mars text-red-500 text-3xl icon-pulse-glow mx-2"></i>
+                        <i class="fas fa-balance-scale text-pink-400 text-3xl icon-pulse-glow mx-2"></i>
+                        Tu Carta del Día
+                        <i class="fas fa-sun text-yellow-500 text-3xl icon-pulse-glow mx-2"></i>
+                        <i class="fas fa-water text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
+                    </h2>
+                    <p class="text-white/80 mb-6 animate-fade-in-up">
+                        Haz click en el botón para que el universo te entregue un mensaje aleatorio.
+                    </p>
+                    <button id="draw-card-btn" class="cta-button-red mb-8">
+                        Revelar mi mensaje
+                    </button>
+                    <div id="card-of-the-day-container">
+                    </div>
                 </div>
             </div>
         </div>
@@ -822,9 +937,9 @@
     <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
         <div class="container mx-auto max-w-md">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
-                <i class="fas fa-crystal-ball text-purple-400"></i>
+                <i class="fas fa-scorpion text-red-800 text-4xl icon-pulse-glow mx-2"></i>
                 Conecta conmigo
-                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-cancer text-blue-400 text-4xl icon-pulse-glow mx-2"></i>
             </h2>
             <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
@@ -843,7 +958,7 @@
                     Métodos de Pago
                 </h3>
                 <div class="flex flex-col gap-4">
-                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transform hover:scale-105 transition duration-300">
+                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transition duration-300 payment-box">
                         <div class="flex items-center">
                             <i class="fas fa-qrcode text-3xl text-blue-600 mr-4 tenuous-pulse-glow-payment"></i>
                             <div>
@@ -851,9 +966,12 @@
                                 <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">adrianmblanes.mp</span></p>
                             </div>
                         </div>
-                        <i class="fas fa-copy cursor-pointer text-xl text-gray-400 hover:text-gray-600" onclick="copyToClipboard('adrianmblanes.mp', 'Mercado Pago')"></i>
+                        <div class="copy-action-group flex items-center cursor-pointer p-2 rounded-full hover:bg-gray-100 transition duration-300" onclick="copyToClipboard('adrianmblanes.mp', 'Mercado Pago')">
+                            <span class="text-xs font-semibold mr-2 text-gray-400 copy-text transition duration-300">Copy</span>
+                            <i class="fas fa-copy cursor-pointer text-xl text-gray-400 copy-icon transition duration-300"></i>
+                        </div>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transform hover:scale-105 transition duration-300">
+                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transition duration-300 payment-box">
                         <div class="flex items-center">
                             <i class="fab fa-paypal text-3xl text-blue-800 mr-4 tenuous-pulse-glow-payment"></i>
                             <div>
@@ -861,7 +979,10 @@
                                 <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">@AdrianBlanes1979</span></p>
                             </div>
                         </div>
-                        <i class="fas fa-copy cursor-pointer text-xl text-gray-400 hover:text-gray-600" onclick="copyToClipboard('@AdrianBlanes1979', 'PayPal')"></i>
+                        <div class="copy-action-group flex items-center cursor-pointer p-2 rounded-full hover:bg-gray-100 transition duration-300" onclick="copyToClipboard('@AdrianBlanes1979', 'PayPal')">
+                            <span class="text-xs font-semibold mr-2 text-gray-400 copy-text transition duration-300">Copy</span>
+                            <i class="fas fa-copy cursor-pointer text-xl text-gray-400 copy-icon transition duration-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
