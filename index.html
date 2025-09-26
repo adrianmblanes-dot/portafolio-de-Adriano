@@ -284,7 +284,7 @@
             }
         }
 
-        /* Nuevos estilos para el precio como botón de acción */
+        /* Nuevos estilos para el precio como botón de acción (CTA) */
         .price-cta-vibrant {
             display: flex;
             align-items: center;
@@ -299,6 +299,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 163, 168, 0.5);
+            /* Pulso para el botón completo */
+            animation: pulse-animation 2s infinite; 
         }
         .price-cta-vibrant:hover {
             transform: scale(1.05);
@@ -311,7 +313,7 @@
             font-weight: 700;
             color: #FFD700; /* Oro para el precio dentro del botón */
             margin-left: 0.5rem;
-            /* Se mantiene el brillo tenue en el precio */
+            /* Brillo titilante en el texto del precio */
             animation: tenuous-glow 2s ease-in-out infinite;
         }
         
@@ -345,6 +347,29 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* ========================================================== */
+        /* == NUEVOS ESTILOS PARA ÍCONOS DE PAGO CON BRILLO TENUE == */
+        /* ========================================================== */
+        
+        /* Nuevo estilo para íconos de pago con pulso y brillo tenue */
+        @keyframes tenuous-pulse-glow-payment-kf {
+            0%, 100% { 
+                transform: scale(1); 
+                /* Sutil brillo blanco-púrpura */
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(189, 143, 226, 0.3);
+            }
+            50% { 
+                transform: scale(1.03); 
+                /* Ligero pulso y más brillo */
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(189, 143, 226, 0.7);
+            }
+        }
+        .tenuous-pulse-glow-payment {
+            animation: tenuous-pulse-glow-payment-kf 3s infinite ease-in-out;
+        }
+        /* Fin de estilos para íconos de pago */
+
     </style>
     
     <script>
@@ -634,6 +659,33 @@
     <section id="services" class="section-background animate-fade-in-up">
         <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
             <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
+            
+            <div class="mystic-frame mb-12 p-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 flex items-center justify-center gap-3">
+                    <i class="fas fa-hand-holding-box text-4xl text-cyan-400 icon-pulse-glow"></i>
+                    Elegí el Método de Lectura que más te quede cómodo
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="p-4 rounded-lg border border-purple-400/50 bg-purple-900/50">
+                        <h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fas fa-mobile-alt text-2xl text-cyan-400 icon-pulse-glow"></i>
+                            Lectura por Mensajería (A Tu Ritmo)
+                        </h4>
+                        <p class="text-white/80 text-sm">
+                            **Ideal para preguntas específicas (General, Amor, Trabajo, Magia).** Te envío la **foto de la tirada** y un **audio detallado** con la interpretación completa. Podrás escuchar la respuesta a tu ritmo y volver a consultarla las veces que quieras.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-lg border border-purple-400/50 bg-purple-900/50">
+                        <h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fas fa-video text-2xl text-pink-400 icon-pulse-glow"></i>
+                            Sesión por Videollamada (En Vivo)
+                        </h4>
+                        <p class="text-white/80 text-sm">
+                            **Ideal para sesiones de 30 o 60 minutos con preguntas ilimitadas.** Conectamos en vivo por videollamada para una interacción inmediata y profundización en el momento, con guía de Coaching Ontológico.
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div class="grid grid-services-layout gap-8">
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
                     <div class="text-5xl mb-4">
@@ -641,14 +693,14 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Tarot General</h3>
                     <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
                     <p class="text-white/80">
-                        Una visión completa de tu vida: amor, trabajo, finanzas y espiritualidad. Te guiaré en cada paso para que tomes las mejores decisiones.
+                        Una visión completa de tu vida: amor, trabajo, finanzas y espiritualidad. Te guiaré en cada paso.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant">
-                        <i class="fab fa-whatsapp text-2xl"></i> 
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant flex-col">
                         <span class="price-tag-highlight">10.000 ARS / 10 USD</span>
+                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
@@ -657,30 +709,30 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Amor</h3>
                     <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
                     <p class="text-white/80">
-                        Descubre lo que el universo tiene preparado para tu corazón. Aclara tus dudas en el amor, relaciones y vínculos emocionales.
+                        Aclara tus dudas en el amor, relaciones y vínculos emocionales con la guía del tarot.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant">
-                        <i class="fab fa-whatsapp text-2xl"></i>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant flex-col">
                         <span class="price-tag-highlight">9.000 ARS / 10 USD</span>
+                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
                     <div class="text-5xl mb-4">
-                        <i class="fas fa-wand-magic-sparkles text-orange-500 icon-pulse-glow"></i>
+                        <i class="fas fa-briefcase text-orange-500 icon-pulse-glow"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Trabajo/Proyectos</h3>
                     <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
                     <p class="text-white/80">
-                        Enfoca tu energía laboral. Resuelve conflictos, toma decisiones de carrera y encuentra tu verdadera vocación con una guía precisa.
+                        Enfoca tu energía laboral. Resuelve conflictos, toma decisiones de carrera y encuentra tu vocación.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD)." class="price-cta-vibrant">
-                        <i class="fab fa-whatsapp text-2xl"></i>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD)." class="price-cta-vibrant flex-col">
                         <span class="price-tag-highlight">8.500 ARS / 8 USD</span>
+                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.8s;">
@@ -689,14 +741,14 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Magias o Trabajos</h3>
                     <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (Foto + Audio)
+                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
                     <p class="text-white/80">
-                        ¿Sientes energías que te bloquean? Identifica si hay trabajos energéticos o de magia que están afectando tu vida y cómo contrarrestarlos.
+                        Identifica si hay trabajos energéticos o de magia que te están bloqueando y cómo contrarrestarlos.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant">
-                        <i class="fab fa-whatsapp text-2xl"></i>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant flex-col">
                         <span class="price-tag-highlight">10.000 ARS / 10 USD</span>
+                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 1.0s;">
@@ -704,12 +756,15 @@
                         <i class="fas fa-chalkboard-teacher text-cyan-400 icon-pulse-glow"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4 text-white">Sesión de Tarot 1 Hora + Coaching</h3>
-                    <p class="text-white/80">
-                        Una sesión profunda de **60 minutos con preguntas ilimitadas**. Incluye acompañamiento de Coaching Ontológico para encontrar las respuestas y un plan de acción.
+                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+                        <i class="fas fa-video text-purple-300"></i> Vía Videollamada (En Vivo)
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD)." class="price-cta-vibrant">
-                        <i class="fab fa-whatsapp text-2xl"></i>
+                    <p class="text-white/80">
+                        Una sesión profunda de 60 minutos con preguntas ilimitadas por videollamada. Incluye Coaching.
+                    </p>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD)." class="price-cta-vibrant flex-col">
                         <span class="price-tag-highlight">50.000 ARS / 25 USD</span>
+                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
                     </a>
                 </div>
             </div>
@@ -790,7 +845,7 @@
                 <div class="flex flex-col gap-4">
                     <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transform hover:scale-105 transition duration-300">
                         <div class="flex items-center">
-                            <i class="fas fa-qrcode text-3xl text-blue-600 mr-4"></i>
+                            <i class="fas fa-qrcode text-3xl text-blue-600 mr-4 tenuous-pulse-glow-payment"></i>
                             <div>
                                 <p class="font-bold text-lg">Mercado Pago (Argentina)</p>
                                 <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">adrianmblanes.mp</span></p>
@@ -800,7 +855,7 @@
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transform hover:scale-105 transition duration-300">
                         <div class="flex items-center">
-                            <i class="fab fa-paypal text-3xl text-blue-800 mr-4"></i>
+                            <i class="fab fa-paypal text-3xl text-blue-800 mr-4 tenuous-pulse-glow-payment"></i>
                             <div>
                                 <p class="font-bold text-lg">PayPal (Fuera de Argentina)</p>
                                 <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">@AdrianBlanes1979</span></p>
