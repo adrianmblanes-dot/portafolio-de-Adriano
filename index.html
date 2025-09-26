@@ -284,25 +284,48 @@
             }
         }
 
-        .price-tag {
+        /* Nuevos estilos para el precio como botón de acción */
+        .price-cta-vibrant {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            padding: 0.75rem 1rem;
+            background-color: #00A8A8; /* Turquesa/Cyan para resaltar */
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 9999px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 163, 168, 0.5);
+        }
+        .price-cta-vibrant:hover {
+            transform: scale(1.05);
+            background-color: #00BFBF;
+            box-shadow: 0 0 15px rgba(0, 191, 191, 0.7);
+        }
+
+        .price-tag-highlight {
             font-size: 1.15rem;
             font-weight: 700;
-            color: #FFD700; /* Oro para el precio */
-            /* Aplicar la nueva animación */
+            color: #FFD700; /* Oro para el precio dentro del botón */
+            margin-left: 0.5rem;
+            /* Se mantiene el brillo tenue en el precio */
             animation: tenuous-glow 2s ease-in-out infinite;
         }
         
-        .price-link {
-            display: block; /* Hace que el área de clic cubra el bloque de precio */
-            margin-top: 1rem;
-            text-decoration: none; /* Quita el subrayado del enlace */
-            cursor: pointer;
-            transition: transform 0.2s ease;
+        /* Ajuste de cuadrícula para 5 elementos: 3 en escritorio, 2 en tablet, 1 en móvil */
+        @media (min-width: 1024px) { /* Large screens (desktop) */
+            .grid-services-layout {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
         }
-        .price-link:hover {
-            transform: scale(1.05); /* Agrega un pequeño efecto al pasar el mouse */
+        @media (min-width: 768px) and (max-width: 1023px) { /* Medium screens (tablet) */
+            .grid-services-layout {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
-
         /* Media query para ajustar estilos en pantallas pequeñas */
         @media (max-width: 767px) {
             .hero-background h1 {
@@ -317,21 +340,9 @@
             .cta-explore-vibrant {
                 padding: 0.75rem 1.5rem; /* Reduce el padding del botón principal */
             }
-            /* Ajuste para la cuadrícula de servicios en móvil */
+             /* Ajuste para la cuadrícula de servicios en móvil */
             .grid-services-layout {
                 grid-template-columns: 1fr;
-            }
-        }
-
-        /* Ajuste de cuadrícula para 5 elementos: 3 en escritorio, 2 en tablet, 1 en móvil */
-        @media (min-width: 1024px) { /* Large screens (desktop) */
-            .grid-services-layout {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-        @media (min-width: 768px) and (max-width: 1023px) { /* Medium screens (tablet) */
-            .grid-services-layout {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
     </style>
@@ -575,6 +586,15 @@
             `;
         };
 
+        const copyToClipboard = (text, type) => {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`¡Copiado! Alias de ${type} copiado al portapapeles: ${text}`);
+            }).catch(err => {
+                console.error('No se pudo copiar el texto: ', err);
+                alert('No se pudo copiar el texto. Inténtalo manualmente.');
+            });
+        };
+
         window.onload = () => {
             const drawCardBtn = document.getElementById('draw-card-btn');
             if (drawCardBtn) {
@@ -626,8 +646,9 @@
                     <p class="text-white/80">
                         Una visión completa de tu vida: amor, trabajo, finanzas y espiritualidad. Te guiaré en cada paso para que tomes las mejores decisiones.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD)." class="price-link">
-                        <span class="price-tag">10.000 ARS / 10 USD</span>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant">
+                        <i class="fab fa-whatsapp text-2xl"></i> 
+                        <span class="price-tag-highlight">10.000 ARS / 10 USD</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
@@ -641,8 +662,9 @@
                     <p class="text-white/80">
                         Descubre lo que el universo tiene preparado para tu corazón. Aclara tus dudas en el amor, relaciones y vínculos emocionales.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD)." class="price-link">
-                        <span class="price-tag">9.000 ARS / 10 USD</span>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        <span class="price-tag-highlight">9.000 ARS / 10 USD</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
@@ -656,8 +678,9 @@
                     <p class="text-white/80">
                         Enfoca tu energía laboral. Resuelve conflictos, toma decisiones de carrera y encuentra tu verdadera vocación con una guía precisa.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD)." class="price-link">
-                        <span class="price-tag">8.500 ARS / 8 USD</span>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD)." class="price-cta-vibrant">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        <span class="price-tag-highlight">8.500 ARS / 8 USD</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.8s;">
@@ -671,8 +694,9 @@
                     <p class="text-white/80">
                         ¿Sientes energías que te bloquean? Identifica si hay trabajos energéticos o de magia que están afectando tu vida y cómo contrarrestarlos.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD)." class="price-link">
-                        <span class="price-tag">10.000 ARS / 10 USD</span>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        <span class="price-tag-highlight">10.000 ARS / 10 USD</span>
                     </a>
                 </div>
                 <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 1.0s;">
@@ -683,8 +707,9 @@
                     <p class="text-white/80">
                         Una sesión profunda de **60 minutos con preguntas ilimitadas**. Incluye acompañamiento de Coaching Ontológico para encontrar las respuestas y un plan de acción.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD)." class="price-link">
-                        <span class="price-tag">50.000 ARS / 25 USD</span>
+                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD)." class="price-cta-vibrant">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        <span class="price-tag-highlight">50.000 ARS / 25 USD</span>
                     </a>
                 </div>
             </div>
@@ -757,7 +782,35 @@
                     <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
                 </a>
             </div>
-        </div>
+
+            <div class="mt-12 pt-6 border-t border-purple-400/50 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <h3 class="text-2xl font-bold cinzel-decorative mb-6 text-yellow-300 animate-twinkle">
+                    Métodos de Pago
+                </h3>
+                <div class="flex flex-col gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transform hover:scale-105 transition duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-qrcode text-3xl text-blue-600 mr-4"></i>
+                            <div>
+                                <p class="font-bold text-lg">Mercado Pago (Argentina)</p>
+                                <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">adrianmblanes.mp</span></p>
+                            </div>
+                        </div>
+                        <i class="fas fa-copy cursor-pointer text-xl text-gray-400 hover:text-gray-600" onclick="copyToClipboard('adrianmblanes.mp', 'Mercado Pago')"></i>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transform hover:scale-105 transition duration-300">
+                        <div class="flex items-center">
+                            <i class="fab fa-paypal text-3xl text-blue-800 mr-4"></i>
+                            <div>
+                                <p class="font-bold text-lg">PayPal (Fuera de Argentina)</p>
+                                <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">@AdrianBlanes1979</span></p>
+                            </div>
+                        </div>
+                        <i class="fas fa-copy cursor-pointer text-xl text-gray-400 hover:text-gray-600" onclick="copyToClipboard('@AdrianBlanes1979', 'PayPal')"></i>
+                    </div>
+                </div>
+            </div>
+            </div>
     </section>
 
     <section id="social-media" class="section-background py-20 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 1.8s;">
