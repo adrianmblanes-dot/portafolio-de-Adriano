@@ -73,6 +73,27 @@
             animation: twinkle-glow 2s ease-in-out infinite;
         }
 
+        /* Nuevo keyframes para palpitación suave y brillo tenue - Solicitado por el usuario */
+        @keyframes subtle-orange-pulse-glow {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 5px #fdb75b, 0 0 10px rgba(253, 183, 91, 0.4); /* soft orange glow */
+                opacity: 0.95;
+            }
+            50% {
+                transform: scale(1.01); /* Leve palpitación */
+                text-shadow: 0 0 8px #fdb75b, 0 0 15px rgba(253, 183, 91, 0.7);
+                opacity: 1;
+            }
+        }
+        .attractive-orange-text {
+            color: #fdba74; /* orange-300 / naranja tenue */
+            font-weight: 600;
+            font-family: 'Cinzel Decorative', serif; /* Atractiva tipografía */
+            animation: subtle-orange-pulse-glow 3s infinite ease-in-out;
+        }
+
+
         /* Nueva animación de brillo para los botones de las redes sociales */
         @keyframes button-glow {
             0%, 100% { box-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 30px #a855f7; }
@@ -91,7 +112,7 @@
             }
         }
 
-        /* Estilo para el botón de WhatsApp vibrante */
+        /* Estilo para el botón de WhatsApp vibrante (usado para la nueva tirada) */
         .cta-button-vibrant {
             background-color: #a855f7; /* Color principal morado */
             color: #ffffff;
@@ -271,6 +292,11 @@
         .icon-pulse-glow {
             animation: icon-pulse 2s infinite;
             text-shadow: 0 0 5px #EFE9FF, 0 0 10px #EFE9FF, 0 0 15px #EFE9FF;
+        }
+
+        /* Estilo para rotación de cartas (orientación en sombra) - NUEVO */
+        .rotate-180 {
+            transform: rotate(180deg);
         }
         
         /* Nuevo estilo para precios con brillo tenue y titilante */
@@ -704,6 +730,102 @@
                 </div>
             `;
         };
+        
+        // Función para realizar la Lectura Rápida de Tres Cartas - ACTUALIZADA
+        const renderThreeCardReading = () => {
+            const questionInput = document.getElementById('quick-reading-question');
+            const resultContainer = document.getElementById('three-card-result-container');
+            const userQuestion = questionInput.value.trim();
+
+            if (!userQuestion) {
+                resultContainer.innerHTML = `
+                    <p class="text-lg text-red-400 font-semibold mt-4 animate-fade-in-up">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> Por favor, ingresa tu pregunta para que las cartas te respondan.
+                    </p>
+                `;
+                return;
+            }
+            
+            // Mostrar mensaje de carga/esotérico temporal mientras se "barajan" las cartas
+             resultContainer.innerHTML = `
+                <p class="text-xl font-bold cinzel-decorative text-cyan-400 mb-6 mt-8 animate-pulse">
+                    <i class="fas fa-hourglass-half mr-2"></i> Barajando las cartas... Siente la energía de tu pregunta: "${userQuestion}"
+                </p>
+            `;
+
+
+            // Seleccionar 3 cartas únicas al azar
+            const indices = new Set();
+            while (indices.size < 3) {
+                indices.add(Math.floor(Math.random() * tarotCards.length));
+            }
+            const randomIndices = Array.from(indices);
+            
+            // Asignar Posiciones: Pasado, Presente, Futuro (Solicitado)
+            const positions = ["PASADO", "PRESENTE", "FUTURO"]; 
+
+            // Determinar si cada carta está en posición positiva (derecha) o en sombra (invertida)
+            const readings = randomIndices.map((index, i) => {
+                const card = tarotCards[index];
+                const positionName = positions[i]; // Asignar la posición Pasado/Presente/Futuro
+                const isPositive = Math.random() < 0.5; 
+                const message = isPositive ? card.positive : card.shadow;
+                const orientation = isPositive ? "Energía Positiva (Derecha)" : "En Sombra (Invertida)";
+                const iconRotation = isPositive ? "rotate-0" : "rotate-180";
+                return { card, message, orientation, iconRotation, positionName };
+            });
+
+            
+            // Usar setTimeout para simular la "carga" y mostrar el resultado después del mensaje de barajado
+            setTimeout(() => {
+                // Generar el HTML de las cartas
+                const cardsHtml = readings.map((r, index) => `
+                    <div class="card-container p-6 rounded-lg text-center animate-fade-in-up" style="animation-delay: ${index * 0.2}s;">
+                        <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 animate-fade-in-up">${r.positionName}</h3> 
+                        
+                        <div class="flex flex-col items-center justify-center">
+                            <i class="${r.card.icon} ${r.card.color} text-6xl icon-pulse-glow mb-4 transition-transform duration-500 ${r.iconRotation}"></i>
+                            <h4 class="text-xl font-bold cinzel-decorative text-white mb-2">${r.card.name}</h4>
+                            <p class="text-sm font-semibold mb-3 ${r.card.color}">${r.orientation}</p>
+                        </div>
+                        <p class="text-white/80 text-sm">${r.message}</p>
+                    </div>
+                `).join('');
+
+                // Construir el resultado
+                resultContainer.innerHTML = `
+                    <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-6 mt-8 animate-fade-in-up">
+                        <i class="fas fa-magic text-cyan-400 icon-pulse-glow mr-2"></i>
+                        Tu Lectura Rápida de Tres Cartas
+                    </h3>
+                    <p class="text-xl font-semibold text-purple-300 mb-6 animate-fade-in-up">
+                        Tu pregunta: <span class="text-white italic">"${userQuestion}"</span>
+                    </p>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-12">
+                        ${cardsHtml}
+                    </div>
+                    
+                    <div class="bg-purple-900/50 p-6 rounded-lg border border-purple-400/50 animate-fade-in-up" style="animation-delay: 0.8s;">
+                        <h4 class="text-2xl font-bold text-pink-400 mb-3 cinzel-decorative">
+                            <i class="fas fa-feather-alt mr-2"></i> Nota Importante
+                        </h4>
+                        <p class="text-lg text-white/80 mb-6">
+                            Esta es una **lectura general básica** y solo ofrece una orientación inicial sobre tu pregunta, asignando una carta a tu **Pasado**, **Presente** y **Futuro**. Tres cartas son muy pocas para un análisis profundo.
+                        </p>
+                        <p class="text-lg text-purple-300 font-semibold mb-6">
+                            Si quieres **profundizar** en todos los detalles de tu vida y obtener una guía completa, lo mejor es que **agendes una lectura completa y personalizada conmigo**.
+                        </p>
+                        <a href="#services" class="cta-button-vibrant inline-block text-xl">
+                            <i class="fas fa-book-reader mr-2"></i> Agenda tu Lectura Profunda Aquí
+                        </a>
+                    </div>
+                `;
+                
+                // Limpiar el input para una nueva pregunta
+                questionInput.value = '';
+            }, 1500); // Pequeña pausa de 1.5 segundos para el efecto de barajado
+        };
 
         const copyToClipboard = (text, type) => {
             navigator.clipboard.writeText(text).then(() => {
@@ -718,6 +840,12 @@
             const drawCardBtn = document.getElementById('draw-card-btn');
             if (drawCardBtn) {
                 drawCardBtn.addEventListener('click', renderCardOfTheDay);
+            }
+            
+            // Listener para el nuevo botón de tirada de 3 cartas - NUEVO
+            const drawThreeCardBtn = document.getElementById('draw-three-card-btn');
+            if (drawThreeCardBtn) {
+                drawThreeCardBtn.addEventListener('click', renderThreeCardReading);
             }
         };
     </script>
@@ -893,6 +1021,36 @@
         </div>
     </section>
 
+    <section id="quick-reading" class="section-background animate-fade-in-up">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <div class="mystic-frame relative">
+                
+                <div class="relative z-10"> 
+                    <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle flex items-center justify-center flex-wrap">
+                        <i class="fas fa-crosshairs text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
+                        Lectura Rápida de 3 Cartas
+                        <i class="fas fa-crosshairs text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
+                    </h2>
+                    
+                    <p class="text-lg mb-6 animate-fade-in-up attractive-orange-text">
+                        Ingresa tu pregunta libre y el universo te dará una orientación general.
+                    </p>
+
+                    <div class="max-w-xl mx-auto mb-8 animate-fade-in-up">
+                        <textarea id="quick-reading-question" rows="3" class="w-full p-4 rounded-lg bg-purple-900/70 border border-purple-400 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition duration-300" placeholder="Ejemplo: ¿Qué debo saber sobre mi situación económica actual?"></textarea>
+                    </div>
+
+                    <button id="draw-three-card-btn" class="cta-button-vibrant mb-8 text-xl animate-pulse">
+                        <i class="fas fa-hand-sparkles mr-2"></i> ¡Revelar mi Mensaje Ahora!
+                    </button>
+
+                    <div id="three-card-result-container" class="mt-10">
+                        <p class="text-white/70 italic">Cuando hagas click, tu lectura aparecerá aquí.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="tarot-of-the-day" class="section-background animate-fade-in-up" style="animation-delay: 1s;">
         <div class="container mx-auto px-6 py-16 text-center">
             <div class="mystic-frame relative">
