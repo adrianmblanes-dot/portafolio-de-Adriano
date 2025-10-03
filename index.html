@@ -526,28 +526,6 @@
   animation: ghost-sweep 1.5s ease-out forwards, pulse-animation 2s infinite, button-glow 3s infinite;
 }
 
-
-/* ==== LOGO FLOTANTE EN EL LADO DERECHO ==== */
-.logo-flotante {
-  position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  width: 120px;
-  height: auto;
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(189, 143, 226, 0.6), 0 0 40px rgba(189, 143, 226, 0.3);
-  animation: floaty 4s ease-in-out infinite;
-  z-index: 9999;
-}
-
-/* Animación flotante tipo fantasmal */
-@keyframes floaty {
-  0%   { transform: translateY(-50%) translateX(0); }
-  50%  { transform: translateY(-55%) translateX(5px); }
-  100% { transform: translateY(-50%) translateX(0); }
-}
-
 </style>
     
     <script>
@@ -1276,43 +1254,5 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 </script>
-
-<!-- Logo flotante lateral izquierdo -->
-<div class="logo-flotante izquierda">
-  <img src="Adriano Logo.jpg" alt="Logo Adriano">
-</div>
-
-<style>
-.logo-flotante {
-  position: fixed;
-  top: 100px;   /* puedes ajustar la altura */
-  z-index: 9999;
-  animation: flotar 3s ease-in-out infinite, fadeIn 2s ease-in-out;
-}
-
-.logo-flotante.izquierda {
-  left: 20px;  /* separación del borde izquierdo */
-}
-
-.logo-flotante img {
-  width: 120px;       /* tamaño del logo */
-  border-radius: 50%; /* opcional: forma circular */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  animation: fadeIn 2s ease-in-out forwards, flotar 3s ease-in-out infinite;
-}
-
-@keyframes flotar {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-</style>
-
 </body>
 </html>
