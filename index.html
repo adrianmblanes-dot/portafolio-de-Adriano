@@ -1208,5 +1208,28 @@
         </div>
     </footer>
 </div>
+<!-- Botón flotante Volver arriba -->
+<button id="scrollTopBtn" 
+    class="fixed bottom-6 right-6 bg-purple-700 text-white p-3 rounded-full shadow-lg hover:bg-purple-500 transition-all duration-300 hidden z-50">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+    // Mostrar / ocultar botón en el scroll
+    const scrollBtn = document.getElementById("scrollTopBtn");
+
+    window.onscroll = () => {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            scrollBtn.classList.remove("hidden");
+        } else {
+            scrollBtn.classList.add("hidden");
+        }
+    };
+
+    // Subir al encabezado
+    scrollBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>
 </body>
 </html>
