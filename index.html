@@ -1256,8 +1256,97 @@ body::before {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 </script>
+
+<!-- ===== Música de fondo (GitHub Pages) ===== -->
+<style>
+  @keyframes pulseGlow {
+    0% { box-shadow: 0 0 6px rgba(255,255,255,0.15); opacity: 0.7; }
+    50% { box-shadow: 0 0 14px rgba(255,255,255,0.45); opacity: 1; }
+    100% { box-shadow: 0 0 6px rgba(255,255,255,0.15); opacity: 0.7; }
+  }
+  #music-btn {
+    position: fixed;
+    right: 1.2rem;
+    bottom: 6rem;
+    z-index: 9999;
+    border: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 80%);
+    color: #fff;
+    padding: 16px;
+    backdrop-filter: blur(5px);
+    animation: pulseGlow 3.8s infinite ease-in-out;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+  }
+  #music-btn:hover {
+    transform: scale(1.1);
+  }
+  #music-icon {
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.5));
+  }
+  #music-label {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 0 6px rgba(255,255,255,0.3);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  #music-btn:hover #music-label {
+    opacity: 1;
+  }
+</style>
+
+<audio id="bg-audio" loop preload="auto">
+  <source src="https://adrianmblanes-dot.github.io/portafolio-de-Adriano/melodia.mp3" type="audio/mpeg">
+  Tu navegador no soporta el elemento <code>audio</code>.
+</audio>
+
+<button id="music-btn" aria-pressed="false" title="Haz clic para activar la música">
+  <i id="music-icon" class="fa fa-play" aria-hidden="true"></i>
+  <span id="music-label">Activar música</span>
+</button>
+
+<script>
+  (function(){
+    const audio = document.getElementById('bg-audio');
+    const btn = document.getElementById('music-btn');
+    const icon = document.getElementById('music-icon');
+
+    const saved = localStorage.getItem('music_playing') === '1';
+
+    const updateUI = (playing) => {
+      icon.className = playing ? 'fa fa-pause' : 'fa fa-play';
+    };
+
+    btn.addEventListener('click', async () => {
+      try {
+        if (audio.paused) {
+          await audio.play();
+          localStorage.setItem('music_playing', '1');
+          updateUI(true);
+        } else {
+          audio.pause();
+          localStorage.setItem('music_playing', '0');
+          updateUI(false);
+        }
+      } catch (err) {
+        console.warn('No se pudo reproducir automáticamente:', err);
+      }
+    });
+
+    window.addEventListener('load', () => {
+      if (saved) {
+        audio.play().then(()=> updateUI(true)).catch(()=> updateUI(false));
+      }
+    });
+  })();
+</script>
+<!-- ===== Fin música ===== -->
+
 </body>
 </html>
-
-
-
