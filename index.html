@@ -1257,47 +1257,73 @@ body::before {
     });
 </script>
 
-<!-- ===== Música de fondo (GitHub Pages) ===== -->
+<!-- ===== Música de fondo (GitHub Pages con flotación suave y brillo) ===== -->
 <style>
-  @keyframes pulseGlow {
-    0% { box-shadow: 0 0 6px rgba(255,255,255,0.15); opacity: 0.7; }
-    50% { box-shadow: 0 0 14px rgba(255,255,255,0.45); opacity: 1; }
-    100% { box-shadow: 0 0 6px rgba(255,255,255,0.15); opacity: 0.7; }
+  @keyframes pulseAura {
+    0% { box-shadow: 0 0 10px rgba(219,189,255,0.25), inset 0 0 6px rgba(255,255,255,0.15); transform: translateY(0) scale(1); }
+    50% { box-shadow: 0 0 22px rgba(231,206,255,0.55), inset 0 0 12px rgba(255,255,255,0.25); transform: translateY(-3px) scale(1.06); }
+    100% { box-shadow: 0 0 10px rgba(219,189,255,0.25), inset 0 0 6px rgba(255,255,255,0.15); transform: translateY(0) scale(1); }
   }
+
   #music-btn {
     position: fixed;
     right: 1.2rem;
-    bottom: 6rem;
+    bottom: 5.5rem;
     z-index: 9999;
+    width: 62px;
+    height: 62px;
     border: none;
     border-radius: 50%;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 80%);
-    color: #fff;
-    padding: 16px;
-    backdrop-filter: blur(5px);
-    animation: pulseGlow 3.8s infinite ease-in-out;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12) 0%, rgba(147,73,255,0.08) 85%);
+    color: #f8f6ff;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    animation: pulseAura 6s infinite ease-in-out;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     cursor: pointer;
   }
+
   #music-btn:hover {
-    transform: scale(1.1);
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 0 28px rgba(255,227,165,0.45), inset 0 0 10px rgba(255,255,255,0.3);
   }
+
   #music-icon {
-    filter: drop-shadow(0 0 4px rgba(255,255,255,0.5));
+    text-shadow: 0 0 6px rgba(255,255,255,0.45), 0 0 12px rgba(255,219,129,0.3);
   }
+
   #music-label {
     position: absolute;
-    bottom: 120%;
+    bottom: 115%;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.8rem;
-    color: rgba(255,255,255,0.75);
-    text-shadow: 0 0 6px rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 0 8px rgba(247,223,164,0.5);
     opacity: 0;
     transition: opacity 0.4s ease;
+    white-space: nowrap;
   }
+
   #music-btn:hover #music-label {
     opacity: 1;
+  }
+
+  /* Ajuste para pantallas pequeñas */
+  @media (max-width: 600px) {
+    #music-btn {
+      right: 1rem;
+      bottom: 4.5rem;
+      width: 58px;
+      height: 58px;
+      font-size: 1.3rem;
+    }
+    #music-label {
+      font-size: 0.75rem;
+    }
   }
 </style>
 
