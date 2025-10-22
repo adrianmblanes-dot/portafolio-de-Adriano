@@ -1,18 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Tarots y Oráculos de Adriano</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Los Tarots y Oráculos de Adriano</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&amp;family=Montserrat:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
+<style>
         /* Estilos CSS personalizados */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght+400;700&family=Montserrat:wght+300;400;700&display=swap');
         
@@ -529,8 +527,7 @@ body::before {
 }
 
 </style>
-    
-    <script>
+<script>
         // Datos de las 78 cartas del Tarot con energía positiva y en sombra
         const tarotCards = [
             {
@@ -887,358 +884,437 @@ body::before {
             }
         };
     </script>
+
+<style>
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #000;
+  color: #f8e8c8;
+  overflow-x: hidden;
+  position: relative;
+}
+header, section, footer {
+  position: relative;
+  z-index: 20;
+}
+.promo-banner {
+  background: linear-gradient(90deg, #3b0066, #000, #3b0066);
+  color: #ffcc66;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-top: 2px solid #ff7b00;
+  border-bottom: 2px solid #ff7b00;
+  text-shadow: 0 0 10px #ff6600, 0 0 25px #ffcc66;
+  animation: flicker 4s infinite alternate;
+  letter-spacing: 1px;
+}
+@keyframes flicker {
+  0% { opacity: 1; text-shadow: 0 0 5px #ffb347; }
+  50% { opacity: 0.85; text-shadow: 0 0 25px #ff6600; }
+  100% { opacity: 1; text-shadow: 0 0 10px #ffcc66; }
+}
+.halloween-total-decor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+.halloween-total-decor i {
+  position: absolute;
+  color: rgba(255, 140, 0, 0.7);
+  font-size: 2rem;
+  animation: floaty 12s infinite ease-in-out;
+  filter: drop-shadow(0 0 10px rgba(255, 136, 0, 0.6));
+}
+@keyframes floaty {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+  50% { transform: translateY(25px) rotate(10deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(-10deg); opacity: 0.9; }
+}
+.halloween-total-decor i:nth-child(1) { top: 10%; left: 8%; font-size: 2.8rem; color: #ffb347; }
+.halloween-total-decor i:nth-child(2) { top: 25%; right: 10%; font-size: 2.5rem; color: #ff6600; animation-delay: 2s; }
+.halloween-total-decor i:nth-child(3) { bottom: 15%; left: 20%; font-size: 3rem; color: #ffcc66; animation-delay: 4s; }
+.halloween-total-decor i:nth-child(4) { bottom: 10%; right: 15%; font-size: 2.7rem; color: #ffa94d; animation-delay: 6s; }
+.halloween-total-decor i:nth-child(5) { top: 60%; left: 5%; font-size: 2.4rem; color: #f8e8c8; animation-delay: 8s; }
+.halloween-total-decor i:nth-child(6) { top: 70%; right: 25%; font-size: 2.4rem; color: #ffb347; animation-delay: 10s; }
+.halloween-total-decor i:nth-child(7) { top: 5%; right: 20%; font-size: 2.6rem; color: #ffcc66; animation-delay: 12s; }
+.halloween-total-decor i:nth-child(8) { bottom: 5%; left: 35%; font-size: 2.8rem; color: #ff7b00; animation-delay: 14s; }
+/* --- Bruma más translúcida --- */
+.bruma {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 70%);
+  animation: brumaAnim 80s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+@keyframes brumaAnim {
+  0% { transform: translate(-10%, -10%) scale(1); opacity: 0.4; }
+  50% { transform: translate(10%, 10%) scale(1.05); opacity: 0.6; }
+  100% { transform: translate(-10%, -10%) scale(1); opacity: 0.4; }
+}
+button, .btn {
+  background: linear-gradient(45deg, #ff7b00, #ffcc66);
+  color: #000;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px #ffb347;
+}
+button:hover, .btn:hover {
+  background: linear-gradient(45deg, #ffcc66, #ff7b00);
+  color: #111;
+  box-shadow: 0 0 30px #ff7b00;
+}
+h1, h2, h3 {
+  color: #ffcc66;
+  text-shadow: 0 0 10px #ff7b00, 0 0 20px #ffcc66;
+}
+footer {
+  background: rgba(15, 0, 20, 0.9);
+  text-align: center;
+  padding: 1.5rem;
+  color: #ffb347;
+}
+</style>
 </head>
 <body class="bg-dark-purple min-h-screen text-light-lavender">
-
-    <header id="home" class="hero-background text-center py-20 px-6 sm:px-10 md:py-40 flex items-center justify-center">
-        
+<header class="hero-background text-center py-20 px-6 sm:px-10 md:py-40 flex items-center justify-center" id="home">
 <div class="relative z-10 max-w-4xl mx-auto hero-title-container">
-            <i class="fas fa-scorpion scorpio-overlay hidden md:block" aria-hidden="true"></i>
-            
-            <h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up relative z-20">
-                <i class="fas fa-sun astrology-icon icon-pulse-glow"></i>
-                <i class="fas fa-moon astrology-icon icon-pulse-glow"></i>
+<i aria-hidden="true" class="fas fa-scorpion scorpio-overlay hidden md:block"></i>
+<h1 class="text-4xl md:text-6xl font-bold cinzel-decorative text-glow animate-fade-in-up relative z-20">
+<i class="fas fa-sun astrology-icon icon-pulse-glow"></i>
+<i class="fas fa-moon astrology-icon icon-pulse-glow"></i>
                 Bienvenid@s al Tarot de Adriano.
                 <i class="fas fa-star astrology-icon icon-pulse-glow"></i>
-                <i class="fas fa-feather-alt astrology-icon icon-pulse-glow"></i>
-            </h1>
+<i class="fas fa-feather-alt astrology-icon icon-pulse-glow"></i>
+</h1>
 <!-- Botones extra de navegación -->
 <div class="mt-6 flex flex-wrap justify-center gap-4">
-<a href="#quick-reading" 
-   class="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-purple-800 text-white font-semibold shadow-lg hover:scale-105 transition-transform duration-300 animate-fade-in-up">
-   <i class="fas fa-magic mr-2"></i> Lectura de 3 Cartas
+<a class="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-purple-800 text-white font-semibold shadow-lg hover:scale-105 transition-transform duration-300 animate-fade-in-up" href="#quick-reading">
+<i class="fas fa-magic mr-2"></i> Lectura de 3 Cartas
 </a>
-
-<a href="#tarot-of-the-day" 
-   class="px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-700 text-white font-semibold shadow-lg hover:scale-105 transition-transform duration-300 animate-fade-in-up">
-   <i class="fas fa-sun mr-2"></i> Carta del Día
+<a class="px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-700 text-white font-semibold shadow-lg hover:scale-105 transition-transform duration-300 animate-fade-in-up" href="#tarot-of-the-day">
+<i class="fas fa-sun mr-2"></i> Carta del Día
   </a>
 </div>
-
-            <p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up relative z-20" style="animation-delay: 0.5s;">
+<p class="mt-4 text-lg md:text-xl text-white/90 animate-fade-in-up relative z-20" style="animation-delay: 0.5s;">
                 Adriano te guiará en tu camino espiritual, ofreciéndote claridad y sabiduría a través del tarot y oráculos ancestrales.
             </p>
-            <div class="flex flex-wrap justify-center items-center gap-4 mt-8 animate-fade-in-up relative z-20" style="animation-delay: 1s;">
-                <a href="#services" class="cta-explore-vibrant inline-block">
-                    <i class="fas fa-book-open mr-2"></i> Explorar lecturas
+<div class="flex flex-wrap justify-center items-center gap-4 mt-8 animate-fade-in-up relative z-20" style="animation-delay: 1s;">
+<a class="cta-explore-vibrant inline-block" href="#services">
+<i class="fas fa-book-open mr-2"></i> Explorar lecturas
                 </a>
-                <a href="#contact" class="header-cta-button contact">
-                    <i class="fas fa-id-card-alt mr-2"></i> Contacto
+<a class="header-cta-button contact" href="#contact">
+<i class="fas fa-id-card-alt mr-2"></i> Contacto
                 </a>
-                <a href="#social-media" class="header-cta-button social">
-                    <i class="fas fa-share-alt mr-2"></i> Redes Sociales
+<a class="header-cta-button social" href="#social-media">
+<i class="fas fa-share-alt mr-2"></i> Redes Sociales
                 </a>
-            </div>
-        </div>
-    </header>
-
-    <section id="services" class="section-background animate-fade-in-up">
-        <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
-            
-            <div class="mystic-frame mb-12 p-8 animate-fade-in-up" style="animation-delay: 0.1s;">
-                <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 flex items-center justify-center gap-3">
-                    <i class="fas fa-hand-holding-box text-4xl text-cyan-400 icon-pulse-glow"></i>
+</div>
+</div>
+</header><div class="promo-banner">🎃 PROMO HALLOWEEN TOTAL: 2 PREGUNTAS AL PRECIO DE 1 ✨ Válido hasta el 31 de octubre 🔮</div>
+<section class="section-background animate-fade-in-up" id="services">
+<div class="container mx-auto px-6 lg:px-20 py-16 text-center">
+<h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-fade-in-left">Mis Servicios de Lectura</h2>
+<div class="mystic-frame mb-12 p-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+<h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 flex items-center justify-center gap-3">
+<i class="fas fa-hand-holding-box text-4xl text-cyan-400 icon-pulse-glow"></i>
                     Elegí el Método de Lectura que más te quede cómodo
                 </h3>
-                <div class="grid md:grid-cols-2 gap-6 text-left">
-                    <div class="p-4 rounded-lg border border-purple-400/50 bg-purple-900/50">
-                        <h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                            <i class="fas fa-mobile-alt text-2xl text-cyan-400 icon-pulse-glow"></i>
+<div class="grid md:grid-cols-2 gap-6 text-left">
+<div class="p-4 rounded-lg border border-purple-400/50 bg-purple-900/50">
+<h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+<i class="fas fa-mobile-alt text-2xl text-cyan-400 icon-pulse-glow"></i>
                             Lectura por Mensajería (A Tu Ritmo)
                         </h4>
-                        <p class="text-white/80 text-sm">
+<p class="text-white/80 text-sm">
                             **Ideal para preguntas específicas (General, Amor, Trabajo, Magia).** Te envío la **foto de la tirada** y un **audio detallado** con la interpretación completa. Podrás escuchar la respuesta a tu ritmo y volver a consultarla las veces que quieras.
                         </p>
-                    </div>
-                    <div class="p-4 rounded-lg border border-purple-400/50 bg-purple-900/50">
-                        <h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                            <i class="fas fa-video text-2xl text-pink-400 icon-pulse-glow"></i>
+</div>
+<div class="p-4 rounded-lg border border-purple-400/50 bg-purple-900/50">
+<h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+<i class="fas fa-video text-2xl text-pink-400 icon-pulse-glow"></i>
                             Sesión por Videollamada (En Vivo)
                         </h4>
-                        <p class="text-white/80 text-sm">
+<p class="text-white/80 text-sm">
                             **Ideal para sesiones de 30 o 60 minutos con preguntas ilimitadas.** Conectamos en vivo por videollamada para una interacción inmediata y profundización en el momento, con guía de Coaching Ontológico.
                         </p>
-                    </div>
-                </div>
-            </div>
-            <div class="grid grid-services-layout gap-8">
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="text-5xl mb-4">
-                        <i class="fas fa-gem text-yellow-400 icon-pulse-glow"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Tarot General</h3>
-                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
+</div>
+</div>
+</div>
+<div class="grid grid-services-layout gap-8">
+<div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.2s;">
+<div class="text-5xl mb-4">
+<i class="fas fa-gem text-yellow-400 icon-pulse-glow"></i>
+</div>
+<h3 class="text-2xl font-bold mb-2 text-white">Lectura de Tarot General</h3>
+<p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+<i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
-                    <p class="text-white/80">
+<p class="text-white/80">
                         Una visión completa de tu vida: amor, trabajo, finanzas y espiritualidad. Te guiaré en cada paso.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant flex-col">
-                        <span class="price-tag-highlight">10.000 ARS / 10 USD</span>
-                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
-                    </a>
-                </div>
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
-                    <div class="text-5xl mb-4">
-                        <i class="fas fa-heart text-pink-400 icon-pulse-glow"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Amor</h3>
-                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
+<a class="price-cta-vibrant flex-col" href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Tarot%20General%20(10.000%20ARS%20/%2010%20USD).">
+<span class="price-tag-highlight">10.000 ARS / 10 USD</span>
+<span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
+</a>
+</div>
+<div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.4s;">
+<div class="text-5xl mb-4">
+<i class="fas fa-heart text-pink-400 icon-pulse-glow"></i>
+</div>
+<h3 class="text-2xl font-bold mb-2 text-white">Lectura de Amor</h3>
+<p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+<i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
-                    <p class="text-white/80">
+<p class="text-white/80">
                         Aclara tus dudas en el amor, relaciones y vínculos emocionales con la guía del tarot.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant flex-col">
-                        <span class="price-tag-highlight">9.000 ARS / 10 USD</span>
-                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
-                    </a>
-                </div>
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
-                    <div class="text-5xl mb-4">
-                        <i class="fas fa-briefcase text-orange-500 icon-pulse-glow"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Trabajo/Proyectos</h3>
-                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
+<a class="price-cta-vibrant flex-col" href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Amor%20(9.000%20ARS%20/%2010%20USD).">
+<span class="price-tag-highlight">9.000 ARS / 10 USD</span>
+<span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
+</a>
+</div>
+<div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.6s;">
+<div class="text-5xl mb-4">
+<i class="fas fa-briefcase text-orange-500 icon-pulse-glow"></i>
+</div>
+<h3 class="text-2xl font-bold mb-2 text-white">Lectura de Trabajo/Proyectos</h3>
+<p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+<i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
-                    <p class="text-white/80">
+<p class="text-white/80">
                         Enfoca tu energía laboral. Resuelve conflictos, toma decisiones de carrera y encuentra tu vocación.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD)." class="price-cta-vibrant flex-col">
-                        <span class="price-tag-highlight">8.500 ARS / 8 USD</span>
-                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
-                    </a>
-                </div>
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.8s;">
-                    <div class="text-5xl mb-4">
-                        <i class="fas fa-mask text-red-600 icon-pulse-glow"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2 text-white">Lectura de Magias o Trabajos</h3>
-                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
+<a class="price-cta-vibrant flex-col" href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Trabajo%2FProyectos%20(8.500%20ARS%20/%208%20USD).">
+<span class="price-tag-highlight">8.500 ARS / 8 USD</span>
+<span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
+</a>
+</div>
+<div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 0.8s;">
+<div class="text-5xl mb-4">
+<i class="fas fa-mask text-red-600 icon-pulse-glow"></i>
+</div>
+<h3 class="text-2xl font-bold mb-2 text-white">Lectura de Magias o Trabajos</h3>
+<p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+<i class="fas fa-comments text-purple-300"></i> Vía Mensajería (A Tu Ritmo)
                     </p>
-                    <p class="text-white/80">
+<p class="text-white/80">
                         Identifica si hay trabajos energéticos o de magia que te están bloqueando y cómo contrarrestarlos.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD)." class="price-cta-vibrant flex-col">
-                        <span class="price-tag-highlight">10.000 ARS / 10 USD</span>
-                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
-                    </a>
-                </div>
-                <div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 1.0s;">
-                    <div class="text-5xl mb-4">
-                        <i class="fas fa-chalkboard-teacher text-cyan-400 icon-pulse-glow"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Sesión de Tarot 1 Hora + Coaching</h3>
-                    <p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
-                        <i class="fas fa-video text-purple-300"></i> Vía Videollamada (En Vivo)
+<a class="price-cta-vibrant flex-col" href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Lectura%20de%20Magias%20o%20Trabajos%20(10.000%20ARS%20/%2010%20USD).">
+<span class="price-tag-highlight">10.000 ARS / 10 USD</span>
+<span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
+</a>
+</div>
+<div class="card-container p-8 rounded-lg animate-fade-in-up" style="animation-delay: 1.0s;">
+<div class="text-5xl mb-4">
+<i class="fas fa-chalkboard-teacher text-cyan-400 icon-pulse-glow"></i>
+</div>
+<h3 class="text-2xl font-bold mb-4 text-white">Sesión de Tarot 1 Hora + Coaching</h3>
+<p class="text-sm font-semibold text-purple-300 mb-4 flex items-center justify-center gap-1">
+<i class="fas fa-video text-purple-300"></i> Vía Videollamada (En Vivo)
                     </p>
-                    <p class="text-white/80">
+<p class="text-white/80">
                         Una sesión profunda de 60 minutos con preguntas ilimitadas por videollamada. Incluye Coaching.
                     </p>
-                    <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD)." class="price-cta-vibrant flex-col">
-                        <span class="price-tag-highlight">50.000 ARS / 25 USD</span>
-                        <span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="section-background animate-fade-in-up" style="animation-delay: 0.5s;">
-        <div class="container mx-auto px-6 lg:px-20 py-16 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle">
-                <i class="fas fa-star text-yellow-300 icon-pulse-glow"></i>
-                <i class="fas fa-moon text-indigo-400 icon-pulse-glow"></i>
-                <i class="fas fa-sun text-yellow-400 icon-pulse-glow"></i>
+<a class="price-cta-vibrant flex-col" href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20la%20Sesión%20de%20Tarot%201%20Hora%20%2B%20Coaching%20(50.000%20ARS%20/%2025%20USD).">
+<span class="price-tag-highlight">50.000 ARS / 25 USD</span>
+<span class="text-xs font-normal mt-1 text-white/80">(Hacé Clic y Envía tu Pedido)</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<section class="section-background animate-fade-in-up" id="about" style="animation-delay: 0.5s;">
+<div class="container mx-auto px-6 lg:px-20 py-16 text-center">
+<h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle">
+<i class="fas fa-star text-yellow-300 icon-pulse-glow"></i>
+<i class="fas fa-moon text-indigo-400 icon-pulse-glow"></i>
+<i class="fas fa-sun text-yellow-400 icon-pulse-glow"></i>
                 Agenda tu Lectura
                 <i class="fas fa-star text-yellow-300 icon-pulse-glow"></i>
-                <i class="fas fa-moon text-indigo-400 icon-pulse-glow"></i>
-                <i class="fas fa-sun text-yellow-400 icon-pulse-glow"></i>
-            </h2>
-            <p class="text-xl md:text-2xl font-semibold text-purple-500 mb-6 animate-fade-in-up" style="color: #9d68e8; animation-delay: 0.2s;">
+<i class="fas fa-moon text-indigo-400 icon-pulse-glow"></i>
+<i class="fas fa-sun text-yellow-400 icon-pulse-glow"></i>
+</h2>
+<p class="text-xl md:text-2xl font-semibold text-purple-500 mb-6 animate-fade-in-up" style="color: #9d68e8; animation-delay: 0.2s;">
                 Un Viaje de Conexión y Sabiduría
             </p>
-            <p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.4s;">
+<p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.4s;">
                 ¿Estás en un momento de incertidumbre? ¿Sientes que necesitas una guía para avanzar? El tarot no solo predice el futuro, sino que te ofrece un espejo para tu alma, revelando perspectivas y fortalezas que ya posees. Permite que sus símbolos te hablen y encuentren la claridad que buscas. Reserva tu sesión y empieza a transformar tu camino.
             </p>
-            <p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.6s;">
+<p class="text-lg text-white/80 max-w-4xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.6s;">
                 Con años de experiencia y una conexión profunda con el tarot, mi misión es ofrecerte un espacio seguro y lleno de luz para que encuentres las respuestas que buscas. Soy un **tarotista profesional con amplia trayectoria en la cartomancia**, y mi enfoque no es solo predecir el futuro, sino empoderarte para que tomes las riendas de tu vida.
             </p>
-            <p class="text-lg text-white/80 max-w-4xl mx-auto animate-fade-in-up" style="animation-delay: 0.8s;">
+<p class="text-lg text-white/80 max-w-4xl mx-auto animate-fade-in-up" style="animation-delay: 0.8s;">
                 Gracias a mi formación en **coaching ontológico**, cada lectura es más que una simple tirada de cartas; es una conversación con tu yo interior, una herramienta para la autocomprensión y el crecimiento personal. Confía en la sabiduría de las cartas y en la intuición que te guiará hacia tu máximo potencial.
             </p>
 <!-- Apartado Ética y Tarot -->
 <div class="bg-purple-800/60 p-6 rounded-lg border border-purple-400/50 mt-6 animate-fade-in-up">
-    <h4 class="text-2xl font-bold text-yellow-300 mb-3 cinzel-decorative">
-        <i class="fas fa-scale-balanced mr-2"></i> Ética y Tarot
+<h4 class="text-2xl font-bold text-yellow-300 mb-3 cinzel-decorative">
+<i class="fas fa-scale-balanced mr-2"></i> Ética y Tarot
     </h4>
-    <p class="text-lg text-white/80 mb-6">
+<p class="text-lg text-white/80 mb-6">
         Mi práctica se basa en el respeto, la responsabilidad y la claridad con cada persona que consulta.
         Si deseas conocer más sobre mi compromiso ético con el Tarot, puedes leerlo aquí:
     </p>
-    <a href="https://eticaytarot.com/continente-americano/adrian-marcelo-blanes/" target="_blank"
-       class="cta-button-turquesa inline-block">
+<a class="cta-button-turquesa inline-block" href="https://eticaytarot.com/continente-americano/adrian-marcelo-blanes/" target="_blank">
         Conoce mi Código Ético
     </a>
 </div>
-
-        </div>
-    </section>
-
-    <section id="quick-reading" class="section-background animate-fade-in-up">
-        <div class="container mx-auto px-6 py-16 text-center">
-            <div class="mystic-frame relative">
-                
-                <div class="relative z-10"> 
-                    <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle flex items-center justify-center flex-wrap">
-                        <i class="fas fa-crosshairs text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
+</div>
+</section>
+<section class="section-background animate-fade-in-up" id="quick-reading">
+<div class="container mx-auto px-6 py-16 text-center">
+<div class="mystic-frame relative">
+<div class="relative z-10">
+<h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 animate-twinkle flex items-center justify-center flex-wrap">
+<i class="fas fa-crosshairs text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
                         Lectura Rápida de 3 Cartas
                         <i class="fas fa-crosshairs text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
-                    </h2>
-                    
-                    <p class="text-lg mb-6 animate-fade-in-up attractive-orange-text">
+</h2>
+<p class="text-lg mb-6 animate-fade-in-up attractive-orange-text">
                         Ingresa tu pregunta libre y el universo te dará una orientación general.
                     </p>
-
-                    <div class="max-w-xl mx-auto mb-8 animate-fade-in-up">
-                        <textarea id="quick-reading-question" rows="3" class="w-full p-4 rounded-lg bg-purple-900/70 border border-purple-400 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition duration-300" placeholder="Ejemplo: ¿Qué debo saber sobre mi situación económica actual?"></textarea>
-                    </div>
-
-                    <button id="draw-three-card-btn" class="cta-button-vibrant mb-8 text-xl animate-pulse">
-                        <i class="fas fa-hand-sparkles mr-2"></i> ¡Revelar mi Mensaje Ahora!
+<div class="max-w-xl mx-auto mb-8 animate-fade-in-up">
+<textarea class="w-full p-4 rounded-lg bg-purple-900/70 border border-purple-400 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition duration-300" id="quick-reading-question" placeholder="Ejemplo: ¿Qué debo saber sobre mi situación económica actual?" rows="3"></textarea>
+</div>
+<button class="cta-button-vibrant mb-8 text-xl animate-pulse" id="draw-three-card-btn">
+<i class="fas fa-hand-sparkles mr-2"></i> ¡Revelar mi Mensaje Ahora!
                     </button>
-
-                    <div id="three-card-result-container" class="mt-10">
-                        <p class="text-white/70 italic">Cuando hagas click, tu lectura aparecerá aquí.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="tarot-of-the-day" class="section-background animate-fade-in-up" style="animation-delay: 1s;">
-        <div class="container mx-auto px-6 py-16 text-center">
-            <div class="mystic-frame relative">
-                <div class="mystic-zodiac-bg">
-                    <i class="fas fa-mars text-red-500" style="top: 10%; left: 5%; font-size: 15vh; animation-duration: 40s; animation-delay: 0s;"></i>
-                    <i class="fas fa-venus text-green-500" style="top: 80%; left: 15%; font-size: 10vh; animation-duration: 50s; animation-delay: 5s;"></i>
-                    <i class="fas fa-gemini text-yellow-300" style="top: 5%; right: 5%; font-size: 20vh; animation-duration: 60s; animation-delay: 10s;"></i>
-                    <i class="fas fa-cancer text-blue-300" style="top: 75%; right: 10%; font-size: 12vh; animation-duration: 70s; animation-delay: 15s;"></i>
-                    <i class="fas fa-sun text-yellow-500" style="top: 50%; left: 5%; font-size: 18vh; animation-duration: 80s; animation-delay: 20s;"></i>
-                    <i class="fas fa-wheat-alt text-green-700" style="top: 20%; left: 30%; font-size: 11vh; animation-duration: 90s; animation-delay: 25s;"></i>
-                    <i class="fas fa-balance-scale text-pink-400" style="top: 90%; right: 40%; font-size: 16vh; animation-duration: 100s; animation-delay: 30s;"></i>
-                    <i class="fas fa-scorpion text-red-700" style="top: 50%; right: 20%; font-size: 9vh; animation-duration: 110s; animation-delay: 35s;"></i>
-                    <i class="fas fa-arrow-alt-circle-right text-purple-600" style="top: 15%; right: 35%; font-size: 14vh; animation-duration: 120s; animation-delay: 40s;"></i>
-                    <i class="fas fa-mountain text-gray-400" style="top: 70%; left: 30%; font-size: 13vh; animation-duration: 130s; animation-delay: 45s;"></i>
-                    <i class="fas fa-water text-cyan-400" style="top: 30%; right: 50%; font-size: 17vh; animation-duration: 140s; animation-delay: 50s;"></i>
-                    <i class="fas fa-fish text-blue-500" style="top: 60%; left: 45%; font-size: 10vh; animation-duration: 150s; animation-delay: 55s;"></i>
-                    <i class="fas fa-globe-americas text-indigo-400" style="top: 40%; right: 5%; font-size: 13vh; animation-duration: 95s; animation-delay: 12s;"></i>
-                    <i class="fas fa-ring text-gray-500" style="top: 25%; left: 55%; font-size: 8vh; animation-duration: 105s; animation-delay: 28s;"></i>
-                </div>
-                
-                <div class="relative z-10"> 
-                    <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-pulse flex items-center justify-center flex-wrap">
-                        <i class="fas fa-mars text-red-500 text-3xl icon-pulse-glow mx-2"></i>
-                        <i class="fas fa-balance-scale text-pink-400 text-3xl icon-pulse-glow mx-2"></i>
+<div class="mt-10" id="three-card-result-container">
+<p class="text-white/70 italic">Cuando hagas click, tu lectura aparecerá aquí.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section-background animate-fade-in-up" id="tarot-of-the-day" style="animation-delay: 1s;">
+<div class="container mx-auto px-6 py-16 text-center">
+<div class="mystic-frame relative">
+<div class="mystic-zodiac-bg">
+<i class="fas fa-mars text-red-500" style="top: 10%; left: 5%; font-size: 15vh; animation-duration: 40s; animation-delay: 0s;"></i>
+<i class="fas fa-venus text-green-500" style="top: 80%; left: 15%; font-size: 10vh; animation-duration: 50s; animation-delay: 5s;"></i>
+<i class="fas fa-gemini text-yellow-300" style="top: 5%; right: 5%; font-size: 20vh; animation-duration: 60s; animation-delay: 10s;"></i>
+<i class="fas fa-cancer text-blue-300" style="top: 75%; right: 10%; font-size: 12vh; animation-duration: 70s; animation-delay: 15s;"></i>
+<i class="fas fa-sun text-yellow-500" style="top: 50%; left: 5%; font-size: 18vh; animation-duration: 80s; animation-delay: 20s;"></i>
+<i class="fas fa-wheat-alt text-green-700" style="top: 20%; left: 30%; font-size: 11vh; animation-duration: 90s; animation-delay: 25s;"></i>
+<i class="fas fa-balance-scale text-pink-400" style="top: 90%; right: 40%; font-size: 16vh; animation-duration: 100s; animation-delay: 30s;"></i>
+<i class="fas fa-scorpion text-red-700" style="top: 50%; right: 20%; font-size: 9vh; animation-duration: 110s; animation-delay: 35s;"></i>
+<i class="fas fa-arrow-alt-circle-right text-purple-600" style="top: 15%; right: 35%; font-size: 14vh; animation-duration: 120s; animation-delay: 40s;"></i>
+<i class="fas fa-mountain text-gray-400" style="top: 70%; left: 30%; font-size: 13vh; animation-duration: 130s; animation-delay: 45s;"></i>
+<i class="fas fa-water text-cyan-400" style="top: 30%; right: 50%; font-size: 17vh; animation-duration: 140s; animation-delay: 50s;"></i>
+<i class="fas fa-fish text-blue-500" style="top: 60%; left: 45%; font-size: 10vh; animation-duration: 150s; animation-delay: 55s;"></i>
+<i class="fas fa-globe-americas text-indigo-400" style="top: 40%; right: 5%; font-size: 13vh; animation-duration: 95s; animation-delay: 12s;"></i>
+<i class="fas fa-ring text-gray-500" style="top: 25%; left: 55%; font-size: 8vh; animation-duration: 105s; animation-delay: 28s;"></i>
+</div>
+<div class="relative z-10">
+<h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-12 animate-pulse flex items-center justify-center flex-wrap">
+<i class="fas fa-mars text-red-500 text-3xl icon-pulse-glow mx-2"></i>
+<i class="fas fa-balance-scale text-pink-400 text-3xl icon-pulse-glow mx-2"></i>
                         Tu Carta del Día
                         <i class="fas fa-sun text-yellow-500 text-3xl icon-pulse-glow mx-2"></i>
-                        <i class="fas fa-water text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
-                    </h2>
-                    <p class="text-white/80 mb-6 animate-fade-in-up">
+<i class="fas fa-water text-cyan-400 text-3xl icon-pulse-glow mx-2"></i>
+</h2>
+<p class="text-white/80 mb-6 animate-fade-in-up">
                         Haz click en el botón para que el universo te entregue un mensaje aleatorio.
                     </p>
-                    <button id="draw-card-btn" class="cta-button-red mb-8">
+<button class="cta-button-red mb-8" id="draw-card-btn">
                         Revelar mi mensaje
                     </button>
-                    <div id="card-of-the-day-container">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" style="background-color: #5c20b8; animation-delay: 1.5s;">
-        <div class="container mx-auto max-w-md">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
-                <i class="fas fa-mars astrology-icon icon-pulse-glow"></i>
+<div id="card-of-the-day-container">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 px-6 sm:px-10 md:py-32 text-center section-background animate-fade-in-up" id="contact" style="background-color: #5c20b8; animation-delay: 1.5s;">
+<div class="container mx-auto max-w-md">
+<h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
+<i class="fas fa-mars astrology-icon icon-pulse-glow"></i>
                 Conecta conmigo
                 <i class="fas fa-venus astrology-icon icon-pulse-glow"></i>
-            </h2>
-            <p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
+</h2>
+<p class="text-lg md:text-xl text-white/80 mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
                 Estoy aquí para guiarte. Contáctame para agendar una sesión personalizada.
             </p>
-            <div class="flex flex-col justify-center items-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
-                <a href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20" class="inline-block w-full px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105 animate-pulse">
-                    <i class="fab fa-whatsapp mr-2 icon-pulse-glow"></i> Contactar por WhatsApp
+<div class="flex flex-col justify-center items-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+<a class="inline-block w-full px-4 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition duration-300 transform hover:scale-105 animate-pulse" href="https://wa.me/5492617116896?text=Hola%2C%20quisiera%20agendar%20una%20lectura%20de%20tarot.%20Mi%20nombre%20es%20">
+<i class="fab fa-whatsapp mr-2 icon-pulse-glow"></i> Contactar por WhatsApp
                 </a>
-                <a href="mailto:adrianmblanes@gmail.com" class="inline-block w-full px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105" style="background-color: #9d68e8; hover:bg-color: #b792f9;">
-                    <i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
+<a class="inline-block w-full px-4 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-600 transition duration-300 transform hover:scale-105" href="mailto:adrianmblanes@gmail.com" style="background-color: #9d68e8; hover:bg-color: #b792f9;">
+<i class="fas fa-envelope mr-2"></i> Enviar un correo electrónico
                 </a>
-            </div>
-
-            <div class="mt-12 pt-6 border-t border-purple-400/50 animate-fade-in-up" style="animation-delay: 0.6s;">
-                <h3 class="text-2xl font-bold cinzel-decorative mb-6 text-yellow-300 animate-twinkle">
+</div>
+<div class="mt-12 pt-6 border-t border-purple-400/50 animate-fade-in-up" style="animation-delay: 0.6s;">
+<h3 class="text-2xl font-bold cinzel-decorative mb-6 text-yellow-300 animate-twinkle">
                     Métodos de Pago
                 </h3>
-                <div class="flex flex-col gap-4">
-                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transition duration-300 payment-box">
-                        <div class="flex items-center">
-                            <i class="fas fa-qrcode text-3xl text-blue-600 mr-4 tenuous-pulse-glow-payment"></i>
-                            <div>
-                                <p class="font-bold text-lg">Mercado Pago (Argentina)</p>
-                                <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">adrianmblanes.mp</span></p>
-                            </div>
-                        </div>
-                        <div class="copy-action-group flex items-center cursor-pointer p-2 rounded-full hover:bg-gray-100 transition duration-300" onclick="copyToClipboard('adrianmblanes.mp', 'Mercado Pago')">
-                            <span class="text-xs font-semibold mr-2 text-gray-400 copy-text transition duration-300">Copy</span>
-                            <i class="fas fa-copy cursor-pointer text-xl text-gray-400 copy-icon transition duration-300"></i>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transition duration-300 payment-box">
-                        <div class="flex items-center">
-                            <i class="fab fa-paypal text-3xl text-blue-800 mr-4 tenuous-pulse-glow-payment"></i>
-                            <div>
-                                <p class="font-bold text-lg">PayPal (Fuera de Argentina)</p>
-                                <p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">@AdrianBlanes1979</span></p>
-                            </div>
-                        </div>
-                        <div class="copy-action-group flex items-center cursor-pointer p-2 rounded-full hover:bg-gray-100 transition duration-300" onclick="copyToClipboard('@AdrianBlanes1979', 'PayPal')">
-                            <span class="text-xs font-semibold mr-2 text-gray-400 copy-text transition duration-300">Copy</span>
-                            <i class="fas fa-copy cursor-pointer text-xl text-gray-400 copy-icon transition duration-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-    </section>
-
-    <section id="social-media" class="section-background py-20 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 1.8s;">
-        <div class="container mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
+<div class="flex flex-col gap-4">
+<div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transition duration-300 payment-box">
+<div class="flex items-center">
+<i class="fas fa-qrcode text-3xl text-blue-600 mr-4 tenuous-pulse-glow-payment"></i>
+<div>
+<p class="font-bold text-lg">Mercado Pago (Argentina)</p>
+<p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">adrianmblanes.mp</span></p>
+</div>
+</div>
+<div class="copy-action-group flex items-center cursor-pointer p-2 rounded-full hover:bg-gray-100 transition duration-300" onclick="copyToClipboard('adrianmblanes.mp', 'Mercado Pago')">
+<span class="text-xs font-semibold mr-2 text-gray-400 copy-text transition duration-300">Copy</span>
+<i class="fas fa-copy cursor-pointer text-xl text-gray-400 copy-icon transition duration-300"></i>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg shadow-xl flex items-center justify-between text-gray-800 transition duration-300 payment-box">
+<div class="flex items-center">
+<i class="fab fa-paypal text-3xl text-blue-800 mr-4 tenuous-pulse-glow-payment"></i>
+<div>
+<p class="font-bold text-lg">PayPal (Fuera de Argentina)</p>
+<p class="text-sm">Alias: <span class="font-mono bg-gray-100 px-2 py-1 rounded">@AdrianBlanes1979</span></p>
+</div>
+</div>
+<div class="copy-action-group flex items-center cursor-pointer p-2 rounded-full hover:bg-gray-100 transition duration-300" onclick="copyToClipboard('@AdrianBlanes1979', 'PayPal')">
+<span class="text-xs font-semibold mr-2 text-gray-400 copy-text transition duration-300">Copy</span>
+<i class="fas fa-copy cursor-pointer text-xl text-gray-400 copy-icon transition duration-300"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section-background py-20 px-6 text-center animate-fade-in-up" id="social-media" style="background-color: #471396; animation-delay: 1.8s;">
+<div class="container mx-auto">
+<h2 class="text-4xl md:text-5xl font-bold cinzel-decorative text-glow mb-8 text-white animate-twinkle">
                 Mis redes sociales
             </h2>
-            <p class="text-white/80 mb-6">Conéctate conmigo y mantente al día con todas las novedades del universo esotérico.</p>
-            <div id="social-media-links" class="flex justify-center space-x-6 text-4xl mt-8">
-                <a href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-instagram icon-pulse-glow"></i></a>
-                <a href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&_r=1" class="text-white hover:text-purple-400 transition duration-300"><i class="fab fa-tiktok icon-pulse-glow"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-10 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 2s;">
-        <div class="container mx-auto">
-            <p class="text-white/60 text-sm">&copy; 1979 Adriano Tarotista Profesional. Todos los derechos reservados. Horario de atención: de Lunes a Viernes de 19:00 a 00:00 (Hora local), y de sábado a Domingo consultar disponibilidad de atención.</p>
-        </div>
-    </footer>
+<p class="text-white/80 mb-6">Conéctate conmigo y mantente al día con todas las novedades del universo esotérico.</p>
+<div class="flex justify-center space-x-6 text-4xl mt-8" id="social-media-links">
+<a class="text-white hover:text-purple-400 transition duration-300" href="https://www.instagram.com/el.tarot.de.adriano?igsh=NTZob3NucTE4bWo4"><i class="fab fa-instagram icon-pulse-glow"></i></a>
+<a class="text-white hover:text-purple-400 transition duration-300" href="https://www.tiktok.com/@adrian.marcelo.79?_t=ZM-8zfa2Ggq&amp;_r=1"><i class="fab fa-tiktok icon-pulse-glow"></i></a>
 </div>
-<!-- Botón flotante Volver arriba -->
-<button id="scrollTopBtn" 
-    class="fixed bottom-6 right-6 bg-purple-700 text-white p-3 rounded-full shadow-lg hover:bg-purple-500 transition-all duration-300 hidden z-50">
-    <i class="fas fa-arrow-up"></i>
-</button>
+</div>
+</section>
+<footer class="py-10 px-6 text-center animate-fade-in-up" style="background-color: #471396; animation-delay: 2s;">
+<div class="container mx-auto">
+<p class="text-white/60 text-sm">© 1979 Adriano Tarotista Profesional. Todos los derechos reservados. Horario de atención: de Lunes a Viernes de 19:00 a 00:00 (Hora local), y de sábado a Domingo consultar disponibilidad de atención.</p>
+</div>
+</footer>
 
+<!-- Botón flotante Volver arriba -->
+<button class="fixed bottom-6 right-6 bg-purple-700 text-white p-3 rounded-full shadow-lg hover:bg-purple-500 transition-all duration-300 hidden z-50" id="scrollTopBtn">
+<i class="fas fa-arrow-up"></i>
+</button>
 <script>
     // Mostrar / ocultar botón en el scroll
     const scrollBtn = document.getElementById("scrollTopBtn");
@@ -1256,7 +1332,6 @@ body::before {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 </script>
-
 <!-- ===== Música de fondo (GitHub Pages con flotación suave y brillo) ===== -->
 <style>
   @keyframes pulseAura {
@@ -1326,17 +1401,14 @@ body::before {
     }
   }
 </style>
-
-<audio id="bg-audio" loop preload="auto">
-  <source src="https://adrianmblanes-dot.github.io/portafolio-de-Adriano/melodia.mp3" type="audio/mpeg">
+<audio id="bg-audio" loop="" preload="auto">
+<source src="https://adrianmblanes-dot.github.io/portafolio-de-Adriano/melodia.mp3" type="audio/mpeg"/>
   Tu navegador no soporta el elemento <code>audio</code>.
 </audio>
-
-<button id="music-btn" aria-pressed="false" title="Haz clic para activar la música">
-  <i id="music-icon" class="fa fa-play" aria-hidden="true"></i>
-  <span id="music-label">Activar música</span>
+<button aria-pressed="false" id="music-btn" title="Haz clic para activar la música">
+<i aria-hidden="true" class="fa fa-play" id="music-icon"></i>
+<span id="music-label">Activar música</span>
 </button>
-
 <script>
   (function(){
     const audio = document.getElementById('bg-audio');
@@ -1374,5 +1446,16 @@ body::before {
 </script>
 <!-- ===== Fin música ===== -->
 
+<div class="halloween-total-decor">
+<i class="fa-solid fa-hat-wizard"></i>
+<i class="fa-solid fa-ghost"></i>
+<i class="fa-solid fa-pumpkin"></i>
+<i class="fa-solid fa-spider"></i>
+<i class="fa-solid fa-skull"></i>
+<i class="fa-solid fa-bat"></i>
+<i class="fa-solid fa-moon"></i>
+<i class="fa-solid fa-mummy"></i>
+</div>
+<div class="bruma"></div>
 </body>
 </html>
