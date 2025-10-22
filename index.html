@@ -526,6 +526,55 @@ body::before {
   animation: ghost-sweep 1.5s ease-out forwards, pulse-animation 2s infinite, button-glow 3s infinite;
 }
 
+
+  .icono-flotante {
+    position: fixed;
+    top: 0;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    animation: flotar 25s linear infinite;
+    z-index: 2;
+  }
+  @keyframes flotar {
+    0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-10vh) translateX(50vw) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(-50vw) rotate(360deg); opacity: 0.8; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+  }
+
+
+  .icono-flotante {
+    position: fixed;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    z-index: 10;
+    animation: flotarMagico 30s ease-in-out infinite;
+    will-change: transform;
+    pointer-events: none;
+  }
+  @keyframes flotarMagico {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+    25% { transform: translateY(-20px) translateX(10px) rotate(8deg); }
+    50% { transform: translateY(10px) translateX(-15px) rotate(-6deg); opacity: 1; }
+    75% { transform: translateY(-15px) translateX(5px) rotate(4deg); }
+    100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+    transition: transform 2s ease-in-out;
+  }
+  /* Movimiento con scroll: flotan con el desplazamiento */
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.icono-flotante').forEach((icono, index) => {
+      let desplazamiento = window.scrollY * 0.1 * (index % 3 + 1);
+      icono.style.transform = `translateY(${desplazamiento}px)`;
+    });
+  });
+
 </style>
 <script>
         // Datos de las 78 cartas del Tarot con energía positiva y en sombra
@@ -884,7 +933,6 @@ body::before {
             }
         };
     </script>
-
 <style>
 body {
   font-family: 'Montserrat', sans-serif;
@@ -987,7 +1035,180 @@ footer {
   padding: 1.5rem;
   color: #ffb347;
 }
+
+  .icono-flotante {
+    position: fixed;
+    top: 0;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    animation: flotar 25s linear infinite;
+    z-index: 2;
+  }
+  @keyframes flotar {
+    0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-10vh) translateX(50vw) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(-50vw) rotate(360deg); opacity: 0.8; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+  }
+
+
+  .icono-flotante {
+    position: fixed;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    z-index: 10;
+    animation: flotarMagico 30s ease-in-out infinite;
+    will-change: transform;
+    pointer-events: none;
+  }
+  @keyframes flotarMagico {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+    25% { transform: translateY(-20px) translateX(10px) rotate(8deg); }
+    50% { transform: translateY(10px) translateX(-15px) rotate(-6deg); opacity: 1; }
+    75% { transform: translateY(-15px) translateX(5px) rotate(4deg); }
+    100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+    transition: transform 2s ease-in-out;
+  }
+  /* Movimiento con scroll: flotan con el desplazamiento */
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.icono-flotante').forEach((icono, index) => {
+      let desplazamiento = window.scrollY * 0.1 * (index % 3 + 1);
+      icono.style.transform = `translateY(${desplazamiento}px)`;
+    });
+  });
+
 </style>
+
+<style>
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('image.jpg') no-repeat center center/cover;
+  z-index: 0;
+  opacity: 0.85;
+  animation: zoom-bg 20s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+@keyframes zoom-bg {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+/* Asegurar que el contenido quede por encima */
+header, section, footer, .promo-banner, .halloween-total-decor, .bruma {
+  position: relative;
+  z-index: 10;
+}
+
+  .icono-flotante {
+    position: fixed;
+    top: 0;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    animation: flotar 25s linear infinite;
+    z-index: 2;
+  }
+  @keyframes flotar {
+    0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-10vh) translateX(50vw) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(-50vw) rotate(360deg); opacity: 0.8; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+  }
+
+
+  .icono-flotante {
+    position: fixed;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    z-index: 10;
+    animation: flotarMagico 30s ease-in-out infinite;
+    will-change: transform;
+    pointer-events: none;
+  }
+  @keyframes flotarMagico {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+    25% { transform: translateY(-20px) translateX(10px) rotate(8deg); }
+    50% { transform: translateY(10px) translateX(-15px) rotate(-6deg); opacity: 1; }
+    75% { transform: translateY(-15px) translateX(5px) rotate(4deg); }
+    100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+    transition: transform 2s ease-in-out;
+  }
+  /* Movimiento con scroll: flotan con el desplazamiento */
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.icono-flotante').forEach((icono, index) => {
+      let desplazamiento = window.scrollY * 0.1 * (index % 3 + 1);
+      icono.style.transform = `translateY(${desplazamiento}px)`;
+    });
+  });
+
+</style>
+
+  <style>
+  .icono-flotante {
+    position: fixed;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    z-index: 10;
+    pointer-events: none;
+    animation: flotarLibre var(--duracion, 40s) ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes flotarLibre {
+    0% { transform: translate3d(var(--x-inicio, 0), var(--y-inicio, 0), 0) rotate(0deg); opacity: 0.9; }
+    25% { transform: translate3d(var(--x-medio, 50px), var(--y-medio, -50px), 0) rotate(10deg); opacity: 1; }
+    50% { transform: translate3d(var(--x-fin, -100px), var(--y-fin, 100px), 0) rotate(-10deg); }
+    75% { transform: translate3d(var(--x-extra, 150px), var(--y-extra, -150px), 0) rotate(5deg); opacity: 0.9; }
+    100% { transform: translate3d(var(--x-inicio, 0), var(--y-inicio, 0), 0) rotate(0deg); opacity: 0.9; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+    transition: transform 2s ease-in-out;
+  }
+  </style>
+  <script>
+  // Movimiento flotante con el scroll
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    document.querySelectorAll('.icono-flotante').forEach((icono, index) => {
+      const desplazamientoX = Math.sin(scrollY / 200 + index) * 50;
+      const desplazamientoY = Math.cos(scrollY / 300 + index) * 40;
+      icono.style.transform = `translate(${desplazamientoX}px, ${desplazamientoY}px) rotate(${scrollY / 50 + index * 10}deg)`;
+    });
+  });
+
+  // Asignar trayectorias aleatorias a cada ícono
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.icono-flotante').forEach(icono => {
+      icono.style.setProperty('--x-inicio', `${Math.random() * 200 - 100}px`);
+      icono.style.setProperty('--y-inicio', `${Math.random() * 200 - 100}px`);
+      icono.style.setProperty('--x-medio', `${Math.random() * 300 - 150}px`);
+      icono.style.setProperty('--y-medio', `${Math.random() * 300 - 150}px`);
+      icono.style.setProperty('--x-fin', `${Math.random() * 400 - 200}px`);
+      icono.style.setProperty('--y-fin', `${Math.random() * 400 - 200}px`);
+      icono.style.setProperty('--duracion', `${30 + Math.random() * 20}s`);
+    });
+  });
+  </script>
+
 </head>
 <body class="bg-dark-purple min-h-screen text-light-lavender">
 <header class="hero-background text-center py-20 px-6 sm:px-10 md:py-40 flex items-center justify-center" id="home">
@@ -1310,7 +1531,6 @@ footer {
 <p class="text-white/60 text-sm">© 1979 Adriano Tarotista Profesional. Todos los derechos reservados. Horario de atención: de Lunes a Viernes de 19:00 a 00:00 (Hora local), y de sábado a Domingo consultar disponibilidad de atención.</p>
 </div>
 </footer>
-
 <!-- Botón flotante Volver arriba -->
 <button class="fixed bottom-6 right-6 bg-purple-700 text-white p-3 rounded-full shadow-lg hover:bg-purple-500 transition-all duration-300 hidden z-50" id="scrollTopBtn">
 <i class="fas fa-arrow-up"></i>
@@ -1400,6 +1620,55 @@ footer {
       font-size: 0.75rem;
     }
   }
+
+  .icono-flotante {
+    position: fixed;
+    top: 0;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    animation: flotar 25s linear infinite;
+    z-index: 2;
+  }
+  @keyframes flotar {
+    0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0.8; }
+    50% { transform: translateY(-10vh) translateX(50vw) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(-50vw) rotate(360deg); opacity: 0.8; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+  }
+
+
+  .icono-flotante {
+    position: fixed;
+    font-size: 2rem;
+    color: #fbbf24;
+    opacity: 0.8;
+    z-index: 10;
+    animation: flotarMagico 30s ease-in-out infinite;
+    will-change: transform;
+    pointer-events: none;
+  }
+  @keyframes flotarMagico {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+    25% { transform: translateY(-20px) translateX(10px) rotate(8deg); }
+    50% { transform: translateY(10px) translateX(-15px) rotate(-6deg); opacity: 1; }
+    75% { transform: translateY(-15px) translateX(5px) rotate(4deg); }
+    100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+  }
+  .icono-flotante i {
+    filter: drop-shadow(0 0 6px #a855f7);
+    transition: transform 2s ease-in-out;
+  }
+  /* Movimiento con scroll: flotan con el desplazamiento */
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.icono-flotante').forEach((icono, index) => {
+      let desplazamiento = window.scrollY * 0.1 * (index % 3 + 1);
+      icono.style.transform = `translateY(${desplazamiento}px)`;
+    });
+  });
+
 </style>
 <audio id="bg-audio" loop="" preload="auto">
 <source src="https://adrianmblanes-dot.github.io/portafolio-de-Adriano/melodia.mp3" type="audio/mpeg"/>
@@ -1445,7 +1714,6 @@ footer {
   })();
 </script>
 <!-- ===== Fin música ===== -->
-
 <div class="halloween-total-decor">
 <i class="fa-solid fa-hat-wizard"></i>
 <i class="fa-solid fa-ghost"></i>
@@ -1457,5 +1725,18 @@ footer {
 <i class="fa-solid fa-mummy"></i>
 </div>
 <div class="bruma"></div>
+
+  <!-- Íconos flotantes de Halloween -->
+  <div class="icono-flotante" style="left:5%; animation-delay:0s"><i class="fas fa-ghost"></i></div>
+  <div class="icono-flotante" style="left:15%; animation-delay:5s"><i class="fas fa-cat"></i></div>
+  <div class="icono-flotante" style="left:25%; animation-delay:10s"><i class="fas fa-hat-wizard"></i></div>
+  <div class="icono-flotante" style="left:35%; animation-delay:15s"><i class="fas fa-skull"></i></div>
+  <div class="icono-flotante" style="left:45%; animation-delay:20s"><i class="fas fa-broom"></i></div>
+  <div class="icono-flotante" style="left:55%; animation-delay:12s"><i class="fas fa-spider"></i></div>
+  <div class="icono-flotante" style="left:65%; animation-delay:8s"><i class="fas fa-moon"></i></div>
+  <div class="icono-flotante" style="left:75%; animation-delay:18s"><i class="fas fa-crow"></i></div>
+  <div class="icono-flotante" style="left:85%; animation-delay:3s"><i class="fas fa-pumpkin"></i></div>
+  <div class="icono-flotante" style="left:95%; animation-delay:7s"><i class="fas fa-hat-wizard"></i></div>
+
 </body>
 </html>
