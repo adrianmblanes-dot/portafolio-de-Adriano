@@ -579,6 +579,9 @@ body::before {
 <script>
         // Datos de las 78 cartas del Tarot con energía positiva y en sombra
         const tarotCards = [
+tarotCards.forEach((card, index) => {
+  card.index = String(index).padStart(2, '0');
+});
             {
                 name: "El Loco",
                 suit: "General",
