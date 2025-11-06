@@ -800,9 +800,10 @@ body::before {
             cardContainer.innerHTML = `
                 <div class="tarot-card-content animate-fade-in-up">
                     <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                        <img src="${isPositive 
-    ? `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/derecho-${String(randomIndex).padStart(2,'0')}_${randomCard.name.toLowerCase().replace(/ /g,'_')}.jpg` 
-    : `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/invertido-${String(randomIndex).padStart(2,'0')}_${randomCard.name.toLowerCase().replace(/ /g,'_')}.jpg`
+                        const imageUrl = isPositive
+  ? `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/derecho-${randomCard.index}_${randomCard.name.toLowerCase().replace(/ /g,'_')}.jpg`
+  : `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/invertido-${randomCard.index}_${randomCard.name.toLowerCase().replace(/ /g,'_')}.jpg`;
+
 }" 
 alt="${randomCard.name}" 
 class="mx-auto h-64 md:h-72 rounded-lg shadow-lg border border-white/20 aura-white ${isPositive ? 'rotate-0' : 'rotate-180'}">
@@ -874,9 +875,10 @@ class="mx-auto h-64 md:h-72 rounded-lg shadow-lg border border-white/20 aura-whi
                         <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 animate-fade-in-up">${r.positionName}</h3> 
                         
                         <div class="flex flex-col items-center justify-center">
-                            <img src="${r.orientation.includes('Derecha') 
-    ? `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/derecho-${String(randomIndices[index]).padStart(2, '0')}_${r.card.name.toLowerCase().replace(/ /g, '_')}.jpg`
-    : `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/invertido-${String(randomIndices[index]).padStart(2, '0')}_${r.card.name.toLowerCase().replace(/ /g, '_')}.jpg`
+                            const imageUrl = isPositive
+  ? `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/derecho-${card.index}_${card.name.toLowerCase().replace(/ /g,'_')}.jpg`
+  : `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/invertido-${card.index}_${card.name.toLowerCase().replace(/ /g,'_')}.jpg`;
+
 }" 
 alt="${r.card.name}" 
 class="mx-auto h-64 md:h-72 rounded-lg shadow-lg border border-white/20 aura-white mb-4 transition-transform duration-700 ${r.iconRotation}">
