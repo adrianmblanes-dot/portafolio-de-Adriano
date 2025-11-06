@@ -579,9 +579,6 @@ body::before {
 <script>
         // Datos de las 78 cartas del Tarot con energía positiva y en sombra
         const tarotCards = [
-tarotCards.forEach((card, index) => {
-  card.index = String(index).padStart(2, '0');
-});
             {
                 name: "El Loco",
                 suit: "General",
@@ -803,14 +800,7 @@ tarotCards.forEach((card, index) => {
             cardContainer.innerHTML = `
                 <div class="tarot-card-content animate-fade-in-up">
                     <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                        const imageUrl = isPositive
-  ? `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/derecho-${randomCard.index}_${randomCard.name.toLowerCase().replace(/ /g,'_')}.jpg`
-  : `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/invertido-${randomCard.index}_${randomCard.name.toLowerCase().replace(/ /g,'_')}.jpg`;
-
-}" 
-alt="${randomCard.name}" 
-class="mx-auto h-64 md:h-72 rounded-lg shadow-lg border border-white/20 aura-white ${isPositive ? 'rotate-0' : 'rotate-180'}">
-
+                        <i class="${randomCard.icon} ${randomCard.color} text-3xl icon-pulse-glow"></i>
                         ${randomCard.name}
                     </h5>
                     <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
@@ -878,13 +868,7 @@ class="mx-auto h-64 md:h-72 rounded-lg shadow-lg border border-white/20 aura-whi
                         <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 animate-fade-in-up">${r.positionName}</h3> 
                         
                         <div class="flex flex-col items-center justify-center">
-                            const imageUrl = isPositive
-  ? `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/derecho-${card.index}_${card.name.toLowerCase().replace(/ /g,'_')}.jpg`
-  : `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/invertido-${card.index}_${card.name.toLowerCase().replace(/ /g,'_')}.jpg`;
-
-}" 
-alt="${r.card.name}" 
-class="mx-auto h-64 md:h-72 rounded-lg shadow-lg border border-white/20 aura-white mb-4 transition-transform duration-700 ${r.iconRotation}">
+                            <i class="${r.card.icon} ${r.card.color} text-6xl icon-pulse-glow mb-4 transition-transform duration-500 ${r.iconRotation}"></i>
                             <h4 class="text-xl font-bold cinzel-decorative text-white mb-2">${r.card.name}</h4>
                             <p class="text-sm font-semibold mb-3 ${r.card.color}">${r.orientation}</p>
                         </div>
