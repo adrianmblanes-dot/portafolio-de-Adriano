@@ -741,35 +741,62 @@ body::before {
         ];
     
         const renderCardOfTheDay = () => {
-            const cardContainer = document.getElementById('card-of-the-day-container');
-            const randomIndex = Math.floor(Math.random() * tarotCards.length);
-            const randomCard = tarotCards[randomIndex];
-            const isPositive = Math.random() < 0.5;
-            const cardMessage = isPositive ? randomCard.positive : randomCard.shadow;
-            const cardMessageTitle = isPositive ? "Mensaje en Energía Positiva" : "Mensaje en Sombra";
+  const cardContainer = document.getElementById('card-of-the-day-container');
 
-            cardContainer.innerHTML = `
-                <div class="tarot-card-content animate-fade-in-up">
-                    <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                        <img src="https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/${isPositive ? 'derecho' : 'invertido'}-${randomIndex.toString().padStart(2, '0')}_${randomCard.name.toLowerCase().replace(/ /g, '_')}.jpg"
-alt="${randomCard.name}"
-style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);transition:transform 0.8s ease;"
-class="hover:scale-105"
-/>
+  // Barajar el mazo completo (78 cartas)
+  const shuffled = tarotCards
+    .map((card, i) => ({ card, index: i, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort);
 
-                        ${randomCard.name}
-                    </h5>
-                    <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
-                    <p class="text-white/80 text-center">${cardMessage}</p>
-                    <div class="mt-8 text-center animate-fade-in-up">
-                        <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
-                        <a href="#contact" class="cta-button-turquesa inline-block">
-                            Agendar Lectura
-                        </a>
-                    </div>
-                </div>
-            `;
-        };
+  // Tomar una carta al azar del mazo barajado
+  const { card, index } = shuffled[0];
+
+  // Determinar orientación
+  const isPositive = Math.random() < 0.5;
+  const orientation = isPositive ? "derecho" : "invertido";
+  const cardMessage = isPositive ? card.positive : card.shadow;
+  const cardMessageTitle = isPositive ? "Mensaje en Energía Positiva" : "Mensaje en Sombra";
+
+  // Normalizar el nombre de la carta
+  const safeIndex = (card.index ?? index).toString().padStart(2, "0");
+  const safeName = card.name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9_]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_|_$/g, "");
+
+  // Intentar variantes del nombre de imagen
+  const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
+  const possibleNames = [
+    `${orientation}-${safeIndex}_${safeName}`,
+    `${orientation}-${safeIndex}_${safeName}.jpg`,
+    `${orientation}-${safeIndex}_${safeName}.jpg.jpg`
+  ];
+
+  let imgURL = `${baseURL}${possibleNames[0]}`;
+  // El navegador intentará resolver el primer enlace válido
+
+  // Mostrar carta
+  cardContainer.innerHTML = `
+    <div class="tarot-card-content animate-fade-in-up">
+      <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+        <img src="${imgURL}"
+             alt="${card.name}"
+             style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);transition:transform 0.8s ease;"
+             class="hover:scale-105 ${orientation === "invertido" ? "rotate-180" : ""}" />
+        ${card.name}
+      </h5>
+      <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
+      <p class="text-white/80 text-center">${cardMessage}</p>
+      <div class="mt-8 text-center animate-fade-in-up">
+        <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
+        <a href="#contact" class="cta-button-turquesa inline-block">Agendar Lectura</a>
+      </div>
+    </div>
+  `;
+};
         
         // Función para realizar la Lectura Rápida de Tres Cartas - ACTUALIZADA
         const renderThreeCardReading = () => {
