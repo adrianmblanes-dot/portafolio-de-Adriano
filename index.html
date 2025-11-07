@@ -800,26 +800,31 @@ class="hover:scale-105"
   const positions = ["PASADO", "PRESENTE", "FUTURO"];
   const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
 
-  // Crear los datos de las tres cartas
-  const readings = randomIndices.map((index, i) => {
-    const card = tarotCards[index];
-    const positionName = positions[i];
-    const isPositive = Math.random() < 0.5;
-    const orientation = isPositive ? "derecho" : "invertido";
-    const message = isPositive ? card.positive : card.shadow;
+// Crear los datos de las tres cartas
+const readings = randomIndices.map((index, i) => {
+  const card = tarotCards[index];
+  const positionName = positions[i];
+  const isPositive = Math.random() < 0.5;
+  const orientation = isPositive ? "derecho" : "invertido";
+  const message = isPositive ? card.positive : card.shadow;
 
-    // Asegurar nombre y número seguro
-    const safeIndex = (card.index ?? index).toString().padStart(2, "0");
-    const safeName = card.name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/ /g, "_");
-    // Cargar imagen con nombre normalizado (sin acentos ni espacios) desde GitHub RAW
-const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`.replace(/ /g, "_");
+  // Índice seguro y nombre limpio
+  const safeIndex = (card.index ?? index).toString().padStart(2, "0");
 
-    return { card, message, orientation, positionName, imgURL };
-  });
+  // Normalizar el nombre eliminando tildes, comas, guiones duplicados y espacios
+  const safeName = card.name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9_]+/g, "_") // mantiene solo letras, números y _
+    .replace(/_+/g, "_")           // elimina repeticiones de guión bajo
+    .replace(/^_|_$/g, "");        // limpia guiones bajos al inicio o final
+
+  // Forzar la URL a usar nombre y número correctamente
+  const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`;
+
+  return { card, message, orientation, positionName, imgURL };
+});
 
   // Mostrar el resultado después del efecto "barajando"
   setTimeout(() => {
