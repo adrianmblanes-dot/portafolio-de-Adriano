@@ -751,7 +751,12 @@ body::before {
             cardContainer.innerHTML = `
                 <div class="tarot-card-content animate-fade-in-up">
                     <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                        <i class="${randomCard.icon} ${randomCard.color} text-3xl icon-pulse-glow"></i>
+                        <img src="https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/${isPositive ? 'derecho' : 'invertido'}-${randomIndex.toString().padStart(2, '0')}_${randomCard.name.toLowerCase().replace(/ /g, '_')}.jpg"
+alt="${randomCard.name}"
+style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);transition:transform 0.8s ease;"
+class="hover:scale-105"
+/>
+
                         ${randomCard.name}
                     </h5>
                     <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
@@ -819,7 +824,12 @@ body::before {
                         <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4 animate-fade-in-up">${r.positionName}</h3> 
                         
                         <div class="flex flex-col items-center justify-center">
-                            <i class="${r.card.icon} ${r.card.color} text-6xl icon-pulse-glow mb-4 transition-transform duration-500 ${r.iconRotation}"></i>
+                            <img src="https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/${r.orientation.includes('Positiva') ? 'derecho' : 'invertido'}-${r.card.index?.padStart(2, '0') || randomIndices[i].toString().padStart(2, '0')}_${r.card.name.toLowerCase().replace(/ /g, '_')}.jpg"
+alt="${r.card.name}"
+style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);margin-bottom:1rem;transition:transform 0.8s ease;"
+class="hover:scale-105"
+/>
+
                             <h4 class="text-xl font-bold cinzel-decorative text-white mb-2">${r.card.name}</h4>
                             <p class="text-sm font-semibold mb-3 ${r.card.color}">${r.orientation}</p>
                         </div>
