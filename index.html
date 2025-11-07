@@ -800,29 +800,26 @@ class="hover:scale-105"
   const positions = ["PASADO", "PRESENTE", "FUTURO"];
   const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
 
-// Crear los datos de las tres cartas
-const readings = randomIndices.map((index, i) => {
-  const card = tarotCards[index];
+/// Crear los datos de las tres cartas (corregido)
+const shuffled = tarotCards
+  .map(value => ({ value, sort: Math.random() }))
+  .sort((a, b) => a.sort - b.sort)
+  .map(({ value }) => value);
+
+const readings = shuffled.slice(0, 3).map((card, i) => {
   const positionName = positions[i];
   const isPositive = Math.random() < 0.5;
   const orientation = isPositive ? "derecho" : "invertido";
   const message = isPositive ? card.positive : card.shadow;
-
-  // Índice seguro y nombre limpio
-  const safeIndex = (card.index ?? index).toString().padStart(2, "0");
-
-  // Normalizar el nombre eliminando tildes, comas, guiones duplicados y espacios
+  const safeIndex = (card.index ?? i).toString().padStart(2, "0");
   const safeName = card.name
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9_]+/g, "_") // mantiene solo letras, números y _
-    .replace(/_+/g, "_")           // elimina repeticiones de guión bajo
-    .replace(/^_|_$/g, "");        // limpia guiones bajos al inicio o final
-
-  // Forzar la URL a usar nombre y número correctamente
+    .replace(/[^a-z0-9_]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_|_$/g, "");
   const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`;
-
   return { card, message, orientation, positionName, imgURL };
 });
 
