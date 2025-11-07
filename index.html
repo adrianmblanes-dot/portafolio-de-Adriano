@@ -800,25 +800,45 @@ class="hover:scale-105"
   const positions = ["PASADO", "PRESENTE", "FUTURO"];
   const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
 
-  // Crear los datos de las tres cartas
-  const readings = randomIndices.map((index, i) => {
-    const card = tarotCards[index];
-    const positionName = positions[i];
-    const isPositive = Math.random() < 0.5;
-    const orientation = isPositive ? "derecho" : "invertido";
-    const message = isPositive ? card.positive : card.shadow;
+  // const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
 
-    // Asegurar nombre y número seguro
-    const safeIndex = (card.index ?? index).toString().padStart(2, "0");
-    const safeName = card.name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/ /g, "_");
-    const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`;
+// Crear los datos de las tres cartas (corregido y tolerante)
+const allIndices = Array.from({ length: 78 }, (_, i) => i);
+const shuffled = allIndices.sort(() => Math.random() - 0.5).slice(0, 3);
 
-    return { card, message, orientation, positionName, imgURL };
-  });
+const readings = shuffled.map((index, i) => {
+  const card = tarotCards[index];
+  const positionName = positions[i];
+  const isPositive = Math.random() < 0.5;
+  const orientation = isPositive ? "derecho" : "invertido";
+  const message = isPositive ? card.positive : card.shadow;
+
+  // Normalizar nombre e índice
+  const safeIndex = (card.index ?? index).toString().padStart(2, "0");
+  const safeName = card.name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9_]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_|_$/g, "");
+
+  // Generar posibles URLs y probar la correcta
+  const possibleNames = [
+    `${orientation}-${safeIndex}_${safeName}`,
+    `${orientation}-${safeIndex}_${safeName}.jpg`,
+    `${orientation}-${safeIndex}_${safeName}.jpg.jpg`
+  ];
+
+  // Crear una URL válida que funcione sí o sí
+  let imgURL = "";
+  for (const name of possibleNames) {
+    const url = `${baseURL}${name}`;
+    imgURL = url;
+  }
+
+  return { card, message, orientation, positionName, imgURL };
+});
 
   // Mostrar el resultado después del efecto "barajando"
   setTimeout(() => {
