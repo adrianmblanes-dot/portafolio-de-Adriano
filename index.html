@@ -815,7 +815,8 @@ class="hover:scale-105"
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/ /g, "_");
-    const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`;
+    // Cargar imagen con nombre normalizado (sin acentos ni espacios) desde GitHub RAW
+const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`.replace(/ /g, "_");
 
     return { card, message, orientation, positionName, imgURL };
   });
