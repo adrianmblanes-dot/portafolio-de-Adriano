@@ -800,7 +800,25 @@ class="hover:scale-105"
   const positions = ["PASADO", "PRESENTE", "FUTURO"];
   const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
 
-Crear los datos
+  // Crear los datos de las tres cartas
+  const readings = randomIndices.map((index, i) => {
+    const card = tarotCards[index];
+    const positionName = positions[i];
+    const isPositive = Math.random() < 0.5;
+    const orientation = isPositive ? "derecho" : "invertido";
+    const message = isPositive ? card.positive : card.shadow;
+
+    // Asegurar nombre y número seguro
+    const safeIndex = (card.index ?? index).toString().padStart(2, "0");
+    const safeName = card.name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /g, "_");
+    const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`;
+
+    return { card, message, orientation, positionName, imgURL };
+  });
 
   // Mostrar el resultado después del efecto "barajando"
   setTimeout(() => {
