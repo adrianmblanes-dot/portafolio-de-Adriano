@@ -740,143 +740,137 @@ body::before {
             },
         ];
     
-        const renderCardOfTheDay = () => {
-            const cardContainer = document.getElementById('card-of-the-day-container');
-            const randomIndex = Math.floor(Math.random() * tarotCards.length);
-            const randomCard = tarotCards[randomIndex];
-            const isPositive = Math.random() < 0.5;
-            const cardMessage = isPositive ? randomCard.positive : randomCard.shadow;
-            const cardMessageTitle = isPositive ? "Mensaje en Energía Positiva" : "Mensaje en Sombra";
+        // === CARTA DEL DÍA ===
+const renderCardOfTheDay = () => {
+    const cardContainer = document.getElementById('card-of-the-day-container');
+    const randomIndex = Math.floor(Math.random() * tarotCards.length);
+    const randomCard = tarotCards[randomIndex];
+    const isPositive = Math.random() < 0.5;
 
-            cardContainer.innerHTML = `
-                <div class="tarot-card-content animate-fade-in-up">
-                    <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-                        <img src="https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/${isPositive ? 'derecho' : 'invertido'}-${randomIndex.toString().padStart(2, '0')}_${randomCard.name.toLowerCase().replace(/ /g, '_')}.jpg"
-alt="${randomCard.name}"
-style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);transition:transform 0.8s ease;"
-class="hover:scale-105"
-/>
+    // Generar nombre del archivo en formato: derecho-01_el_mago.jpg o invertido-01_el_mago.jpg
+    const fileName = `${isPositive ? 'derecho' : 'invertido'}-${(randomIndex + 1)
+        .toString()
+        .padStart(2, '0')}_${randomCard.name
+        .toLowerCase()
+        .replace(/ /g, '_')
+        .replace(/[^a-z0-9_]/g, '')}.jpg`;
 
-                        ${randomCard.name}
-                    </h5>
-                    <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
-                    <p class="text-white/80 text-center">${cardMessage}</p>
-                    <div class="mt-8 text-center animate-fade-in-up">
-                        <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
-                        <a href="#contact" class="cta-button-turquesa inline-block">
-                            Agendar Lectura
-                        </a>
-                    </div>
-                </div>
-            `;
-        };
+    const imageUrl = `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/${fileName}`;
+
+    const cardMessage = isPositive ? randomCard.positive : randomCard.shadow;
+    const cardMessageTitle = isPositive ? "Mensaje en Energía Positiva" : "Mensaje en Sombra";
+
+    cardContainer.innerHTML = `
+        <div class="tarot-card-content animate-fade-in-up">
+            <h5 class="text-xl md:text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+                <img src="${imageUrl}" alt="${randomCard.name}"
+                style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);transition:transform 0.8s ease;"
+                class="hover:scale-105"/>
+                ${randomCard.name}
+            </h5>
+            <p class="text-lg text-white font-semibold mb-2 text-center">${cardMessageTitle}</p>
+            <p class="text-white/80 text-center">${cardMessage}</p>
+            <div class="mt-8 text-center animate-fade-in-up">
+                <p class="text-purple-300 font-semibold mb-4">¿Quieres profundizar en este mensaje? Te invito a agendar una lectura completa conmigo.</p>
+                <a href="#contact" class="cta-button-turquesa inline-block">Agendar Lectura</a>
+            </div>
+        </div>
+    `;
+};
         
         // Función para realizar la Lectura Rápida de Tres Cartas - ACTUALIZADA
-        const renderThreeCardReading = () => {
-  const questionInput = document.getElementById("quick-reading-question");
-  const resultContainer = document.getElementById("three-card-result-container");
-  const userQuestion = questionInput.value.trim();
+// === LECTURA RÁPIDA DE TRES CARTAS (VERSIÓN FINAL) ===
+const renderThreeCardReading = () => {
+    const questionInput = document.getElementById('quick-reading-question');
+    const resultContainer = document.getElementById('three-card-result-container');
+    const userQuestion = questionInput.value.trim();
 
-  if (!userQuestion) {
+    if (!userQuestion) {
+        resultContainer.innerHTML = `
+            <p class="text-lg text-red-400 font-semibold mt-4 animate-fade-in-up">
+                <i class="fas fa-exclamation-triangle mr-2"></i> Por favor, ingresa tu pregunta para que las cartas te respondan.
+            </p>`;
+        return;
+    }
+
+    // Mensaje mientras se “barajan” las cartas
     resultContainer.innerHTML = `
-      <p class="text-lg text-red-400 font-semibold mt-4 animate-fade-in-up">
-        Por favor, ingresa tu pregunta para que las cartas te respondan.
-      </p>`;
-    return;
-  }
+        <p class="text-xl font-bold cinzel-decorative text-cyan-400 mb-6 mt-8 animate-pulse">
+            <i class="fas fa-hourglass-half mr-2"></i> Barajando las cartas... 
+            Siente la energía de tu pregunta: "${userQuestion}"
+        </p>`;
 
-  // Mensaje mientras "baraja" las cartas
-  resultContainer.innerHTML = `
-    <p class="text-xl font-bold cinzel-decorative text-cyan-400 mb-6 mt-8 animate-pulse">
-      <i class="fas fa-hourglass-half mr-2"></i> Barajando las cartas... 
-      Siente la energía de tu pregunta: "${userQuestion}"
-    </p>`;
+    // Seleccionar 3 cartas únicas al azar
+    const indices = new Set();
+    while (indices.size < 3) {
+        indices.add(Math.floor(Math.random() * tarotCards.length));
+    }
+    const randomIndices = Array.from(indices);
+    const positions = ["PASADO", "PRESENTE", "FUTURO"];
 
-  // Seleccionar 3 cartas únicas al azar
-  const indices = new Set();
-  while (indices.size < 3) indices.add(Math.floor(Math.random() * tarotCards.length));
-  const randomIndices = Array.from(indices);
+    // Preparar datos de cada carta seleccionada
+    const readings = randomIndices.map((index, i) => {
+        const card = tarotCards[index];
+        const positionName = positions[i];
+        const isPositive = Math.random() < 0.5;
+        const message = isPositive ? card.positive : card.shadow;
+        const orientation = isPositive ? "Energía Positiva (Derecha)" : "En Sombra (Invertida)";
 
-  const positions = ["PASADO", "PRESENTE", "FUTURO"];
-  const baseURL = "https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/img/tarot/";
+        // Construir nombre del archivo (derecho-00_el_loco.jpg o invertido-00_el_loco.jpg)
+        const imageUrl = `https://raw.githubusercontent.com/adrianmblanes-dot/portafolio-de-Adriano/main/${isPositive ? 'derecho' : 'invertido'}-${index
+            .toString()
+            .padStart(2, '0')}_${card.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/ /g, '_')
+            .replace(/[^a-z0-9_]/g, '')}.jpg`;
 
-  // Crear los datos de las tres cartas
-  const readings = randomIndices.map((index, i) => {
-    const card = tarotCards[index];
-    const positionName = positions[i];
-    const isPositive = Math.random() < 0.5;
-    const orientation = isPositive ? "derecho" : "invertido";
-    const message = isPositive ? card.positive : card.shadow;
+        return { card, positionName, orientation, message, imageUrl };
+    });
 
-    // Asegurar nombre y número seguro
-    const safeIndex = (card.index ?? index).toString().padStart(2, "0");
-    const safeName = card.name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/ /g, "_");
-    const imgURL = `${baseURL}${orientation}-${safeIndex}_${safeName}.jpg`;
+    // Mostrar resultado después de 1.5 segundos
+    setTimeout(() => {
+        const cardsHtml = readings.map((r, index) => `
+            <div class="card-container p-6 rounded-lg text-center animate-fade-in-up" style="animation-delay: ${index * 0.2}s;">
+                <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4">${r.positionName}</h3>
+                <img src="${r.imageUrl}" 
+                     alt="${r.card.name}" 
+                     style="height:240px;border-radius:12px;box-shadow:0 0 20px rgba(255,255,255,0.6);transition:transform 0.8s ease;"
+                     class="hover:scale-105 mb-4 ${r.orientation.includes('Invertida') ? 'rotate-180' : ''}"/>
+                <h4 class="text-xl font-bold cinzel-decorative text-white mb-2">${r.card.name}</h4>
+                <p class="text-sm font-semibold mb-3 text-purple-300">${r.orientation}</p>
+                <p class="text-white/80 text-sm">${r.message}</p>
+            </div>
+        `).join('');
 
-    return { card, message, orientation, positionName, imgURL };
-  });
-
-  // Mostrar el resultado después del efecto "barajando"
-  setTimeout(() => {
-    const cardsHtml = readings.map(
-      (r, index) => `
-      <div class="card-container p-6 rounded-lg text-center animate-fade-in-up" 
-           style="animation-delay:${index * 0.3}s;">
-        <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-4">${r.positionName}</h3> 
-        <div class="flex flex-col items-center justify-center">
-          <img src="${r.imgURL}" 
-               alt="${r.card.name}" 
-               style="height:250px;border-radius:12px;box-shadow:0 0 25px rgba(255,255,255,0.6);
-                      margin-bottom:1rem;transition:transform 0.8s ease;"
-               class="hover:scale-105" />
-          <h4 class="text-xl font-bold cinzel-decorative text-white mb-2">${r.card.name}</h4>
-          <p class="text-sm font-semibold mb-3 text-purple-300">
-            ${r.orientation === "derecho" ? "Energía Positiva (Derecha)" : "En Sombra (Invertida)"}
-          </p>
-        </div>
-        <p class="text-white/80 text-sm">${r.message}</p>
-      </div>`
-    ).join("");
-
-    resultContainer.innerHTML = `
-      <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-6 mt-8 animate-fade-in-up">
-        <i class="fas fa-magic text-cyan-400 icon-pulse-glow mr-2"></i>
-        Tu Lectura Rápida de Tres Cartas
-      </h3>
-      <p class="text-xl font-semibold text-purple-300 mb-6 animate-fade-in-up">
-        Tu pregunta: <span class="text-white italic">"${userQuestion}"</span>
-      </p>
-
-      <div class="grid md:grid-cols-3 gap-6 mb-12">
-        ${cardsHtml}
-      </div>
-
-      <div class="bg-purple-900/50 p-6 rounded-lg border border-purple-400/50 animate-fade-in-up" 
-           style="animation-delay: 0.8s;">
-        <h4 class="text-2xl font-bold text-pink-400 mb-3 cinzel-decorative">
-          <i class="fas fa-feather-alt mr-2"></i> Nota Importante
-        </h4>
-        <p class="text-lg text-white/80 mb-6">
-          Esta es una lectura general básica y solo ofrece una orientación inicial 
-          sobre tu pregunta, asignando una carta a tu Pasado, Presente y Futuro.
-        </p>
-        <p class="text-lg text-purple-300 font-semibold mb-6">
-          Si quieres profundizar, agenda una lectura completa y personalizada conmigo.
-        </p>
-        <a href="#services" class="cta-button-vibrant inline-block text-xl">
-          <i class="fas fa-book-reader mr-2"></i> Agenda tu Lectura Profunda Aquí
-        </a>
-      </div>
-    `;
-
-    questionInput.value = "";
-  }, 1500);
+        // Mostrar el resultado final
+        resultContainer.innerHTML = `
+            <h3 class="text-3xl font-bold cinzel-decorative text-yellow-300 mb-6 mt-8 animate-fade-in-up">
+                <i class="fas fa-magic text-cyan-400 icon-pulse-glow mr-2"></i> Tu Lectura Rápida de Tres Cartas
+            </h3>
+            <p class="text-xl font-semibold text-purple-300 mb-6 animate-fade-in-up">
+                Tu pregunta: <span class="text-white italic">"${userQuestion}"</span>
+            </p>
+            <div class="grid md:grid-cols-3 gap-6 mb-12">${cardsHtml}</div>
+            <div class="bg-purple-900/50 p-6 rounded-lg border border-purple-400/50 animate-fade-in-up" style="animation-delay: 0.8s;">
+                <h4 class="text-2xl font-bold text-pink-400 mb-3 cinzel-decorative">
+                    <i class="fas fa-feather-alt mr-2"></i> Nota Importante
+                </h4>
+                <p class="text-lg text-white/80 mb-6">
+                    Esta es una lectura general básica con una carta para tu Pasado, Presente y Futuro.
+                </p>
+                <p class="text-lg text-purple-300 font-semibold mb-6">
+                    Si quieres una guía más profunda, agenda una lectura personalizada conmigo.
+                </p>
+                <a href="#services" class="cta-button-vibrant inline-block text-xl">
+                    <i class="fas fa-book-reader mr-2"></i> Agenda tu Lectura Profunda Aquí
+                </a>
+            </div>
+        `;
+        questionInput.value = '';
+    }, 1500);
 };
-
         const copyToClipboard = (text, type) => {
             navigator.clipboard.writeText(text).then(() => {
                 alert(`¡Copiado! Alias de ${type} copiado al portapapeles: ${text}`);
